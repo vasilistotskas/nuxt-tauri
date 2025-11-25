@@ -15,21 +15,27 @@
 		description: "Read operating system informations."
 	});
 
-	const items = ref([
-		{
-			label: "System",
-			icon: "lucide:monitor",
-			content: `${useTauriOsPlatform()} ${useTauriOsVersion()}`
-		},
-		{
-			label: "Arch",
-			icon: "lucide:microchip",
-			content: useTauriOsArch()
-		},
-		{
-			label: "Locale",
-			icon: "lucide:globe",
-			content: await useTauriOsLocale() || "Not detectable"
-		}
-	]);
+	const items = ref<Array<{ label: string; icon: string; content: string }>>([]);
+
+	onMounted(async () => {
+		if (!useTauriAvailable()) return;
+
+		items.value = [
+			{
+				label: "System",
+				icon: "lucide:monitor",
+				content: `${useTauriOsPlatform()} ${useTauriOsVersion()}`
+			},
+			{
+				label: "Arch",
+				icon: "lucide:microchip",
+				content: useTauriOsArch()
+			},
+			{
+				label: "Locale",
+				icon: "lucide:globe",
+				content: await useTauriOsLocale() || "Not detectable"
+			}
+		];
+	});
 </script>

@@ -64,8 +64,9 @@ export default defineNuxtConfig({
 			}
 		}
 	},
-    devServer: {
-		host: "0.0.0.0"
+	devServer: {
+		host: process.env.VITE_DEV_SERVER_HOST || "0.0.0.0",
+		port: Number(process.env.VITE_DEV_SERVER_PORT) || 3000
 	},
 	router: {
 		options: {

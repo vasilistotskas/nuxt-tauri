@@ -1,7 +1,7 @@
 export default defineAppConfig({
 	app: {
-		name: "Nuxtor",
-		author: "Nicola Spadari",
+		name: "WeCare",
+		author: "WeCare Pharmacy",
 		repo: "https://github.com/NicolaSpadari/nuxtor",
 		tauriSite: "https://tauri.app",
 		nuxtSite: "https://nuxt.com",
@@ -27,8 +27,13 @@ export default defineAppConfig({
 	},
 	ui: {
 		colors: {
-			primary: "green",
-			neutral: "zinc"
+			primary: "neutral",
+			secondary: "cyan",
+			neutral: "neutral"
+		},
+		icons: {
+			light: "lucide:sun",
+			dark: "lucide:moon"
 		},
 		button: {
 			slots: {

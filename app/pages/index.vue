@@ -1,73 +1,69 @@
 <template>
-	<UContainer class="relative overflow-hidden h-screen">
-		<div class="grid size-full place-content-center gap-y-8">
-			<SvgoLogo :filled="true" :font-controlled="false" class="mx-auto size-40" />
-
-			<div class="flex flex-col items-center gap-y-3">
-				<h1 class="animate-pulse text-3xl sm:text-4xl text-pretty font-bold font-heading md:mb-5">
-					{{ app.name.toUpperCase() }}
-				</h1>
-				<p class="leading-7 text-pretty">
-					Powered by
-				</p>
-
-				<div class="flex flex-wrap justify-center gap-1 md:gap-3">
-					<UButton
-						variant="ghost"
-						size="xl"
-						:to="app.nuxtSite"
-						target="_blank"
-						external
-					>
-						Nuxt 4
-					</UButton>
-					<UButton
-						variant="ghost"
-						size="xl"
-						:to="app.nuxtUiSite"
-						target="_blank"
-						external
-					>
-						NuxtUI 4
-					</UButton>
-					<UButton
-						variant="ghost"
-						size="xl"
-						:to="app.tauriSite"
-						target="_blank"
-						external
-					>
-						Tauri 2
-					</UButton>
-				</div>
-			</div>
-
-			<div class="flex justify-center">
-				<UButton
-					:to="app.repo"
-				>
-					Star on GitHub
-				</UButton>
-			</div>
-		</div>
-
-		<div class="fixed bottom-6 text-sm absolute-center-h">
-			<div class="flex items-center gap-1 text-(--ui-text-muted)">
-				<p class="text-sm">
-					Made by
-				</p>
-				<ULink :to="app.repo" external target="_blank">
-					{{ app.author }}
-				</ULink>
-			</div>
-		</div>
-	</UContainer>
+	<div class="min-h-screen bg-white dark:bg-[#0d0d0d] pb-24">
+		<WeCareHeader />
+		<WeCareSearchBar class="mb-6" />
+		<WeCareCTACard class="mb-6" />
+		<WeCareBannerCarousel :banners="banners" class="mb-6" />
+		<WeCareTrendingSection :items="trendingItems" class="mb-8" />
+		<WeCareProductSection title="Extra gifts" :tabs="giftTabs" :products="giftProducts" class="mb-8" />
+		<WeCareProductSection title="Discover the bestsellers" :tabs="bestsellerTabs" :products="bestsellerProducts" class="mb-8" />
+		<WeCareProductSection title="Discover the most desired brands" :tabs="brandTabs" :products="brandProducts" class="mb-8" />
+		<WeCareProductSection title="Shop by need" :tabs="needTabs" :products="needProducts" class="mb-8" />
+		<WeCareBottomNav :nav-items="navItems" @navigate="handleNavigate" />
+	</div>
 </template>
 
-<script lang="ts" setup>
-	const { app } = useAppConfig();
+<script setup lang="ts">
+definePageMeta({
+	layout: false
+});
 
-	definePageMeta({
-		layout: "home"
-	});
+const router = useRouter();
+
+const banners = ref([
+	{ image: "https://www.figma.com/api/mcp/asset/72ad5c66-3833-474e-8aa2-2e8f024df1e7", title: "Hair Edition" },
+	{ image: "https://www.figma.com/api/mcp/asset/1180ced4-37f8-4d51-a0aa-061666119d48", title: "Makeup" }
+]);
+
+const trendingItems = ref([
+	{ image: "https://www.figma.com/api/mcp/asset/e5e41121-b262-402f-9a0a-4b1e2680934b" },
+	{ image: "https://www.figma.com/api/mcp/asset/3a29910f-08a0-4064-a1fd-6f216f1dfea7" },
+	{ image: "https://www.figma.com/api/mcp/asset/bafc3050-ce29-4eb5-9215-c9295e2c2dbf" }
+]);
+
+const giftTabs = ["Vichy", "Eva Belle", "Cerave", "Korres"];
+const giftProducts = ref([
+	{ id: 1, brand: "Vichy Mineral 89ml", name: "With every purchase of the Vichy Mineral 89 series a Vichy mineral 89 ml gift.", price: 0, image: "https://www.figma.com/api/mcp/asset/83084ca3-9a14-4253-ba86-dbf905dd518d" },
+	{ id: 2, brand: "CeraVe Hydrating", name: "With every purchase Cerave products, rec Hydrating Cleanser 20ml", price: 0, image: "https://www.figma.com/api/mcp/asset/d58e31a1-d366-4414-b59f-01418789b969" }
+]);
+
+const bestsellerTabs = ["New in", "Bestsellers", "Picked for you"];
+const bestsellerProducts = ref([
+	{ id: 3, brand: "La Roche Posay", name: "Effaclar Mat Sebum-regulating Anti-Oily....", price: 44.08, originalPrice: 74.83, saveAmount: 30.75, rating: 5, reviews: 1090, caresPoints: 254, image: "https://www.figma.com/api/mcp/asset/7d5ec84e-1249-468e-9e6a-66d0a53b5c2b", badges: [{ label: "PROMO\nPACK", color: "secondary" as const }, { label: "OFFER", color: "success" as const }, { label: "GIFT", color: "neutral" as const }] },
+	{ id: 4, brand: "La Roche Posay", name: "Lipikar Surgras Liquide", price: 11.72, rating: 5, reviews: 1090, caresPoints: 254, image: "https://www.figma.com/api/mcp/asset/f842af68-18f8-49d1-ab1b-4da0ccfc08ee" }
+]);
+
+const brandTabs = ["Korres", "La Roche Posay", "Frazyderm"];
+const brandProducts = ref([
+	{ id: 5, brand: "Korres Jasmine", name: "Shower Gel 400ml", price: 13.07, rating: 5, reviews: 1090, caresPoints: 254, image: "https://www.figma.com/api/mcp/asset/924bf127-3d78-4296-9b3f-e37191eaeed0" },
+	{ id: 6, brand: "Korres Black Pin", name: "Youth Activating Serum for Wrinkle Smoothing Radiance 30ml", price: 13.07, rating: 5, reviews: 1090, caresPoints: 254, image: "https://www.figma.com/api/mcp/asset/a2ece69c-d75c-4dfa-9679-48faf308094c" }
+]);
+
+const needTabs = ["Skincare", "Baby care", "Vitamins"];
+const needProducts = ref([
+	{ id: 7, brand: "Bio-Oil", name: "Skincare Oil Natural 60ml", price: 13.07, rating: 5, reviews: 1090, caresPoints: 254, image: "https://www.figma.com/api/mcp/asset/1634be51-67b6-4a10-932a-1393bb8661fd" },
+	{ id: 8, brand: "L'Oreal Paris", name: "Revitalift Anti-Wrinkle Cream 50ml", price: 13.07, rating: 5, reviews: 1090, caresPoints: 254, image: "https://www.figma.com/api/mcp/asset/afa6dbfa-76c5-4c7c-bd6e-32bf121fc507" }
+]);
+
+const navItems = ref([
+	{ label: "Home", icon: "lucide:house", route: "/", active: true },
+	{ label: "Shop", icon: "lucide:search", route: "/shop", active: false },
+	{ label: "Cart", icon: "lucide:shopping-cart", route: "/cart", active: false },
+	{ label: "Favorites", icon: "lucide:heart", route: "/favorites", active: false },
+	{ label: "Account", icon: "lucide:user", route: "/account", active: false }
+]);
+
+function handleNavigate(route: string) {
+	router.push(route);
+}
 </script>

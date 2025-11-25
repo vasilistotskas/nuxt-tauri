@@ -2,15 +2,41 @@
 @import "@nuxt/ui";
 
 @theme {
-	--font-heading: "Montserrat", sans-serif;
-	--font-sans: "Inter", sans-serif;
+	--font-heading: "Roboto", sans-serif;
+	--font-sans: "Roboto", sans-serif;
 
 	--color-primary: var(--ui-color-primary-500);
 	--color-secondary: var(--ui-color-secondary-500);
 	--color-success: var(--ui-color-success-500);
 	--color-info: var(--ui-color-info-500);
 	--color-warning: var(--ui-color-warning-500);
-	--color-error: var(--ui-color-error-500)
+	--color-error: var(--ui-color-error-500);
+
+	/* WeCare brand colors */
+	--color-wecare: #1887AA;
+	--color-wecare-dark: #1B9AC0;
+}
+
+:root {
+	--ui-bg: #ffffff;
+	--ui-bg-muted: #f2f2f2;
+	--ui-bg-elevated: #ffffff;
+	--ui-text: #000000;
+	--ui-text-muted: #686868;
+	--ui-text-dimmed: #929292;
+	--ui-border: #d7d7d7;
+	--ui-border-muted: #dddddd;
+}
+
+.dark {
+	--ui-bg: #0d0d0d;
+	--ui-bg-muted: #1a1a1a;
+	--ui-bg-elevated: #242424;
+	--ui-text: #ffffff;
+	--ui-text-muted: #969696;
+	--ui-text-dimmed: #969696;
+	--ui-border: #353535;
+	--ui-border-muted: #2a2a2a;
 }
 
 @layer base {
@@ -22,7 +48,7 @@
 }
 
 .safe-area-padding {
-	padding-top: 24px;
+	padding-top: 28px;
 }
 
 @media (min-width: 640px) {
@@ -44,6 +70,25 @@
 	}
 	.absolute-center-v {
 		@apply top-1/2 transform -translate-y-1/2;
+	}
+	.scrollbar-hide {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+	}
+	.scrollbar-hide::-webkit-scrollbar {
+		display: none;
+	}
+	.text-wecare {
+		color: var(--color-wecare);
+	}
+	.text-wecare-dark {
+		color: var(--color-wecare-dark);
+	}
+	.bg-wecare {
+		background-color: var(--color-wecare);
+	}
+	.bg-wecare-dark {
+		background-color: var(--color-wecare-dark);
 	}
 }
 

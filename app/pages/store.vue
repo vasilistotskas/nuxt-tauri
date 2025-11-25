@@ -24,6 +24,8 @@
 </template>
 
 <script lang="ts" setup>
+	import type { Store } from "@tauri-apps/plugin-store";
+
 	definePageMeta({
 		name: "Store",
 		icon: "lucide:database",
@@ -49,12 +51,10 @@
 	const toast = useToast();
 	const autosave = ref(false);
 
-	const store = await useTauriStoreLoad("store.bin", {
-		autoSave: autosave.value,
-		defaults: {}
-	});
+	let store: Store | null = null;
 
 	const getStoreValue = async () => {
+		if (!store) return;
 		try {
 			outputState.value.content = await store.get<string>("myData") || "";
 		} catch (error) {
@@ -67,9 +67,8 @@
 		}
 	};
 
-	await getStoreValue();
-
 	const setStoreValue = async () => {
+		if (!store) return;
 		try {
 			await store.set("myData", inputState.value!.value);
 			await getStoreValue();
@@ -89,4 +88,14 @@
 			inputState.value.value = undefined;
 		}
 	};
+
+	onMounted(async () => {
+		if (!useTauriAvailable()) return;
+
+		store = await useTauriStoreLoad("store.bin", {
+			autoSave: autosave.value,
+			defaults: {}
+		});
+		await getStoreValue();
+	});
 </script>

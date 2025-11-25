@@ -43,6 +43,8 @@
 	const tauriVersion = ref("");
 
 	onMounted(async () => {
-		tauriVersion.value = await useTauriAppGetTauriVersion();
+		if (useTauriAvailable()) {
+			tauriVersion.value = await useTauriAppGetTauriVersion();
+		}
 	});
 </script>
