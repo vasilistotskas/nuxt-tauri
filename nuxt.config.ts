@@ -54,8 +54,6 @@ export default defineNuxtConfig({
 		envPrefix: ["VITE_", "TAURI_"],
 		server: {
 			strictPort: true,
-			host: "0.0.0.0",
-			port: 3000,
 			hmr: {
 				protocol: "ws",
 				host: process.env.TAURI_DEV_HOST || "0.0.0.0",
@@ -75,6 +73,7 @@ export default defineNuxtConfig({
 		}
 	},
 	eslint: {
+		checker: true,
 		config: {
 			standalone: false
 		}
@@ -85,5 +84,9 @@ export default defineNuxtConfig({
 	experimental: {
 		typedPages: true
 	},
-	compatibilityDate: "2025-09-01"
+	typescript: {
+		strict: true,
+		typeCheck: true
+	},
+	compatibilityDate: "latest"
 });
