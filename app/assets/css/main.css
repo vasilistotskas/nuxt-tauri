@@ -14,7 +14,11 @@
 }
 
 @layer base {
-	-webkit-tap-highlight-color: transparent;
+	*,
+	*::before,
+	*::after {
+		-webkit-tap-highlight-color: transparent;
+	}
 }
 
 .safe-area-padding {

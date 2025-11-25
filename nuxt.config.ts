@@ -64,7 +64,7 @@ export default defineNuxtConfig({
 			}
 		}
 	},
-	devServer: {
+    devServer: {
 		host: "0.0.0.0"
 	},
 	router: {
