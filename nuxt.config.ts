@@ -61,7 +61,7 @@ export default defineNuxtConfig({
     modules: 'app/modules',
   },
   devServer: {
-    host: process.env.VITE_DEV_SERVER_HOST || 'localhost',
+    host: process.env.VITE_DEV_SERVER_HOST || '0.0.0.0',
     port: Number(process.env.VITE_DEV_SERVER_PORT) || 3000,
   },
   experimental: {
@@ -75,8 +75,8 @@ export default defineNuxtConfig({
       strictPort: true,
       hmr: {
         protocol: 'ws',
-        host: process.env.TAURI_DEV_HOST || 'localhost',
-        port: 3000,
+        host: process.env.VITE_DEV_SERVER_HMR_HOST || '0.0.0.0',
+        port: Number(process.env.VITE_DEV_SERVER_HMR_PORT) || 3001,
       },
       watch: {
         ignored: ['**/src-tauri/**'],

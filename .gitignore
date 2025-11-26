@@ -10,5 +10,6 @@ node_modules
 .cargo
 .kiro
 .idea
+.eslintcache
 dist
 src-tauri/target
