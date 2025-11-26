@@ -6,6 +6,9 @@
 		"main",
 		"secondary"
 	],
+	"remote": {
+		"urls": ["http://*", "https://*", "tauri://*"]
+	},
 	"permissions": [
 		"core:path:default",
 		"core:event:default",
