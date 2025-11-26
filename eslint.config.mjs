@@ -1,46 +1,73 @@
-import eslintConfig from "@antfu/eslint-config";
-import nuxtConfig from "./.nuxt/eslint.config.mjs";
+import eslintPluginBetterTailwindcss from 'eslint-plugin-better-tailwindcss'
+// @ts-check
+import withNuxt from './.nuxt/eslint.config.mjs'
+import { globalIgnores } from 'eslint/config'
 
-export default eslintConfig(
-	// General
-	{
-		typescript: true,
-		vue: true,
-		stylistic: {
-			indent: "tab",
-			quotes: "double"
-		},
-		rules: {
-			curly: "off",
-			"no-console": "off",
-			"no-new-func": "off",
-			"style/semi": ["error", "always"],
-			"style/indent": ["error", "tab"],
-			"style/quote-props": ["warn", "as-needed"],
-			"style/comma-dangle": ["warn", "never"],
-			"style/brace-style": ["warn", "1tbs"],
-			"style/arrow-parens": ["error", "always"],
-			"vue/block-order": ["error", {
-				order: ["template", "script", "style"]
-			}],
-			"vue/script-indent": ["error", "tab", {
-				baseIndent: 1
-			}],
-			"vue/comma-dangle": ["warn", "never"],
-			"antfu/top-level-function": "off",
-			"antfu/if-newline": "off",
-			"new-cap": "off",
-			"node/prefer-global/process": ["off"]
-		}
-	},
-
-	// Vue
-	{
-		files: ["**/*.vue"],
-		rules: {
-			"style/indent": "off"
-		}
-	},
-
-	nuxtConfig()
-);
+export default withNuxt(
+  globalIgnores(['**/tests/']),
+  {
+    plugins: {
+      'better-tailwindcss': eslintPluginBetterTailwindcss,
+    },
+  },
+  {
+    rules: {
+      ...eslintPluginBetterTailwindcss.configs['recommended-warn'].rules,
+      'better-tailwindcss/no-unregistered-classes': ['warn', {
+        detectComponentClasses: true,
+        ignore: [
+          'safe-area-padding',
+          'blob',
+          'absolute-center-h',
+          'safe-area-bottom',
+          'scrollbar-hide',
+          // NuxtUI
+          'text-elevated*',
+          'bg-elevated*',
+          'border-elevated*',
+          'ring-elevated*',
+          'text-default*',
+          'bg-default*',
+          'border-default*',
+          'ring-default*',
+          'text-primary*',
+          'bg-primary*',
+          'border-primary*',
+          'ring-primary*',
+          'text-secondary*',
+          'bg-secondary*',
+          'border-secondary*',
+          'ring-secondary*',
+        ],
+      }],
+      'nuxt/prefer-import-meta': 'off',
+      'vue/multi-word-component-names': 'off',
+      'vue/no-multiple-template-root': 'off',
+      'vue/max-attributes-per-line': 'off',
+      'vue/no-v-html': 'off',
+      'vue/no-watch-after-await': 'warn',
+      'vue/no-lifecycle-after-await': 'warn',
+      'vue/attribute-hyphenation': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/ban-ts-comment': 'off',
+    },
+  },
+  {
+    settings: {
+      'better-tailwindcss': {
+        entryPoint: 'app/assets/css/main.css',
+        variables: [],
+        attributes: [
+          ['^v-bind:ui$', [
+            { match: 'objectValues' },
+          ]],
+          ['^(?:v-bind:)?(class|activeClass|inactiveClass)$', [
+            { match: 'strings' },
+            { match: 'objectKeys' },
+            { match: 'objectValues' },
+          ]],
+        ],
+      },
+    },
+  },
+)
