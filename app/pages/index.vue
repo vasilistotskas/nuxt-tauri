@@ -1,10 +1,5 @@
 <template>
-  <div
-    class="
-      min-h-screen bg-white pb-20
-      dark:bg-[#0d0d0d]
-    "
-  >
+  <div>
     <WeCareHeader />
     <WeCareSearchBar class="mb-4" />
     <WeCareCTACard class="mb-5" />
@@ -28,16 +23,13 @@
         mb-5
       "
     />
-    <WeCareBottomNav :nav-items="navItems" @navigate="handleNavigate" />
   </div>
 </template>
 
 <script setup lang="ts">
 definePageMeta({
-  layout: false,
+  layout: 'mobile',
 })
-
-const router = useRouter()
 
 const banners = ref([
   { image: 'https://www.figma.com/api/mcp/asset/72ad5c66-3833-474e-8aa2-2e8f024df1e7', title: 'Hair Edition' },
@@ -73,16 +65,4 @@ const needProducts = ref([
   { id: 7, brand: 'Bio-Oil', name: 'Skincare Oil Natural 60ml', price: 13.07, rating: 5, reviews: 1090, caresPoints: 254, image: 'https://www.figma.com/api/mcp/asset/1634be51-67b6-4a10-932a-1393bb8661fd' },
   { id: 8, brand: 'L\'Oreal Paris', name: 'Revitalift Anti-Wrinkle Cream 50ml', price: 13.07, rating: 5, reviews: 1090, caresPoints: 254, image: 'https://www.figma.com/api/mcp/asset/afa6dbfa-76c5-4c7c-bd6e-32bf121fc507' },
 ])
-
-const navItems = ref([
-  { label: 'Home', icon: 'lucide:house', route: '/', active: true },
-  { label: 'Shop', icon: 'lucide:search', route: '/shop', active: false },
-  { label: 'Cart', icon: 'lucide:shopping-cart', route: '/cart', active: false },
-  { label: 'Favorites', icon: 'lucide:heart', route: '/favorites', active: false },
-  { label: 'Account', icon: 'lucide:user', route: '/account', active: false },
-])
-
-function handleNavigate(route: string) {
-  router.push(route)
-}
 </script>

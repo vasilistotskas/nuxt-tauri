@@ -1,4 +1,4 @@
-package com.nicolaspadari.nuxtor
+package com.vasilistotskas.nuxtauri
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge

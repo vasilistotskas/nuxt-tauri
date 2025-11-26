@@ -27,7 +27,7 @@ const tauriModules = [
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: 'nuxt-tauri',
+    name: 'Nuxtauri',
     configKey: 'tauri',
   },
   defaults: {

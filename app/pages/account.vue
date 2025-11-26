@@ -1,18 +1,8 @@
 <template>
-  <div
-    class="
-      min-h-screen max-w-full overflow-x-hidden bg-white pb-24
-      dark:bg-[#0d0d0d]
-    "
-  >
+  <div class="max-w-full overflow-x-hidden">
     <!-- Header -->
     <div class="relative px-4 pt-8 pb-4">
-      <h1
-        class="
-          text-center text-2xl font-bold tracking-wide text-black
-          dark:text-white
-        "
-      >
+      <h1 class="text-center text-2xl font-bold tracking-wide text-default">
         My account
       </h1>
       <!-- Theme toggle -->
@@ -32,15 +22,10 @@
 
     <!-- Subheader -->
     <div class="py-6 text-center">
-      <p class="mb-2 text-base font-semibold text-[#545454]">
+      <p class="mb-2 text-base font-semibold text-muted">
         Good morning
       </p>
-      <ULink
-        class="
-          text-lg font-semibold text-black underline
-          dark:text-white
-        "
-      >
+      <ULink class="text-lg font-semibold text-default underline">
         Register or log in
       </ULink>
     </div>
@@ -83,59 +68,31 @@
     <!-- Footer Links -->
     <div class="mt-8 px-4">
       <div class="mb-4 flex justify-between">
-        <ULink
-          class="
-            text-[15px] text-black underline
-            dark:text-white
-          "
-        >
+        <ULink class="text-[15px] text-default underline">
           Shipping terms
         </ULink>
-        <ULink
-          class="
-            text-[15px] text-black underline
-            dark:text-white
-          "
-        >
+        <ULink class="text-[15px] text-default underline">
           Return policy
         </ULink>
-        <ULink
-          class="
-            text-[15px] text-black underline
-            dark:text-white
-          "
-        >
+        <ULink class="text-[15px] text-default underline">
           Terms of Use
         </ULink>
       </div>
       <div class="flex justify-center gap-12">
-        <ULink
-          class="
-            text-[15px] text-black underline
-            dark:text-white
-          "
-        >
+        <ULink class="text-[15px] text-default underline">
           Privacy Policy
         </ULink>
-        <ULink
-          class="
-            text-[15px] text-black underline
-            dark:text-white
-          "
-        >
+        <ULink class="text-[15px] text-default underline">
           Cookies
         </ULink>
       </div>
     </div>
-
-    <!-- Bottom Navigation -->
-    <WeCareBottomNav :nav-items="navItems" @navigate="handleNavigate" />
   </div>
 </template>
 
 <script setup lang="ts">
 definePageMeta({
-  layout: false,
+  layout: 'mobile',
 })
 
 const router = useRouter()
@@ -158,18 +115,6 @@ const menuItems = ref([
   { label: 'Language', route: '/language' },
   { label: 'Help', route: '/help' },
 ])
-
-const navItems = ref([
-  { label: 'Home', icon: 'lucide:house', route: '/', active: false },
-  { label: 'Shop', icon: 'lucide:search', route: '/shop', active: false },
-  { label: 'Cart', icon: 'lucide:shopping-cart', route: '/cart', active: false },
-  { label: 'Favorites', icon: 'lucide:heart', route: '/favorites', active: false },
-  { label: 'Account', icon: 'lucide:user', route: '/account', active: true },
-])
-
-function handleNavigate(route: string) {
-  router.push(route)
-}
 
 function handleMenuClick(route: string) {
   router.push(route)

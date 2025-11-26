@@ -1,18 +1,11 @@
 <p align="center">
     <img width="150" src="./public/logo.png" alt="logo">
 </p>
-<h1 align="center">NUXTOR</h1>
+<h1 align="center">Nuxt Tauri</h1>
 <p align="center">
-A spiritual successor of <a href="https://github.com/NicolaSpadari/vitauri">ViTauri</a>, made with <a href="https://nuxt.com">Nuxt 4</a> and <a href="https://v2.tauri.app">Tauri 2</a>
+Made with <a href="https://nuxt.com">Nuxt 4</a> and <a href="https://v2.tauri.app">Tauri 2</a>
 <br>
 Build super fast desktop and mobile applications!
-</p>
-
-<br />
-
-<p float="left">
-	<img src="https://img.shields.io/github/package-json/v/NicolaSpadari/nuxtor" />
-	<img src="https://img.shields.io/github/license/NicolaSpadari/nuxtor" />
 </p>
 
 <br />
@@ -22,8 +15,6 @@ Build super fast desktop and mobile applications!
 </div>
 
 <p align="center">Powered by Nuxt 4</p>
-
-Check more screenshots at [preview](https://github.com/NicolaSpadari/nuxtor/blob/main/preview.md)
 
 <br />
 
@@ -55,10 +46,10 @@ Check more screenshots at [preview](https://github.com/NicolaSpadari/nuxtor/blob
 
   ```sh
   # use this template
-  $ npx degit NicolaSpadari/nuxtor my-nuxtor-app
+  $ npx degit vassilistotskas/nuxt-tauri my-nuxtauri-app
 
   # go into the folder
-  $ cd my-nuxtor-app
+  $ cd my-nuxtauri-app
 
   # install dependencies
   $ bun install
@@ -123,4 +114,4 @@ The APK will be generated at `src-tauri/gen/android/app/build/outputs/apk/`.
 
 ## License
 
-MIT License © 2024-PRESENT [NicolaSpadari](https://github.com/NicolaSpadari)
+MIT License © 2025-PRESENT [VasilisTotskas](https://github.com/vasilistotskas)

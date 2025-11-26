@@ -2,7 +2,6 @@ export default defineAppConfig({
   app: {
     name: 'WeCare',
     author: 'WeCare Pharmacy',
-    repo: 'https://github.com/NicolaSpadari/nuxtor',
     tauriSite: 'https://tauri.app',
     nuxtSite: 'https://nuxt.com',
     nuxtUiSite: 'https://ui4.nuxt.dev',

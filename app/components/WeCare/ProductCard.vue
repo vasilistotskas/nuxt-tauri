@@ -165,26 +165,7 @@
 </template>
 
 <script setup lang="ts">
-type BadgeColor = 'success' | 'error' | 'warning' | 'info' | 'neutral' | 'primary' | 'secondary'
-
-interface ProductBadge {
-  label: string
-  color: BadgeColor
-}
-
-interface Product {
-  id: string | number
-  brand: string
-  name: string
-  price: number
-  originalPrice?: number
-  saveAmount?: number
-  image?: string
-  rating?: number
-  reviews?: number
-  caresPoints?: number
-  badges?: ProductBadge[]
-}
+import type { BadgeProps } from '#ui/types'
 
 defineProps<{
   product: Product
@@ -196,7 +177,7 @@ defineEmits<{
 }>()
 
 function getBadgeClass(badge: ProductBadge): string {
-  const classMap: Record<BadgeColor, string> = {
+  const classMap: Record<NonNullable<BadgeProps['color']>, string> = {
     success: '!bg-[#3a833c] dark:!bg-[#429545] !text-white',
     secondary: '!bg-[#995bb9] dark:!bg-[#a56dc1] !text-white',
     neutral: '!bg-black dark:!bg-black !text-white',

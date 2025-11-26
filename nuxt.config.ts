@@ -2,12 +2,15 @@ export default defineNuxtConfig({
   modules: [
     '@vueuse/nuxt',
     '@nuxt/ui',
-    'nuxt-svgo',
     'reka-ui/nuxt',
     '@nuxt/eslint',
   ],
   ssr: false,
   imports: {
+    autoImport: true,
+    dirs: [
+      '~/types',
+    ],
     presets: [
       {
         from: 'zod',
@@ -27,7 +30,7 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: 'Nuxtor',
+      title: 'Nuxtauri',
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1, viewport-fit=cover',
       meta: [
@@ -102,8 +105,5 @@ export default defineNuxtConfig({
     config: {
       stylistic: true,
     },
-  },
-  svgo: {
-    autoImportPath: '@/assets/',
   },
 })

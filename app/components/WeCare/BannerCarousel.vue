@@ -30,12 +30,6 @@
 </template>
 
 <script setup lang="ts">
-interface Banner {
-  image?: string
-  title?: string
-  link?: string
-}
-
 defineProps<{
   banners: Banner[]
 }>()

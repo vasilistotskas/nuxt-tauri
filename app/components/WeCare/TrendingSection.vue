@@ -48,12 +48,6 @@
 </template>
 
 <script setup lang="ts">
-interface TrendingItem {
-  image?: string
-  title?: string
-  videoUrl?: string
-}
-
 defineProps<{
   items: TrendingItem[]
 }>()

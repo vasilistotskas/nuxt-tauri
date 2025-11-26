@@ -31,20 +31,6 @@
 </template>
 
 <script setup lang="ts">
-interface Product {
-  id: string | number
-  brand: string
-  name: string
-  price: number
-  originalPrice?: number
-  saveAmount?: number
-  image?: string
-  rating?: number
-  reviews?: number
-  caresPoints?: number
-  badges?: { label: string, color: 'success' | 'error' | 'warning' | 'info' | 'neutral' | 'primary' | 'secondary' }[]
-}
-
 defineProps<{
   title: string
   tabs?: string[]

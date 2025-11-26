@@ -2173,7 +2173,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "nuxtor"
+name = "nuxtauri"
 version = "1.5.0"
 dependencies = [
  "serde",
