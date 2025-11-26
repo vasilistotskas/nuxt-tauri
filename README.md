@@ -10,10 +10,6 @@ Build super fast desktop and mobile applications!
 
 <br />
 
-<div align="center">
-<img src="./public/screenshot.png">
-</div>
-
 <p align="center">Powered by Nuxt 4</p>
 
 <br />
@@ -104,6 +100,25 @@ The APK will be generated at `src-tauri/gen/android/app/build/outputs/apk/`.
 - For faster iteration, use `bun run dev` with browser mobile view (DevTools → Toggle device toolbar)
 - HMR on Android emulators can be unreliable due to network sandboxing
 - Test final changes on emulator with `bun run tauri android dev`
+
+## App Icons
+
+To generate app icons for all platforms from your source logo:
+
+```sh
+$ bun run tauri icon public/logo.png
+```
+
+This generates all required icons in `src-tauri/icons/`:
+- `icon.ico` (Windows)
+- `icon.icns` (macOS)
+- `*.png` files (Linux)
+- Mobile icons are placed directly in `src-tauri/gen/android/` and `src-tauri/gen/apple/`
+
+**Source image requirements:**
+- Square dimensions (width == height)
+- PNG or SVG with transparency
+- Recommended: at least 1024×1024 for best quality
 
 ## Notes
 
