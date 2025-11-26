@@ -40,29 +40,23 @@ const needProducts = ref([
 </script>
 
 <template>
-  <div>
+  <div class="md:px-6 lg:px-8">
     <WeCareHeader />
-    <SearchBar class="mb-4" />
-    <WeCareCTACard class="mb-5" />
-    <BannerCarousel :banners="banners" class="mb-5" />
-    <TrendingSection :items="trendingItems" class="mb-5" />
+    <SearchBar class="mb-4 md:mb-6" />
+    <WeCareCTACard class="mb-5 md:mb-8" />
+    <BannerCarousel :banners="banners" class="mb-5 md:mb-10" />
+    <TrendingSection :items="trendingItems" class="mb-5 md:mb-10" />
     <ProductSection
-      title="Extra gifts" :tabs="giftTabs" :products="giftProducts" class="mb-5"
+      title="Extra gifts" :tabs="giftTabs" :products="giftProducts" class="mb-5 md:mb-10"
     />
     <ProductSection
-      title="Discover the bestsellers" :tabs="bestsellerTabs" :products="bestsellerProducts" class="
-        mb-5
-      "
+      title="Discover the bestsellers" :tabs="bestsellerTabs" :products="bestsellerProducts" class="mb-5 md:mb-10"
     />
     <ProductSection
-      title="Discover the most desired brands" :tabs="brandTabs" :products="brandProducts" class="
-        mb-5
-      "
+      title="Discover the most desired brands" :tabs="brandTabs" :products="brandProducts" class="mb-5 md:mb-10"
     />
     <ProductSection
-      title="Shop by need" :tabs="needTabs" :products="needProducts" class="
-        mb-5
-      "
+      title="Shop by need" :tabs="needTabs" :products="needProducts" class="mb-5 md:mb-10"
     />
   </div>
 </template>

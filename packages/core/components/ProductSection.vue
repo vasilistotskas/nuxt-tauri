@@ -11,15 +11,25 @@ const activeTab = ref(0)
 </script>
 
 <template>
-  <section class="space-y-3 px-4">
-    <h2
-      class="
-        text-[22px] font-medium tracking-[0.5px] text-black
-        dark:text-white
-      "
-    >
-      {{ title }}
-    </h2>
+  <section class="space-y-3 px-4 md:px-0">
+    <div class="flex items-center justify-between">
+      <h2
+        class="
+          text-[22px] md:text-2xl lg:text-3xl font-medium tracking-[0.5px] text-black
+          dark:text-white
+        "
+      >
+        {{ title }}
+      </h2>
+      <!-- Desktop: View all link -->
+      <UButton
+        label="View all"
+        variant="link"
+        color="neutral"
+        trailing-icon="lucide:arrow-right"
+        class="hidden md:flex text-sm lg:text-base"
+      />
+    </div>
 
     <CategoryTabs
       v-if="tabs?.length"
@@ -27,6 +37,7 @@ const activeTab = ref(0)
       :tabs="tabs"
     />
 
+    <!-- Mobile: Carousel -->
     <UCarousel
       v-slot="{ item }"
       :items="products"
@@ -36,8 +47,19 @@ const activeTab = ref(0)
           first:ps-4
         `,
       }"
+      class="md:hidden"
     >
       <ProductCard :product="item" />
     </UCarousel>
+
+    <!-- Tablet/Desktop: Grid -->
+    <div class="hidden md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 lg:gap-6">
+      <ProductCard
+        v-for="product in products"
+        :key="product.id"
+        :product="product"
+        class="w-full"
+      />
+    </div>
   </section>
 </template>

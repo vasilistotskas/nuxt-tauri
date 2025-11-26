@@ -14,7 +14,7 @@ const suggestedProducts = ref<Product[]>([
     rating: 5,
     reviews: 1090,
     caresPoints: 254,
-    image: 'https://www.figma.com/api/mcp/asset/588f7280-6127-4cc7-9114-9c2c6478fdff',
+    image: 'https://www.figma.com/api/mcp/asset/be2f572c-23cc-441e-bbad-b870267440f0',
   },
   {
     id: 2,
@@ -24,7 +24,7 @@ const suggestedProducts = ref<Product[]>([
     rating: 5,
     reviews: 1090,
     caresPoints: 254,
-    image: 'https://www.figma.com/api/mcp/asset/da70462c-2821-4fcb-bcbf-2af28a4a6acb',
+    image: 'https://www.figma.com/api/mcp/asset/4b05fa62-ef5b-4071-a2d7-ab3e6e72d8c1',
   },
   {
     id: 3,
@@ -34,7 +34,17 @@ const suggestedProducts = ref<Product[]>([
     rating: 5,
     reviews: 2340,
     caresPoints: 180,
-    image: 'https://www.figma.com/api/mcp/asset/588f7280-6127-4cc7-9114-9c2c6478fdff',
+    image: 'https://www.figma.com/api/mcp/asset/be2f572c-23cc-441e-bbad-b870267440f0',
+  },
+  {
+    id: 4,
+    brand: 'Vichy',
+    name: 'Mineral 89 Hyaluronic Acid Face Serum',
+    price: 24.50,
+    rating: 5,
+    reviews: 890,
+    caresPoints: 320,
+    image: 'https://www.figma.com/api/mcp/asset/4b05fa62-ef5b-4071-a2d7-ab3e6e72d8c1',
   },
 ])
 
@@ -45,48 +55,98 @@ function handleAddToCart(product: Product) {
 </script>
 
 <template>
-  <div>
+  <div class="md:px-6 lg:px-8">
     <!-- Header -->
-    <header class="px-4 pt-14 pb-4">
-      <h1 class="text-center text-2xl font-bold tracking-wide text-default">
+    <header class="px-4 md:px-0 pt-8 md:pt-6 pb-4">
+      <h1
+        class="
+          text-center text-2xl font-bold tracking-wide text-black
+          dark:text-white
+        "
+      >
         Cart
       </h1>
-      <USeparator class="mt-4" />
+      <USeparator
+        class="mt-4"
+        :ui="{
+          root: 'bg-[#282828]',
+        }"
+      />
     </header>
 
     <!-- Empty Cart State -->
-    <EmptyCartIllustration />
+    <EmptyCartIllustration class="py-6 md:py-10" />
 
     <!-- You Might Like Section -->
-    <section class="mt-8 px-4">
-      <h2 class="mb-6 text-center text-lg font-bold tracking-wide text-default">
-        YOU MIGHT LIKE
-      </h2>
-      <UCarousel
-        v-slot="{ item }"
-        :items="suggestedProducts"
-        dots
-        :ui="{
-          item: 'shrink-0 basis-[180px]',
-          dots: 'relative bottom-0 mt-4',
-          dot: `
-            size-2.5 bg-muted
-            data-[state=active]:bg-inverted
-          `,
-        }"
+    <section class="mt-6 md:mt-10 px-4 md:px-0">
+      <h2
+        class="
+          mb-6 text-center text-lg md:text-xl font-bold tracking-wide text-black uppercase
+          dark:text-white
+        "
       >
-        <ProductCard :product="item" show-add-to-cart @add-to-cart="handleAddToCart(item)" />
-      </UCarousel>
+        You might like
+      </h2>
+
+      <!-- Mobile: Carousel -->
+      <div class="md:hidden">
+        <UCarousel
+          v-slot="{ item }"
+          :items="suggestedProducts"
+          dots
+          :ui="{
+            item: 'shrink-0 basis-[180px] first:ps-4',
+            container: 'gap-4',
+            dots: 'relative bottom-0 mt-6 justify-center',
+            dot: `
+              size-2.5 rounded-full bg-[#4a4a4a]
+              data-[state=active]:bg-white
+            `,
+          }"
+        >
+          <ProductCard :product="item" show-add-to-cart @add-to-cart="handleAddToCart(item)" />
+        </UCarousel>
+      </div>
+
+      <!-- Tablet/Desktop: Grid -->
+      <div class="hidden md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 lg:gap-6">
+        <ProductCard
+          v-for="product in suggestedProducts"
+          :key="product.id"
+          :product="product"
+          show-add-to-cart
+          class="w-full"
+          @add-to-cart="handleAddToCart(product)"
+        />
+      </div>
     </section>
 
     <!-- Info Section -->
-    <section class="mt-8 space-y-4 px-4">
-      <USeparator />
-      <p class="text-[15px] tracking-wide text-default">
+    <section class="mt-10 md:mt-14 space-y-0 px-4 md:px-0 pb-8">
+      <USeparator
+        :ui="{
+          root: 'bg-[#353535]',
+        }"
+      />
+      <p
+        class="
+          py-4 text-[15px] md:text-base tracking-wide text-black
+          dark:text-white
+        "
+      >
         <span class="font-bold">Free shipping</span> for orders over 49.00€
       </p>
-      <USeparator />
-      <p class="text-[15px] tracking-wide text-default">
+      <USeparator
+        :ui="{
+          root: 'bg-[#353535]',
+        }"
+      />
+      <p
+        class="
+          py-4 text-[15px] md:text-base tracking-wide text-black
+          dark:text-white
+        "
+      >
         <span class="font-bold">Telephone orders</span> 210 700 1375
       </p>
     </section>

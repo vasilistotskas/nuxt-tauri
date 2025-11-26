@@ -27,7 +27,7 @@ function getBadgeClass(badge: ProductBadge): string {
 
 <template>
   <UCard
-    class="flex w-[200px] flex-col overflow-hidden"
+    class="flex w-[180px] md:w-full flex-col overflow-hidden transition-shadow hover:shadow-lg"
     :ui="{
       root: `
         rounded-[10px] border border-[#d7d7d7] bg-white
@@ -178,10 +178,15 @@ function getBadgeClass(badge: ProductBadge): string {
           block
           color="neutral"
           variant="solid"
+          size="lg"
           class="
-            bg-black text-white
-            dark:bg-white dark:text-[#0d0d0d]
+            h-[41px] rounded-lg bg-white text-[#0d0d0d] font-normal
+            hover:bg-gray-100
+            dark:bg-white dark:text-[#0d0d0d] dark:hover:bg-gray-100
           "
+          :ui="{
+            base: 'justify-center',
+          }"
           @click="$emit('addToCart')"
         >
           Add to Cart
