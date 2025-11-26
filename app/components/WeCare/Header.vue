@@ -9,7 +9,7 @@
       >
 
       <!-- Theme toggle -->
-      <UColorModeButton class="absolute top-0 right-0 z-10">
+      <UColorModeButton class="absolute top-10 -right-1.5 z-50">
         <template #fallback>
           <UButton loading variant="ghost" color="neutral" />
         </template>

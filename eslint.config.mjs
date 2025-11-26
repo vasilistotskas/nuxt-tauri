@@ -4,7 +4,7 @@ import withNuxt from './.nuxt/eslint.config.mjs'
 import { globalIgnores } from 'eslint/config'
 
 export default withNuxt(
-  globalIgnores(['**/tests/']),
+  globalIgnores(['**/tests/', '**/src-tauri/**']),
   {
     plugins: {
       'better-tailwindcss': eslintPluginBetterTailwindcss,

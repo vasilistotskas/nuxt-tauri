@@ -61,8 +61,8 @@ export default defineNuxtConfig({
     modules: 'app/modules',
   },
   devServer: {
-    host: process.env.VITE_DEV_SERVER_HOST || '0.0.0.0',
-    port: Number(process.env.VITE_DEV_SERVER_PORT) || 3000,
+    host: process.env.TAURI_DEV_HOST || '0.0.0.0',
+    port: 3000,
   },
   experimental: {
     typedPages: true,
@@ -72,12 +72,8 @@ export default defineNuxtConfig({
     clearScreen: false,
     envPrefix: ['VITE_', 'TAURI_'],
     server: {
-      strictPort: true,
-      hmr: {
-        protocol: 'ws',
-        host: process.env.VITE_DEV_SERVER_HMR_HOST || '0.0.0.0',
-        port: Number(process.env.VITE_DEV_SERVER_HMR_PORT) || 3001,
-      },
+      cors: true,
+      allowedHosts: true,
       watch: {
         ignored: ['**/src-tauri/**'],
       },
@@ -86,6 +82,20 @@ export default defineNuxtConfig({
   typescript: {
     strict: true,
     typeCheck: true,
+  },
+  hooks: {
+    'vite:extendConfig': (config) => {
+      const host = process.env.TAURI_DEV_HOST || '192.168.178.122'
+      const server = config.server
+      if (server) {
+        server.strictPort = true
+        server.hmr = {
+          protocol: 'ws',
+          host,
+          port: 1421,
+        }
+      }
+    },
   },
   eslint: {
     checker: true,
