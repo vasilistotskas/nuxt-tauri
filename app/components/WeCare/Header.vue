@@ -1,40 +1,19 @@
 <template>
-	<header class="px-4 pt-7 mb-6 relative">
-		<div class="flex items-center ">
+	<header class="px-4 pt-6 pb-4 relative">
+		<div class="flex items-center justify-between">
 			<!-- Logo -->
-				<img
-					src="/images/wecare-logo.png"
-					alt="WeCare Online Pharmacy"
-					class="h-full w-full object-contain object-left"
-				>
+			<img
+				src="/images/wecare-logo.png"
+				alt="WeCare Online Pharmacy"
+				class="w-auto object-contain"
+			>
 
 			<!-- Theme toggle -->
-			<ClientOnly>
-				<UButton
-					:icon="isDark ? 'lucide:moon' : 'lucide:sun'"
-          class="absolute top-0 right-0"
-					color="neutral"
-					variant="ghost"
-					size="lg"
-					@click="isDark = !isDark"
-				/>
+			<UColorModeButton class="absolute top-0 right-0 z-10">
 				<template #fallback>
-					<div class="size-10" />
+					<UButton loading variant="ghost" color="neutral" />
 				</template>
-			</ClientOnly>
+			</UColorModeButton>
 		</div>
 	</header>
 </template>
-
-<script setup lang="ts">
-const colorMode = useColorMode();
-
-const isDark = computed({
-	get() {
-		return colorMode.value === "dark";
-	},
-	set(_isDark) {
-		colorMode.preference = _isDark ? "dark" : "light";
-	}
-});
-</script>

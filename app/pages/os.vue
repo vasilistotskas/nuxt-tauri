@@ -15,7 +15,7 @@
 		description: "Read operating system informations."
 	});
 
-	const items = ref<Array<{ label: string; icon: string; content: string }>>([]);
+	const items = ref<Array<{ label: string, icon: string, content: string }>>([]);
 
 	onMounted(async () => {
 		if (!useTauriAvailable()) return;

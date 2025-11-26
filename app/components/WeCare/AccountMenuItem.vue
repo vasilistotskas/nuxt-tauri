@@ -17,11 +17,11 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
-	label: string
-}>();
+	defineProps<{
+		label: string
+	}>();
 
-defineEmits<{
-	click: []
-}>();
+	defineEmits<{
+		click: []
+	}>();
 </script>

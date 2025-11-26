@@ -6,6 +6,12 @@ export default defineNuxtConfig({
 		"reka-ui/nuxt",
 		"@nuxt/eslint"
 	],
+	colorMode: {
+		preference: "system",
+		fallback: "light",
+		storageKey: "nuxt-color-mode",
+		classSuffix: ""
+	},
 	app: {
 		head: {
 			title: "Nuxtor",
@@ -56,7 +62,7 @@ export default defineNuxtConfig({
 			strictPort: true,
 			hmr: {
 				protocol: "ws",
-				host: process.env.TAURI_DEV_HOST || "0.0.0.0",
+				host: process.env.TAURI_DEV_HOST || "localhost",
 				port: 3000
 			},
 			watch: {
@@ -65,7 +71,7 @@ export default defineNuxtConfig({
 		}
 	},
 	devServer: {
-		host: process.env.VITE_DEV_SERVER_HOST || "0.0.0.0",
+		host: process.env.VITE_DEV_SERVER_HOST || "localhost",
 		port: Number(process.env.VITE_DEV_SERVER_PORT) || 3000
 	},
 	router: {
