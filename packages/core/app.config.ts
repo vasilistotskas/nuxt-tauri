@@ -1,23 +1,4 @@
 export default defineAppConfig({
-  // Default page categories - can be overridden by brand apps
-  pageCategories: {
-    system: {
-      label: 'System',
-      icon: 'lucide:square-terminal',
-    },
-    storage: {
-      label: 'Storage',
-      icon: 'lucide:archive',
-    },
-    interface: {
-      label: 'Interface',
-      icon: 'lucide:app-window-mac',
-    },
-    other: {
-      label: 'Other',
-      icon: 'lucide:folder',
-    },
-  },
   // Default UI configuration - can be extended by brand apps
   ui: {
     colors: {
