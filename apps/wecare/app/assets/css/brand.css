@@ -1,0 +1,26 @@
+/* WeCare Brand CSS Variables */
+:root {
+  /* WeCare brand colors */
+  --brand-primary: #1887AA;
+  --brand-primary-dark: #1B9AC0;
+  
+  /* Legacy WeCare color variables for backward compatibility */
+  --color-wecare: #1887AA;
+  --color-wecare-dark: #1B9AC0;
+}
+
+@layer utilities {
+  /* WeCare-specific color utilities */
+  .text-wecare {
+    color: var(--color-wecare);
+  }
+  .text-wecare-dark {
+    color: var(--color-wecare-dark);
+  }
+  .bg-wecare {
+    background-color: var(--color-wecare);
+  }
+  .bg-wecare-dark {
+    background-color: var(--color-wecare-dark);
+  }
+}

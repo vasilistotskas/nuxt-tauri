@@ -1,0 +1,118 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+/* Ensure Tailwind scans the core package for class names */
+@source "../../components";
+@source "../../composables";
+@source "../../types";
+
+@theme {
+	--font-heading: "Roboto", sans-serif;
+	--font-sans: "Roboto", sans-serif;
+
+	--color-primary: var(--ui-color-primary-500);
+	--color-secondary: var(--ui-color-secondary-500);
+	--color-success: var(--ui-color-success-500);
+	--color-info: var(--ui-color-info-500);
+	--color-warning: var(--ui-color-warning-500);
+	--color-error: var(--ui-color-error-500);
+
+	/* Brand colors - to be overridden by brand apps */
+	--color-brand: var(--brand-primary, #000000);
+	--color-brand-dark: var(--brand-primary-dark, #333333);
+}
+
+:root {
+	--ui-bg: #ffffff;
+	--ui-bg-muted: #f2f2f2;
+	--ui-bg-elevated: #ffffff;
+	--ui-text: #000000;
+	--ui-text-muted: #686868;
+	--ui-text-dimmed: #929292;
+	--ui-border: #d7d7d7;
+	--ui-border-muted: #dddddd;
+
+	/* Brand color CSS variables - to be set by brand apps */
+	--brand-primary: #000000;
+	--brand-primary-dark: #333333;
+}
+
+.dark {
+	--ui-bg: #0d0d0d;
+	--ui-bg-muted: #1a1a1a;
+	--ui-bg-elevated: #242424;
+	--ui-text: #ffffff;
+	--ui-text-muted: #969696;
+	--ui-text-dimmed: #969696;
+	--ui-border: #353535;
+	--ui-border-muted: #2a2a2a;
+}
+
+@layer base {
+	*,
+	*::before,
+	*::after {
+		-webkit-tap-highlight-color: transparent;
+	}
+}
+
+.safe-area-padding {
+	padding-top: 28px;
+}
+
+@media (min-width: 640px) {
+	.safe-area-padding {
+		padding-top: 0;
+	}
+}
+
+@layer utilities {
+	img{
+		user-select: none;
+		-webkit-user-drag: none;
+	}
+	.flex-center {
+		@apply flex justify-center items-center;
+	}
+	.absolute-center-h {
+		@apply left-1/2 transform -translate-x-1/2;
+	}
+	.absolute-center-v {
+		@apply top-1/2 transform -translate-y-1/2;
+	}
+	.scrollbar-hide {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+	}
+	.scrollbar-hide::-webkit-scrollbar {
+		display: none;
+	}
+	/* Brand color utilities - use CSS variables for brand-specific colors */
+	.text-brand {
+		color: var(--brand-primary);
+	}
+	.text-brand-dark {
+		color: var(--brand-primary-dark);
+	}
+	.bg-brand {
+		background-color: var(--brand-primary);
+	}
+	.bg-brand-dark {
+		background-color: var(--brand-primary-dark);
+	}
+}
+
+.page-enter-active,
+.page-leave-active {
+	@apply transition-opacity ease-in-out duration-300;
+}
+.layout-enter-active,
+.layout-leave-active {
+	@apply transition-opacity ease-in-out duration-500;
+}
+.page-enter-from,
+.page-leave-to,
+.layout-enter-from,
+.layout-leave-to {
+	@apply opacity-0;
+}

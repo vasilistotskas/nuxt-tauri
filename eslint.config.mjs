@@ -1,10 +1,19 @@
+import antfu from '@antfu/eslint-config'
 import eslintPluginBetterTailwindcss from 'eslint-plugin-better-tailwindcss'
-// @ts-check
-import withNuxt from './.nuxt/eslint.config.mjs'
-import { globalIgnores } from 'eslint/config'
 
-export default withNuxt(
-  globalIgnores(['**/tests/', '**/src-tauri/**']),
+export default antfu(
+  {
+    vue: true,
+    typescript: true,
+    ignores: [
+      '**/tests/',
+      '**/src-tauri/**',
+      '**/.nuxt/**',
+      '**/.output/**',
+      '**/dist/**',
+      '**/node_modules/**',
+    ],
+  },
   {
     plugins: {
       'better-tailwindcss': eslintPluginBetterTailwindcss,
@@ -40,7 +49,6 @@ export default withNuxt(
           'ring-secondary*',
         ],
       }],
-      'nuxt/prefer-import-meta': 'off',
       'vue/multi-word-component-names': 'off',
       'vue/no-multiple-template-root': 'off',
       'vue/max-attributes-per-line': 'off',
@@ -48,14 +56,16 @@ export default withNuxt(
       'vue/no-watch-after-await': 'warn',
       'vue/no-lifecycle-after-await': 'warn',
       'vue/attribute-hyphenation': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/ban-ts-comment': 'off',
+      'ts/no-explicit-any': 'off',
+      'ts/ban-ts-comment': 'off',
+      'node/prefer-global/process': 'off',
+      'no-console': ['error', { allow: ['warn', 'error', 'log'] }],
     },
   },
   {
     settings: {
       'better-tailwindcss': {
-        entryPoint: 'app/assets/css/main.css',
+        entryPoint: 'packages/core/assets/css/main.css',
         variables: [],
         attributes: [
           ['^v-bind:ui$', [

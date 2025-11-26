@@ -1,15 +1,49 @@
+# Dependencies
 node_modules
-.DS_Store
-*.log*
-.data
-.nuxt
-.nitro
-.cache
-.output
-.env
-.cargo
-.kiro
-.idea
-.eslintcache
+
+# Build outputs
 dist
+.output
+.nitro
+
+# Nuxt
+.nuxt
+.cache
+.data
+
+# Tauri
 src-tauri/target
+apps/*/src-tauri/target
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# IDE
+.DS_Store
+.idea
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Logs
+*.log*
+
+# Rust
+.cargo
+
+# Kiro
+.kiro
+
+# ESLint
+.eslintcache
+
+# OS
+Thumbs.db
+
+# Monorepo specific
+packages/*/.nuxt
+apps/*/.nuxt
+apps/*/.output
+apps/*/dist

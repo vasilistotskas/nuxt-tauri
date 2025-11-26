@@ -1,0 +1,3 @@
+/* WeCare Brand CSS - brand-specific overrides */
+/* Core styles are loaded via nuxt.config.ts css array */
+@import "./brand.css";

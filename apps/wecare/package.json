@@ -1,0 +1,26 @@
+{
+  "name": "@apps/wecare",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build",
+    "tauri:build:debug": "tauri build --debug",
+    "tauri:android:init": "tauri android init",
+    "tauri:android:dev": "tauri android dev",
+    "tauri:android:build": "tauri android build"
+  },
+  "dependencies": {
+    "@packages/core": "workspace:*",
+    "@tauri-apps/api": "^2.9.0",
+    "@tauri-apps/plugin-shell": "^2.2.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.5.0"
+  }
+}

@@ -1,55 +1,34 @@
 {
-  "name": "nuxtauri",
+  "name": "nuxtauri-monorepo",
   "type": "module",
   "version": "1.5.0",
   "private": true,
-  "packageManager": "bun@1.3.3",
-  "description": "Starter template for Nuxt 4 and Tauri 2",
+  "description": "Monorepo for Nuxt 4 and Tauri 2 multi-brand applications",
   "author": "Nicola Spadari",
   "license": "MIT",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "engines": {
     "node": ">=23"
   },
   "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preinstall": "npx only-allow bun",
-    "postinstall": "nuxt prepare",
+    "app": "bun run scripts/app.ts",
     "lint": "eslint . --fix",
-    "tauri": "tauri",
-    "tauri:dev": "tauri dev",
-    "tauri:build": "tauri build",
-    "tauri:build:debug": "tauri build --debug"
-  },
-  "dependencies": {
-    "@nuxt/ui": "4.2.1",
-    "@tauri-apps/api": "^2.9.0",
-    "@tauri-apps/plugin-fs": "^2.4.4",
-    "@tauri-apps/plugin-notification": "^2.3.3",
-    "@tauri-apps/plugin-os": "^2.3.2",
-    "@tauri-apps/plugin-shell": "^2.3.3",
-    "@tauri-apps/plugin-store": "^2.4.1",
-    "nuxt": "^4.2.1",
-    "vue": "^3.5.25",
-    "vue-router": "^4.6.3",
-    "zod": "^4.1.13"
+    "postinstall": "cd apps/wecare && nuxt prepare"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^6.2.0",
-    "@nuxt/eslint": "^1.10.0",
-    "@tauri-apps/cli": "^2.9.4",
-    "@volar/typescript": "^2.4.26",
-    "@vueuse/core": "^14.0.0",
-    "@vueuse/nuxt": "^14.0.0",
+    "@types/bun": "^1.3.3",
     "@types/node": "24.10.1",
+    "@volar/typescript": "^2.4.26",
     "eslint": "^9.39.1",
-    "typescript": "^5.9.3",
-    "vite-plugin-eslint2": "^5.0.4",
     "eslint-plugin-better-tailwindcss": "3.7.11",
+    "nuxt": "^4.2.1",
+    "typescript": "^5.9.3",
     "vue-tsc": "^3.1.5"
   },
-  "resolutions": {},
   "trustedDependencies": [
     "@parcel/watcher",
     "@tailwindcss/oxide",
