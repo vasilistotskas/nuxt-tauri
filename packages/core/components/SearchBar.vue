@@ -14,7 +14,7 @@ const searchQuery = ref('')
       :ui="{
         root: 'h-12 md:h-14',
         base: `
-          h-12 md:h-14 rounded-full bg-[#f2f2f2] ps-11 text-sm md:text-base
+          h-12 md:h-14 rounded-full bg-[#f2f2f2] ps-14 text-sm md:text-base
           placeholder:text-[#686868]
           dark:bg-[#242424] dark:placeholder:text-[#969696]
         `,

@@ -38,13 +38,26 @@
 	"app": {
 		"windows": [
 			{
+				"label": "main",
 				"title": "WeCare Pharmacy",
 				"width": 1366,
 				"height": 768,
 				"minWidth": 375,
 				"minHeight": 812,
 				"resizable": true,
-				"fullscreen": false
+				"fullscreen": false,
+				"visible": false
+			},
+			{
+				"label": "splashscreen",
+				"title": "WeCare",
+				"url": "/splashscreen",
+				"width": 400,
+				"height": 500,
+				"resizable": false,
+				"decorations": false,
+				"center": true,
+				"transparent": false
 			}
 		],
 		"security": {
