@@ -1,5 +1,5 @@
 <p align="center">
-    <img width="150" src="./apps/wecare/public/images/wecare-logo.png" alt="logo">
+    <img src="banner.png" alt="banner">
 </p>
 <h1 align="center">Nuxt Tauri Monorepo</h1>
 <p align="center">
