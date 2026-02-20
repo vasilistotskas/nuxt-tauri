@@ -1,0 +1,23 @@
+[package]
+name = "tauri-core"
+version = "1.5.0"
+edition = "2021"
+description = "Shared Tauri backend for multi-brand apps"
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = [
+  'cfg(desktop)',
+  'cfg(mobile)'
+] }
+
+[dependencies]
+tauri = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+tauri-plugin-shell = { workspace = true }
+tauri-plugin-notification = { workspace = true }
+tauri-plugin-os = { workspace = true }
+tauri-plugin-fs = { workspace = true }
+tauri-plugin-store = { workspace = true }
+tauri-plugin-mcp-bridge = { workspace = true }

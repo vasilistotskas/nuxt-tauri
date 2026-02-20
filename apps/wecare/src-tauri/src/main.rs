@@ -1,5 +1,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-	nuxtauri_lib::run();
+	wecare_lib::run();
 }

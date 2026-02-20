@@ -27,6 +27,9 @@ bun run app wecare tauri:build         # Tauri desktop build
 bun run app wecare tauri:android:build # Android build
 bun run app wecare tauri:ios:build     # iOS build (macOS only)
 
+# Scaffold a new brand app
+bun run new-brand <brand-name> <identifier> <product-name>
+
 # Lint & typecheck (from root)
 bun run lint
 bun run typecheck
@@ -37,8 +40,9 @@ bun run typecheck
 ### Monorepo Layout
 
 - `packages/core/` — Shared Nuxt layer (brand-agnostic components, composables, types, base CSS)
-- `apps/wecare/` — WeCare Pharmacy brand app (extends core layer)
-- `scripts/` — Bun CLI scripts: `app.ts` (unified runner), `prepare.ts` (postinstall), `typecheck.ts` (type-check all apps)
+- `packages/tauri-core/` — Shared Rust library crate (splashscreen coordination, plugin registration, tray icon, setup state machine)
+- `apps/wecare/` — WeCare Pharmacy brand app (extends core layer + tauri-core)
+- `scripts/` — Bun CLI scripts: `app.ts` (unified runner), `prepare.ts` (postinstall), `typecheck.ts` (type-check all apps), `new-brand.ts` (scaffold new brand apps)
 
 ### Nuxt Layers Pattern
 
@@ -96,7 +100,27 @@ Uses `@antfu/eslint-config` with `eslint-plugin-better-tailwindcss` (config in `
 
 ### Tauri
 
-Each brand app has a `src-tauri/` directory with Rust backend config. Key details:
+**Cargo workspace:** Root `Cargo.toml` defines a workspace with members `packages/tauri-core` and `apps/*/src-tauri`. Dependencies are centralized via `[workspace.dependencies]`.
+
+**Shared crate (`packages/tauri-core/`):** Contains all brand-agnostic Rust code:
+- `SetupState` — tracks splashscreen coordination (frontend + backend tasks)
+- `set_complete` IPC command — called by frontend and backend to signal readiness
+- `default_backend_setup` — async 2-second setup task
+- `setup_tray` — desktop-only system tray with quit menu
+- `base_builder()` — returns `tauri::Builder` with all plugins and state pre-configured
+- `run(context, config)` — full app runner for zero-customization brands
+
+**Two usage levels for brand apps:**
+- **Simple** (no custom IPC): `tauri_core::run(tauri::generate_context!(), AppConfig::default())` — 4 lines in `lib.rs`
+- **Custom IPC**: Use `tauri_core::base_builder()`, add own `invoke_handler` + `setup`, call `.run(context)` — full control
+
+**Brand app `src-tauri/` contains only:** `Cargo.toml` (depends on `tauri-core`), thin `lib.rs`/`main.rs`, `build.rs`, `tauri.conf.json` (brand identity), `tauri.android.conf.json`, `capabilities/main.json`, `icons/`
+
+**Plugin crates** must be listed as direct dependencies in each brand app's `Cargo.toml` (Tauri's capability resolver requires this). The actual `.init()` calls happen in `tauri-core`.
+
+**Scaffold new brand:** `bun run new-brand <name> <identifier> <product-name>` generates the full app skeleton. After scaffolding, add the app to root `Cargo.toml` workspace members.
+
+**Other details:**
 - Desktop uses a splashscreen window that coordinates with the frontend via `set_complete` IPC command
 - Tauri dev uses WebSocket HMR on port 1421
 - `TAURI_DEV_HOST` env var controls the dev server host for device testing (set to your machine's local IP for mobile)

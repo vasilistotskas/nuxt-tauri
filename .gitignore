@@ -12,6 +12,7 @@ dist
 .data
 
 # Tauri
+/target
 src-tauri/target
 apps/*/src-tauri/target
 
