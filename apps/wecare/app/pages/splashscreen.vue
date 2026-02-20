@@ -61,7 +61,11 @@ onMounted(async () => {
       </div>
 
       <p class="tagline">
-        <span v-for="(char, i) in 'ONLINE PHARMACY'.split('')" :key="i" class="tagline-char" :style="`--char-delay: ${i}`">
+        <span
+          v-for="(char, i) in 'ONLINE PHARMACY'.split('')" :key="i" class="
+            tagline-char
+          " :style="`--char-delay: ${i}`"
+        >
           {{ char === ' ' ? '\u00A0' : char }}
         </span>
       </p>

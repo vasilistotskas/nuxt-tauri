@@ -22,7 +22,7 @@ export default antfu(
   {
     rules: {
       ...eslintPluginBetterTailwindcss.configs['recommended-warn'].rules,
-      'better-tailwindcss/no-unregistered-classes': ['warn', {
+      'better-tailwindcss/no-unknown-classes': ['warn', {
         detectComponentClasses: true,
         ignore: [
           'safe-area-padding',

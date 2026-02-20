@@ -11,11 +11,18 @@ const activeTab = ref(0)
 </script>
 
 <template>
-  <section class="space-y-3 px-4 md:px-0">
+  <section
+    class="
+      space-y-3 px-4
+      md:px-0
+    "
+  >
     <div class="flex items-center justify-between">
       <h2
         class="
-          text-[22px] md:text-2xl lg:text-3xl font-medium tracking-[0.5px] text-black
+          text-[22px] font-medium tracking-[0.5px] text-black
+          md:text-2xl
+          lg:text-3xl
           dark:text-white
         "
       >
@@ -27,7 +34,11 @@ const activeTab = ref(0)
         variant="link"
         color="neutral"
         trailing-icon="lucide:arrow-right"
-        class="hidden md:flex text-sm lg:text-base"
+        class="
+          hidden text-sm
+          md:flex
+          lg:text-base
+        "
       />
     </div>
 
@@ -53,7 +64,15 @@ const activeTab = ref(0)
     </UCarousel>
 
     <!-- Tablet/Desktop: Grid -->
-    <div class="hidden md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 lg:gap-6">
+    <div
+      class="
+        hidden gap-4
+        md:grid md:grid-cols-3
+        lg:grid-cols-4 lg:gap-6
+        xl:grid-cols-5
+        2xl:grid-cols-6
+      "
+    >
       <ProductCard
         v-for="product in products"
         :key="product.id"

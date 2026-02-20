@@ -55,9 +55,19 @@ function handleAddToCart(product: Product) {
 </script>
 
 <template>
-  <div class="md:px-6 lg:px-8">
+  <div
+    class="
+      md:px-6
+      lg:px-8
+    "
+  >
     <!-- Header -->
-    <header class="px-4 md:px-0 pt-8 md:pt-6 pb-4">
+    <header
+      class="
+        px-4 pt-8 pb-4
+        md:px-0 md:pt-6
+      "
+    >
       <h1
         class="
           text-center text-2xl font-bold tracking-wide text-black
@@ -75,13 +85,24 @@ function handleAddToCart(product: Product) {
     </header>
 
     <!-- Empty Cart State -->
-    <EmptyCartIllustration class="py-6 md:py-10" />
+    <EmptyCartIllustration
+      class="
+        py-6
+        md:py-10
+      "
+    />
 
     <!-- You Might Like Section -->
-    <section class="mt-6 md:mt-10 px-4 md:px-0">
+    <section
+      class="
+        mt-6 px-4
+        md:mt-10 md:px-0
+      "
+    >
       <h2
         class="
-          mb-6 text-center text-lg md:text-xl font-bold tracking-wide text-black uppercase
+          mb-6 text-center text-lg font-bold tracking-wide text-black uppercase
+          md:text-xl
           dark:text-white
         "
       >
@@ -95,7 +116,10 @@ function handleAddToCart(product: Product) {
           :items="suggestedProducts"
           dots
           :ui="{
-            item: 'shrink-0 basis-[180px] first:ps-4',
+            item: `
+              shrink-0 basis-[180px]
+              first:ps-4
+            `,
             container: 'gap-4',
             dots: 'relative bottom-0 mt-6 justify-center',
             dot: `
@@ -109,7 +133,15 @@ function handleAddToCart(product: Product) {
       </div>
 
       <!-- Tablet/Desktop: Grid -->
-      <div class="hidden md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 lg:gap-6">
+      <div
+        class="
+          hidden gap-4
+          md:grid md:grid-cols-3
+          lg:grid-cols-4 lg:gap-6
+          xl:grid-cols-5
+          2xl:grid-cols-6
+        "
+      >
         <ProductCard
           v-for="product in suggestedProducts"
           :key="product.id"
@@ -122,7 +154,12 @@ function handleAddToCart(product: Product) {
     </section>
 
     <!-- Info Section -->
-    <section class="mt-10 md:mt-14 space-y-0 px-4 md:px-0 pb-8">
+    <section
+      class="
+        mt-10 space-y-0 px-4 pb-8
+        md:mt-14 md:px-0
+      "
+    >
       <USeparator
         :ui="{
           root: 'bg-[#353535]',
@@ -130,7 +167,8 @@ function handleAddToCart(product: Product) {
       />
       <p
         class="
-          py-4 text-[15px] md:text-base tracking-wide text-black
+          py-4 text-[15px] tracking-wide text-black
+          md:text-base
           dark:text-white
         "
       >
@@ -143,7 +181,8 @@ function handleAddToCart(product: Product) {
       />
       <p
         class="
-          py-4 text-[15px] md:text-base tracking-wide text-black
+          py-4 text-[15px] tracking-wide text-black
+          md:text-base
           dark:text-white
         "
       >

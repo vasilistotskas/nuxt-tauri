@@ -1,15 +1,29 @@
 <template>
-  <header class="relative px-4 pt-6 pb-4 md:px-6 lg:px-8">
+  <header
+    class="
+      relative px-4 pt-6 pb-4
+      md:px-6
+      lg:px-8
+    "
+  >
     <div class="flex items-center justify-between">
       <!-- Logo -->
       <img
         src="/images/wecare-logo.png"
         alt="WeCare Online Pharmacy"
-        class="w-auto md:rounded max-w-[360px] object-contain"
+        class="
+          w-auto max-w-[360px] object-contain
+          md:rounded-sm
+        "
       >
 
       <!-- Desktop: Additional header actions -->
-      <div class="hidden md:flex items-center gap-4">
+      <div
+        class="
+          hidden items-center gap-4
+          md:flex
+        "
+      >
         <UButton
           icon="lucide:heart"
           color="neutral"

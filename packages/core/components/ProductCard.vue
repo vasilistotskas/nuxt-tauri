@@ -27,7 +27,11 @@ function getBadgeClass(badge: ProductBadge): string {
 
 <template>
   <UCard
-    class="flex w-[180px] md:w-full flex-col overflow-hidden transition-shadow hover:shadow-lg"
+    class="
+      flex w-[180px] flex-col overflow-hidden transition-shadow
+      hover:shadow-lg
+      md:w-full
+    "
     :ui="{
       root: `
         rounded-[10px] border border-[#d7d7d7] bg-white
@@ -47,7 +51,7 @@ function getBadgeClass(badge: ProductBadge): string {
         v-if="product.image"
         :src="product.image"
         :alt="product.name"
-        class="h-full w-full rounded-t-xl object-cover"
+        class="size-full rounded-t-xl object-cover"
       >
       <!-- Favorite Button -->
       <UButton
@@ -180,9 +184,10 @@ function getBadgeClass(badge: ProductBadge): string {
           variant="solid"
           size="lg"
           class="
-            h-[41px] rounded-lg bg-white text-[#0d0d0d] font-normal
+            h-[41px] rounded-lg bg-white font-normal text-[#0d0d0d]
             hover:bg-gray-100
-            dark:bg-white dark:text-[#0d0d0d] dark:hover:bg-gray-100
+            dark:bg-white dark:text-[#0d0d0d]
+            dark:hover:bg-gray-100
           "
           :ui="{
             base: 'justify-center',
