@@ -40,6 +40,9 @@ apps/*/src-tauri/target
 # ESLint
 .eslintcache
 
+# Claude Code
+.claude/settings.local.json
+
 # OS
 Thumbs.db
 

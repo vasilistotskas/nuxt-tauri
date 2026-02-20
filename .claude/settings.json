@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "ext=\"${CLAUDE_FILE_PATH##*.}\"; if [ \"$ext\" = \"vue\" ] || [ \"$ext\" = \"ts\" ] || [ \"$ext\" = \"mts\" ] || [ \"$ext\" = \"js\" ] || [ \"$ext\" = \"mjs\" ]; then npx eslint --fix \"$CLAUDE_FILE_PATH\" 2>/dev/null; fi"
+          }
+        ]
+      }
+    ]
+  }
+}
