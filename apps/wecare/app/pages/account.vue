@@ -1,8 +1,4 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: 'mobile',
-})
-
 const router = useRouter()
 const colorMode = useColorMode()
 

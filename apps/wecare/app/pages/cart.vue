@@ -1,10 +1,4 @@
 <script setup lang="ts">
-import type { Product } from '@packages/core/types/product'
-
-definePageMeta({
-  layout: 'mobile',
-})
-
 const suggestedProducts = ref<Product[]>([
   {
     id: 1,
@@ -13,8 +7,8 @@ const suggestedProducts = ref<Product[]>([
     price: 13.07,
     rating: 5,
     reviews: 1090,
-    caresPoints: 254,
-    image: 'https://www.figma.com/api/mcp/asset/be2f572c-23cc-441e-bbad-b870267440f0',
+    meta: { caresPoints: 254 },
+    image: 'https://placehold.co/180x180/f2f2f2/333?text=LRP',
   },
   {
     id: 2,
@@ -23,8 +17,8 @@ const suggestedProducts = ref<Product[]>([
     price: 13.07,
     rating: 5,
     reviews: 1090,
-    caresPoints: 254,
-    image: 'https://www.figma.com/api/mcp/asset/4b05fa62-ef5b-4071-a2d7-ab3e6e72d8c1',
+    meta: { caresPoints: 254 },
+    image: 'https://placehold.co/180x180/f2f2f2/333?text=LRP+2',
   },
   {
     id: 3,
@@ -33,8 +27,8 @@ const suggestedProducts = ref<Product[]>([
     price: 15.99,
     rating: 5,
     reviews: 2340,
-    caresPoints: 180,
-    image: 'https://www.figma.com/api/mcp/asset/be2f572c-23cc-441e-bbad-b870267440f0',
+    meta: { caresPoints: 180 },
+    image: 'https://placehold.co/180x180/f2f2f2/333?text=CeraVe',
   },
   {
     id: 4,
@@ -43,8 +37,8 @@ const suggestedProducts = ref<Product[]>([
     price: 24.50,
     rating: 5,
     reviews: 890,
-    caresPoints: 320,
-    image: 'https://www.figma.com/api/mcp/asset/4b05fa62-ef5b-4071-a2d7-ab3e6e72d8c1',
+    meta: { caresPoints: 320 },
+    image: 'https://placehold.co/180x180/f2f2f2/333?text=Vichy',
   },
 ])
 
@@ -69,19 +63,11 @@ function handleAddToCart(product: Product) {
       "
     >
       <h1
-        class="
-          text-center text-2xl font-bold tracking-wide text-black
-          dark:text-white
-        "
+        class="text-center text-2xl font-bold tracking-wide text-default"
       >
         Cart
       </h1>
-      <USeparator
-        class="mt-4"
-        :ui="{
-          root: 'bg-[#282828]',
-        }"
-      />
+      <USeparator class="mt-4" />
     </header>
 
     <!-- Empty Cart State -->
@@ -101,9 +87,9 @@ function handleAddToCart(product: Product) {
     >
       <h2
         class="
-          mb-6 text-center text-lg font-bold tracking-wide text-black uppercase
+          mb-6 text-center text-lg font-bold tracking-wide text-default
+          uppercase
           md:text-xl
-          dark:text-white
         "
       >
         You might like
@@ -123,12 +109,12 @@ function handleAddToCart(product: Product) {
             container: 'gap-4',
             dots: 'relative bottom-0 mt-6 justify-center',
             dot: `
-              size-2.5 rounded-full bg-[#4a4a4a]
-              data-[state=active]:bg-white
+              bg-dimmed size-2.5 rounded-full
+              data-[state=active]:bg-default
             `,
           }"
         >
-          <ProductCard :product="item" show-add-to-cart @add-to-cart="handleAddToCart(item)" />
+          <WeCareProductCard :product="item" show-add-to-cart @add-to-cart="handleAddToCart(item)" />
         </UCarousel>
       </div>
 
@@ -142,7 +128,7 @@ function handleAddToCart(product: Product) {
           2xl:grid-cols-6
         "
       >
-        <ProductCard
+        <WeCareProductCard
           v-for="product in suggestedProducts"
           :key="product.id"
           :product="product"
@@ -160,30 +146,20 @@ function handleAddToCart(product: Product) {
         md:mt-14 md:px-0
       "
     >
-      <USeparator
-        :ui="{
-          root: 'bg-[#353535]',
-        }"
-      />
+      <USeparator />
       <p
         class="
-          py-4 text-[15px] tracking-wide text-black
+          py-4 text-[15px] tracking-wide text-default
           md:text-base
-          dark:text-white
         "
       >
         <span class="font-bold">Free shipping</span> for orders over 49.00€
       </p>
-      <USeparator
-        :ui="{
-          root: 'bg-[#353535]',
-        }"
-      />
+      <USeparator />
       <p
         class="
-          py-4 text-[15px] tracking-wide text-black
+          py-4 text-[15px] tracking-wide text-default
           md:text-base
-          dark:text-white
         "
       >
         <span class="font-bold">Telephone orders</span> 210 700 1375

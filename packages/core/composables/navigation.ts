@@ -1,24 +1,16 @@
-import type { NavItem } from '../types/navigation'
-
-export function useNavigation() {
+export function useNavigation(items?: NavItem[]) {
   const route = useRoute()
+  const appConfig = useAppConfig()
 
-  const navItems: NavItem[] = [
-    { label: 'Home', icon: 'lucide:house', route: '/' },
-    { label: 'Shop', icon: 'lucide:search', route: '/shop' },
-    { label: 'Cart', icon: 'lucide:shopping-cart', route: '/cart' },
-    { label: 'Favorites', icon: 'lucide:heart', route: '/favorites' },
-    { label: 'Account', icon: 'lucide:user', route: '/account' },
-  ]
-
-  const navItemsWithActive = computed(() =>
-    navItems.map(item => ({
+  const resolvedItems = computed(() => {
+    const source = items || (appConfig.nav as { items?: NavItem[] })?.items || []
+    return source.map(item => ({
       ...item,
       active: route.path === item.route,
-    })),
-  )
+    }))
+  })
 
   return {
-    navItems: navItemsWithActive,
+    navItems: resolvedItems,
   }
 }

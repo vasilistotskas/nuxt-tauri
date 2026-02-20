@@ -6,10 +6,7 @@
     "
     variant="soft"
     :ui="{
-      root: `
-        overflow-hidden rounded-2xl bg-[#d7d7d7]
-        dark:bg-[#242424]
-      `,
+      root: `overflow-hidden rounded-2xl bg-muted`,
       body: `
         flex items-center gap-4 p-4
         md:p-6
@@ -28,22 +25,21 @@
       <div class="relative">
         <UIcon
           name="lucide:user-round" class="
-            size-12 text-[#0d0d0d]
+            size-12 text-default
             md:size-16
             lg:size-20
-            dark:text-white
           "
         />
         <div
           class="
-            absolute -top-1 -right-1 size-3.5 rounded-full bg-[#a56dc1]
+            absolute -top-1 -right-1 size-3.5 rounded-full bg-secondary
             md:size-4
             lg:size-5
           "
         />
         <div
           class="
-            absolute -bottom-1 -left-1 size-2.5 rounded-full bg-[#1887aa]
+            absolute -bottom-1 -left-1 size-2.5 rounded-full bg-brand
             md:size-3
             lg:size-4
           "
@@ -53,20 +49,18 @@
     <div class="flex-1">
       <h3
         class="
-          mb-1 text-base leading-tight font-semibold text-[#0d0d0d]
+          mb-1 text-base/tight font-semibold text-default
           md:text-lg
           lg:text-xl
-          dark:text-white
         "
       >
         Personalize your APP
       </h3>
       <p
         class="
-          text-sm leading-snug text-[#0d0d0d]
+          text-sm/snug text-default
           md:text-base
           lg:text-lg
-          dark:text-white
         "
       >
         Sign in or create an account for a faster, easier experience and collect care points.
@@ -84,10 +78,6 @@
         color="neutral"
         variant="solid"
         size="lg"
-        class="
-          bg-black text-white
-          dark:bg-white dark:text-[#0d0d0d]
-        "
       />
     </div>
   </UCard>

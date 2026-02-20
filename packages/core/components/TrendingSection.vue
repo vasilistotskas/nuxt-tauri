@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import type { TrendingItem } from '../types/content'
-
-defineProps<{
+withDefaults(defineProps<{
   items: TrendingItem[]
-}>()
+  title?: string
+}>(), {
+  title: 'Trending now',
+})
 </script>
 
 <template>
@@ -15,13 +16,12 @@ defineProps<{
   >
     <h2
       class="
-        text-[22px] font-medium tracking-[0.5px] text-black
+        text-[22px] font-medium tracking-[0.5px] text-default
         md:text-2xl
         lg:text-3xl
-        dark:text-white
       "
     >
-      Trending now
+      {{ title }}
     </h2>
 
     <!-- Mobile: Carousel -->
@@ -37,10 +37,7 @@ defineProps<{
       class="md:hidden"
     >
       <div
-        class="
-          relative h-[353px] w-[148px] overflow-hidden rounded-xl bg-[#d9d9d9]
-          dark:bg-[#333333]
-        "
+        class="relative h-[353px] w-[148px] overflow-hidden rounded-xl bg-muted"
       >
         <img
           v-if="item.image"
@@ -75,12 +72,11 @@ defineProps<{
         v-for="(item, index) in items"
         :key="index"
         class="
-          relative h-[353px] cursor-pointer overflow-hidden rounded-xl
-          bg-[#d9d9d9] transition-transform
+          relative h-[353px] cursor-pointer overflow-hidden rounded-xl bg-muted
+          transition-transform
           hover:scale-[1.02]
           md:h-[380px]
           lg:h-[420px]
-          dark:bg-[#333333]
         "
       >
         <img

@@ -15,6 +15,6 @@ export interface Product {
   image?: string
   rating?: number
   reviews?: number
-  caresPoints?: number
+  meta?: Record<string, unknown>
   badges?: ProductBadge[]
 }

@@ -14,13 +14,15 @@ export default defineAppConfig({
     },
   },
 
-  // App-specific configuration
-  app: {
-    name: 'WeCare',
-    author: 'WeCare Pharmacy',
-    tauriSite: 'https://tauri.app',
-    nuxtSite: 'https://nuxt.com',
-    nuxtUiSite: 'https://ui4.nuxt.dev',
+  // Navigation items for WeCare
+  nav: {
+    items: [
+      { label: 'Home', icon: 'lucide:house', route: '/' },
+      { label: 'Shop', icon: 'lucide:search', route: '/shop' },
+      { label: 'Cart', icon: 'lucide:shopping-cart', route: '/cart' },
+      { label: 'Favorites', icon: 'lucide:heart', route: '/favorites' },
+      { label: 'Account', icon: 'lucide:user', route: '/account' },
+    ],
   },
 
   // Override UI colors for WeCare brand

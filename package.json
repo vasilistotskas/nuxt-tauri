@@ -16,7 +16,8 @@
   "scripts": {
     "app": "bun run scripts/app.ts",
     "lint": "eslint . --fix",
-    "postinstall": "cd apps/wecare && nuxt prepare"
+    "typecheck": "tsc -b scripts && bun run scripts/typecheck.ts",
+    "postinstall": "bun run scripts/prepare.ts"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^7.4.3",

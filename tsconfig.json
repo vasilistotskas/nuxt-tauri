@@ -11,12 +11,9 @@
     }
   },
   "references": [
-    {
-      "path": "./packages/core"
-    },
-    {
-      "path": "./apps/wecare"
-    }
+    { "path": "./scripts" },
+    { "path": "./packages/core" },
+    { "path": "./apps/wecare" }
   ],
   "files": []
 }

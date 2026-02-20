@@ -17,14 +17,14 @@ definePageMeta({
         md:gap-y-8
       "
     >
-      <p class="font-semibold text-(--ui-success)">
+      <p class="font-semibold text-error">
         404
       </p>
       <div class="space-y-3 text-center">
-        <h1 class="text-3xl font-bold tracking-tight" sm="text-5xl">
+        <h1 class="text-3xl font-bold tracking-tight">
           Page not found
         </h1>
-        <p class="text-base leading-7 text-(--ui-muted)">
+        <p class="text-base/7 text-muted">
           Sorry, we couldn't find the page you're looking for.
         </p>
       </div>

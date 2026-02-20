@@ -22,16 +22,13 @@ const searchQuery = ref('')
           md:h-14
         `,
         base: `
-          h-12 rounded-full bg-[#f2f2f2] ps-14 text-sm
-          placeholder:text-[#686868]
+          h-12 rounded-full bg-muted ps-14 text-sm
+          placeholder:text-muted
           md:h-14 md:text-base
-          dark:bg-[#242424]
-          dark:placeholder:text-[#969696]
         `,
         leadingIcon: `
-          ms-3.5 size-5 text-black
+          ms-3.5 size-5 text-default
           md:size-6
-          dark:text-white
         `,
       }"
     />
@@ -42,10 +39,9 @@ const searchQuery = ref('')
       size="xl"
       square
       class="
-        flex size-12 items-center justify-center rounded-full bg-[#f2f2f2]
-        text-black
+        flex size-12 items-center justify-center rounded-full bg-muted
+        text-default
         md:size-14
-        dark:bg-[#242424] dark:text-white
       "
       :ui="{
         leadingIcon: 'size-6',

@@ -187,7 +187,7 @@ onMounted(async () => {
 /* Only the plus sign gets the blue accent */
 .plus {
   display: inline-block;
-  color: #1887AA;
+  color: var(--brand-primary);
   font-size: 3rem;
   font-weight: 700;
   margin-left: 2px;
@@ -278,10 +278,10 @@ onMounted(async () => {
 .loader-dot {
   width: 8px;
   height: 8px;
-  background: #1887AA;
+  background: var(--brand-primary);
   border-radius: 50%;
   animation: dot-pulse 1.5s ease-in-out infinite;
-  box-shadow: 0 0 15px rgba(24, 135, 170, 0.6);
+  box-shadow: 0 0 15px rgba(var(--brand-primary-rgb), 0.6);
 }
 
 @keyframes dot-pulse {

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Banner } from '../types/content'
-
 defineProps<{
   banners: Banner[]
 }>()

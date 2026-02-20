@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Product } from '../types/product'
-
 defineProps<{
   title: string
   tabs?: string[]
@@ -20,10 +18,9 @@ const activeTab = ref(0)
     <div class="flex items-center justify-between">
       <h2
         class="
-          text-[22px] font-medium tracking-[0.5px] text-black
+          text-[22px] font-medium tracking-[0.5px] text-default
           md:text-2xl
           lg:text-3xl
-          dark:text-white
         "
       >
         {{ title }}

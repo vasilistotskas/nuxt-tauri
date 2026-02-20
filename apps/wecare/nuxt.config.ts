@@ -1,4 +1,5 @@
 import { resolve } from 'node:path'
+import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
   extends: ['@packages/core'],
@@ -9,6 +10,8 @@ export default defineNuxtConfig({
   devtools: {
     enabled: false,
   },
+
+  compatibilityDate: 'latest',
 
   app: {
     head: {
@@ -25,12 +28,8 @@ export default defineNuxtConfig({
   // Include core styles first, then brand-specific overrides
   css: [
     '@packages/core/assets/css/main.css',
-    './app/assets/css/main.css',
+    './app/assets/css/brand.css',
   ],
-
-  dir: {
-    modules: 'app/modules',
-  },
 
   devServer: {
     host: process.env.TAURI_DEV_HOST || '0.0.0.0',
@@ -44,11 +43,6 @@ export default defineNuxtConfig({
   vite: {
     clearScreen: false,
     envPrefix: ['VITE_', 'TAURI_'],
-    resolve: {
-      alias: {
-        '@packages': resolve(__dirname, '../../packages'),
-      },
-    },
     server: {
       cors: true,
       allowedHosts: true,
@@ -58,9 +52,14 @@ export default defineNuxtConfig({
     },
   },
 
+  typescript: {
+    strict: true,
+    typeCheck: true,
+  },
+
   hooks: {
     'vite:extendConfig': (config) => {
-      const host = process.env.TAURI_DEV_HOST || '192.168.178.122'
+      const host = process.env.TAURI_DEV_HOST || 'localhost'
       const server = config.server
       if (server) {
         server.strictPort = true

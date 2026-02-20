@@ -1,4 +1,24 @@
 export default defineAppConfig({
+  // Brand defaults - overridden by brand apps
+  brand: {
+    name: '',
+    author: '',
+    colors: {
+      primary: '',
+      primaryDark: '',
+    },
+    logo: '',
+    metadata: {
+      title: '',
+      description: '',
+    },
+  },
+
+  // Navigation items - populated by brand apps
+  nav: {
+    items: [] as { label: string, icon: string, route: string }[],
+  },
+
   // Default UI configuration - can be extended by brand apps
   ui: {
     colors: {

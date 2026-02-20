@@ -1,3 +1,5 @@
+import { defineNuxtConfig } from 'nuxt/config'
+
 export default defineNuxtConfig({
   modules: [
     '@vueuse/nuxt',
@@ -46,5 +48,9 @@ export default defineNuxtConfig({
   compatibilityDate: 'latest',
   typescript: {
     strict: true,
+    typeCheck: true,
+    tsConfig: {
+      include: ['../app.config.*'],
+    },
   },
 })

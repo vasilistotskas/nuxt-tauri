@@ -17,7 +17,7 @@ struct SetupState {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    let mut builder = tauri::Builder::default()
+    let builder = tauri::Builder::default()
 		.manage(Mutex::new(SetupState {
 			frontend_task: false,
 			backend_task: false,
@@ -56,9 +56,7 @@ pub fn run() {
 		.plugin(tauri_plugin_store::Builder::new().build());
 
 	#[cfg(debug_assertions)]
-	{
-		builder = builder.plugin(tauri_plugin_mcp_bridge::init());
-	}
+	let builder = builder.plugin(tauri_plugin_mcp_bridge::init());
 
 	builder
         .run(tauri::generate_context!())

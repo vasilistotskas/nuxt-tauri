@@ -3,8 +3,7 @@
 	"identifier": "main",
 	"description": "Capabilities for the app window",
 	"windows": [
-		"main",
-		"secondary"
+		"main"
 	],
 	"remote": {
 		"urls": ["http://*", "https://*", "tauri://*"]

@@ -1,6 +1,6 @@
 {
 	"build": {
-		"devUrl": "http://192.168.178.122:3000"
+		"devUrl": "http://TAURI_DEV_HOST:3000"
 	},
 	"app": {
 		"windows": [
