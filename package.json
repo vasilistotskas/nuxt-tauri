@@ -16,6 +16,8 @@
   "scripts": {
     "app": "bun run scripts/app.ts",
     "new-brand": "bun run scripts/new-brand.ts",
+    "test": "bun test",
+    "test:coverage": "bun test --coverage",
     "lint": "eslint . --fix",
     "typecheck": "tsc -b scripts && bun run scripts/typecheck.ts",
     "postinstall": "bun run scripts/prepare.ts"

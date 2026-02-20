@@ -6,6 +6,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Nuxt 4 + Tauri 2 monorepo for multi-brand mobile applications. The **primary focus is mobile** — building native iOS and Android apps via Tauri. Desktop (Windows/macOS/Linux) is supported but secondary. Uses **Bun workspaces** as the package manager (requires Bun >= 1.3, Node.js >= 24).
 
+# Project Standards and Rules
+- Codebase must be clean, consistent, scalable, and follow best practices
+- Use Zod 4 for validation
+- Prefer Nuxt UI components
+- The Application is still on development mode so we never keep legacy / backward compatibility code
+- Do not use `any`
+- Do not add `ts-ignore` , `eslint-disable` and such flags
+
 ## Commands
 
 ```bash

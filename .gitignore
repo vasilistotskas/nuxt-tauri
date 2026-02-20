@@ -43,6 +43,9 @@ apps/*/src-tauri/target
 # OS
 Thumbs.db
 
+# Test coverage
+coverage/
+
 # Monorepo specific
 packages/*/.nuxt
 apps/*/.nuxt

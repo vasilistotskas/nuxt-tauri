@@ -10,14 +10,38 @@
  *   bun run app wecare tauri:android:build
  */
 
-import { existsSync } from 'node:fs'
+import { existsSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { $ } from 'bun'
 
-const args = process.argv.slice(2)
+// ── Exported pure functions for testing ──────────────────
 
-if (args.length < 2) {
-  console.error(`
+export function parseArgs(args: string[]): { appName: string, command: string } | null {
+  if (args.length < 2)
+    return null
+  return { appName: args[0], command: args[1] }
+}
+
+export function resolveAppPath(cwd: string, appName: string): string {
+  return join(cwd, 'apps', appName)
+}
+
+export function getAvailableApps(appsDir: string): string[] {
+  if (!existsSync(appsDir))
+    return []
+  return readdirSync(appsDir, { withFileTypes: true })
+    .filter(d => d.isDirectory())
+    .map(d => d.name)
+}
+
+// ── Main script execution ────────────────────────────────
+
+if (import.meta.main) {
+  const args = process.argv.slice(2)
+  const parsed = parseArgs(args)
+
+  if (!parsed) {
+    console.error(`
 Usage: bun run app <app-name> <command>
 
 Available commands:
@@ -37,29 +61,26 @@ Examples:
   bun run app wecare tauri:build
   bun run app wecare tauri:android:dev
 `)
-  process.exit(1)
-}
-
-const [appName, command] = args
-const appPath = join(process.cwd(), 'apps', appName)
-const packageName = `@apps/${appName}`
-
-// Verify app exists
-if (!existsSync(appPath)) {
-  console.error(`Error: App "${appName}" not found at ${appPath}`)
-  console.error('\nAvailable apps:')
-
-  const appsDir = join(process.cwd(), 'apps')
-  if (existsSync(appsDir)) {
-    const { readdirSync } = await import('node:fs')
-    const apps = readdirSync(appsDir, { withFileTypes: true })
-      .filter(d => d.isDirectory())
-      .map(d => `  - ${d.name}`)
-    console.error(apps.join('\n'))
+    process.exit(1)
   }
-  process.exit(1)
-}
 
-// Run the command using bun's filter
-console.log(`Running "${command}" for ${packageName}...`)
-await $`bun --filter ${packageName} ${command}`.catch(() => process.exit(1))
+  const { appName, command } = parsed
+  const appPath = resolveAppPath(process.cwd(), appName)
+  const packageName = `@apps/${appName}`
+
+  // Verify app exists
+  if (!existsSync(appPath)) {
+    console.error(`Error: App "${appName}" not found at ${appPath}`)
+    console.error('\nAvailable apps:')
+
+    const apps = getAvailableApps(join(process.cwd(), 'apps'))
+    for (const app of apps) {
+      console.error(`  - ${app}`)
+    }
+    process.exit(1)
+  }
+
+  // Run the command using bun's filter
+  console.log(`Running "${command}" for ${packageName}...`)
+  await $`bun --filter ${packageName} ${command}`.catch(() => process.exit(1))
+}

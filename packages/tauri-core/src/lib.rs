@@ -162,3 +162,50 @@ pub fn run(context: tauri::Context, config: AppConfig) {
 		.run(context)
 		.expect("error while running tauri application");
 }
+
+// ── Tests ──────────────────────────────────────────────────
+
+#[cfg(test)]
+mod tests {
+	use super::*;
+
+	#[test]
+	fn setup_state_new_starts_false() {
+		let state = SetupState::new();
+		assert!(!state.frontend_task);
+		assert!(!state.backend_task);
+	}
+
+	#[test]
+	fn setup_state_default_starts_false() {
+		let state = SetupState::default();
+		assert!(!state.frontend_task);
+		assert!(!state.backend_task);
+	}
+
+	#[test]
+	fn setup_state_fields_can_be_set() {
+		let mut state = SetupState::new();
+		state.frontend_task = true;
+		assert!(state.frontend_task);
+		assert!(!state.backend_task);
+
+		state.backend_task = true;
+		assert!(state.frontend_task);
+		assert!(state.backend_task);
+	}
+
+	#[test]
+	fn app_config_default_has_no_on_setup() {
+		let config = AppConfig::default();
+		assert!(config.on_setup.is_none());
+	}
+
+	#[test]
+	fn app_config_with_on_setup() {
+		let config = AppConfig {
+			on_setup: Some(Box::new(|_app| Ok(()))),
+		};
+		assert!(config.on_setup.is_some());
+	}
+}
