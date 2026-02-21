@@ -6,8 +6,7 @@ const { t } = useI18n({ useScope: 'local' })
   <header
     class="
       relative px-4 pt-6 pb-4
-      md:px-6
-      lg:px-8
+      md:hidden
     "
   >
     <div class="flex items-center justify-between gap-2">
@@ -15,48 +14,11 @@ const { t } = useI18n({ useScope: 'local' })
       <img
         src="/images/wecare-logo.png"
         :alt="t('logoAlt')"
-        class="
-          max-w-[180px] min-w-0 shrink object-contain
-          md:max-w-[360px] md:rounded-sm
-        "
+        class="max-w-[180px] min-w-0 shrink object-contain"
       >
-
-      <!-- Desktop: Additional header actions -->
-      <div
-        class="
-          hidden shrink-0 items-center gap-4
-          md:flex
-        "
-      >
-        <LanguageSwitcher />
-        <UButton
-          icon="lucide:heart"
-          color="neutral"
-          variant="ghost"
-          size="lg"
-          :aria-label="t('wishlist')"
-        />
-        <UButton
-          icon="lucide:user"
-          color="neutral"
-          variant="ghost"
-          size="lg"
-          :aria-label="t('account')"
-        />
-        <UColorModeButton>
-          <template #fallback>
-            <UButton loading variant="ghost" color="neutral" />
-          </template>
-        </UColorModeButton>
-      </div>
 
       <!-- Mobile: Language + Theme toggle -->
-      <div
-        class="
-          flex shrink-0 items-center gap-1
-          md:hidden
-        "
-      >
+      <div class="flex shrink-0 items-center gap-1">
         <LanguageSwitcher />
         <UColorModeButton>
           <template #fallback>
@@ -71,10 +33,6 @@ const { t } = useI18n({ useScope: 'local' })
 <i18n lang="yaml">
 en:
   logoAlt: WeCare Online Pharmacy
-  wishlist: Wishlist
-  account: Account
 el:
   logoAlt: WeCare Ηλεκτρονικό Φαρμακείο
-  wishlist: Αγαπημένα
-  account: Λογαριασμός
 </i18n>

@@ -48,7 +48,7 @@ const needProducts = ref([
     <SearchBar
       class="
         mb-4
-        md:mb-6
+        md:mb-6 md:hidden
       "
     />
     <WeCareCTACard

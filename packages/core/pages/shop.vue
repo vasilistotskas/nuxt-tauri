@@ -24,6 +24,8 @@ const categoryOptions = computed(() => {
   return all
 })
 
+const productCount = computed(() => products.value?.length ?? 0)
+
 function selectCategory(slug: string) {
   selectedCategory.value = slug || undefined
 }
@@ -52,7 +54,8 @@ function selectCategory(slug: string) {
     <div
       class="
         mb-4 px-4
-        md:px-0
+        md:mx-auto md:max-w-xl md:px-0
+        lg:max-w-2xl
       "
     >
       <UInput
@@ -80,23 +83,48 @@ function selectCategory(slug: string) {
       />
     </div>
 
-    <!-- Category Filters -->
+    <!-- Category Filters + Product Count -->
     <div
       class="
-        scrollbar-hide mb-6 flex gap-2 overflow-x-auto px-4
-        md:flex-wrap md:px-0
+        mb-2 px-4
+        md:px-0
       "
     >
-      <UButton
-        v-for="cat in categoryOptions"
-        :key="cat.value"
-        :label="cat.label"
-        :variant="(selectedCategory ?? '') === cat.value ? 'solid' : 'soft'"
-        :color="(selectedCategory ?? '') === cat.value ? 'primary' : 'neutral'"
-        size="sm"
-        class="shrink-0 rounded-full"
-        @click="selectCategory(cat.value)"
-      />
+      <div
+        class="
+          scrollbar-hide flex gap-2 overflow-x-auto
+          md:flex-wrap md:gap-3
+        "
+      >
+        <UButton
+          v-for="cat in categoryOptions"
+          :key="cat.value"
+          :label="cat.label"
+          :variant="(selectedCategory ?? '') === cat.value ? 'solid' : 'soft'"
+          :color="(selectedCategory ?? '') === cat.value ? 'primary' : 'neutral'"
+          size="sm"
+          class="shrink-0 rounded-full"
+          @click="selectCategory(cat.value)"
+        />
+      </div>
+    </div>
+
+    <!-- Product Count -->
+    <div
+      v-if="products?.length"
+      class="
+        mb-4 px-4
+        md:px-0
+      "
+    >
+      <p
+        class="
+          text-sm text-muted
+          md:text-base
+        "
+      >
+        {{ $i18n.t('shop.productCount', productCount) }}
+      </p>
     </div>
 
     <!-- Products Grid -->
@@ -114,7 +142,7 @@ function selectCategory(slug: string) {
           md:hidden
         "
       >
-        <WeCareProductCard
+        <ProductCard
           v-for="product in products"
           :key="product.id"
           :product="product"
@@ -134,7 +162,7 @@ function selectCategory(slug: string) {
           2xl:grid-cols-6
         "
       >
-        <WeCareProductCard
+        <ProductCard
           v-for="product in products"
           :key="product.id"
           :product="product"

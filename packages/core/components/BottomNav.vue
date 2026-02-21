@@ -1,5 +1,57 @@
 <script setup lang="ts">
+import type { DropdownMenuItem, NavigationMenuItem } from '#ui/types'
+
+const appConfig = useAppConfig()
 const { navItems } = useNavigation()
+const { $i18n } = useNuxtApp()
+const localePath = useLocalePath()
+const favoritesStore = useFavoritesStore()
+
+const headerNavItems = computed<NavigationMenuItem[]>(() => {
+  return navItems.value
+    .filter(item => item.route !== '/account')
+    .map(item => ({
+      label: item.label,
+      icon: item.icon,
+      to: item.resolvedRoute,
+      active: item.active,
+    }))
+})
+
+const headerNavItemsVertical = computed<NavigationMenuItem[]>(() => {
+  return navItems.value.map(item => ({
+    label: item.label,
+    icon: item.icon,
+    to: item.resolvedRoute,
+    active: item.active,
+  }))
+})
+
+const defaultMenuItems = [
+  { labelKey: 'account.myOrders', icon: 'lucide:package', route: '/orders' },
+  { labelKey: 'account.purchasedProducts', icon: 'lucide:shopping-bag', route: '/purchased' },
+  { labelKey: 'account.accountSettings', icon: 'lucide:settings', route: '/settings' },
+  { labelKey: 'account.help', icon: 'lucide:help-circle', route: '/help' },
+]
+
+const configMenuItems = computed(() =>
+  (appConfig.account?.menuItems?.length ? appConfig.account.menuItems : defaultMenuItems) as { labelKey: string, icon: string, route: string }[],
+)
+
+const accountMenuItems = computed<DropdownMenuItem[][]>(() => [
+  configMenuItems.value.map(item => ({
+    label: $i18n.t(item.labelKey),
+    icon: item.icon,
+    onSelect: () => navigateTo(localePath({ path: item.route })),
+  })),
+  [
+    {
+      label: $i18n.t('account.logIn'),
+      icon: 'lucide:log-in',
+      onSelect: () => navigateTo(localePath({ path: '/account' })),
+    },
+  ],
+])
 </script>
 
 <template>
@@ -31,55 +83,101 @@ const { navItems } = useNavigation()
     </div>
   </nav>
 
-  <!-- Desktop: Top navigation bar (sticky) -->
-  <nav
+  <!-- Desktop: UHeader with UNavigationMenu -->
+  <UHeader
+    title=""
+    :to="localePath({ path: '/' })"
     class="
-      fixed inset-x-0 top-0 z-50 hidden border-b border-muted bg-default/95
-      backdrop-blur-sm
+      hidden
       md:block
     "
-  >
-    <div
-      class="
-        mx-auto flex max-w-3xl items-center justify-between px-6 py-3
-        md:justify-center
-        lg:max-w-5xl lg:px-8
+    :ui="{
+      root: `
+        hidden
+        md:block
+      `,
+      container: `
+        max-w-3xl
+        lg:max-w-5xl
         xl:max-w-7xl
-        2xl:max-w-350
-      "
-    >
-      <div
-        class="
-          flex items-center gap-6
-          lg:gap-10
-        "
-      >
-        <UButton
-          v-for="item in navItems"
-          :key="item.route"
-          :to="item.resolvedRoute"
-          variant="ghost"
-          color="neutral"
-          class="flex items-center gap-2 transition-opacity"
-          :class="item.active ? 'opacity-100' : `
-            opacity-60
-            hover:opacity-100
-          `"
+        2xl:max-w-[1400px]
+      `,
+    }"
+  >
+    <template #left>
+      <NuxtLink :to="localePath({ path: '/' })" class="shrink-0">
+        <img
+          :src="appConfig.brand.logo"
+          :alt="appConfig.brand.name"
+          class="
+            h-8 w-auto object-contain
+            lg:h-10
+          "
         >
-          <UIcon
-            :name="item.icon" class="
-              size-5 text-default
-              lg:size-6
-            "
+      </NuxtLink>
+    </template>
+
+    <UNavigationMenu
+      :items="headerNavItems"
+      highlight
+      highlight-color="primary"
+    />
+
+    <template #right>
+      <!-- Search -->
+      <UTooltip :text="$i18n.t('nav.shop')">
+        <UButton
+          icon="lucide:search"
+          color="neutral"
+          variant="ghost"
+          :to="localePath({ path: '/shop' })"
+          :aria-label="$i18n.t('nav.shop')"
+        />
+      </UTooltip>
+
+      <!-- Wishlist with count chip -->
+      <UChip
+        :text="favoritesStore.count"
+        :show="favoritesStore.count > 0"
+        size="2xs"
+        color="error"
+      >
+        <UTooltip :text="$i18n.t('nav.favorites')">
+          <UButton
+            icon="lucide:heart"
+            color="neutral"
+            variant="ghost"
+            :to="localePath({ path: '/favorites' })"
+            :aria-label="$i18n.t('nav.favorites')"
           />
-          <span
-            class="
-              text-sm font-medium text-default
-              lg:text-base
-            "
-          >{{ item.label }}</span>
-        </UButton>
-      </div>
-    </div>
-  </nav>
+        </UTooltip>
+      </UChip>
+
+      <!-- Account dropdown -->
+      <UDropdownMenu :items="accountMenuItems">
+        <UButton
+          icon="lucide:user"
+          color="neutral"
+          variant="ghost"
+          :aria-label="$i18n.t('nav.account')"
+        />
+      </UDropdownMenu>
+
+      <LanguageSwitcher />
+
+      <UColorModeButton>
+        <template #fallback>
+          <UButton loading variant="ghost" color="neutral" />
+        </template>
+      </UColorModeButton>
+    </template>
+
+    <template #body>
+      <UNavigationMenu
+        :items="headerNavItemsVertical"
+        orientation="vertical"
+        class="-mx-2.5"
+      />
+    </template>
+  </UHeader>
 </template>

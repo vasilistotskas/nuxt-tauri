@@ -12,7 +12,6 @@ export const mockProducts: Product[] = [
     rating: 5,
     reviews: 1090,
     category: 'skincare',
-    meta: { caresPoints: 254 },
     image: 'https://placehold.co/400x400/f2f2f2/333?text=LRP+Effaclar',
     images: [
       'https://placehold.co/400x400/f2f2f2/333?text=LRP+Front',
@@ -34,7 +33,6 @@ export const mockProducts: Product[] = [
     rating: 5,
     reviews: 1090,
     category: 'body-care',
-    meta: { caresPoints: 254 },
     image: 'https://placehold.co/400x400/f2f2f2/333?text=LRP+Lipikar',
     images: [
       'https://placehold.co/400x400/f2f2f2/333?text=LRP+Lipikar',
@@ -49,7 +47,6 @@ export const mockProducts: Product[] = [
     rating: 5,
     reviews: 2340,
     category: 'skincare',
-    meta: { caresPoints: 180 },
     image: 'https://placehold.co/400x400/f2f2f2/333?text=CeraVe',
     images: [
       'https://placehold.co/400x400/f2f2f2/333?text=CeraVe+Front',
@@ -65,7 +62,6 @@ export const mockProducts: Product[] = [
     rating: 5,
     reviews: 890,
     category: 'skincare',
-    meta: { caresPoints: 320 },
     image: 'https://placehold.co/400x400/f2f2f2/333?text=Vichy+89',
     images: [
       'https://placehold.co/400x400/f2f2f2/333?text=Vichy+Front',
@@ -81,7 +77,6 @@ export const mockProducts: Product[] = [
     rating: 5,
     reviews: 1090,
     category: 'body-care',
-    meta: { caresPoints: 254 },
     image: 'https://placehold.co/400x400/f2f2f2/333?text=Korres+Jasmine',
     images: [
       'https://placehold.co/400x400/f2f2f2/333?text=Korres+Jasmine',
@@ -96,7 +91,6 @@ export const mockProducts: Product[] = [
     rating: 4,
     reviews: 654,
     category: 'skincare',
-    meta: { caresPoints: 420 },
     image: 'https://placehold.co/400x400/f2f2f2/333?text=Korres+Pine',
     images: [
       'https://placehold.co/400x400/f2f2f2/333?text=Korres+Pine',
@@ -111,7 +105,6 @@ export const mockProducts: Product[] = [
     rating: 5,
     reviews: 1090,
     category: 'skincare',
-    meta: { caresPoints: 254 },
     image: 'https://placehold.co/400x400/f2f2f2/333?text=Bio-Oil',
     images: [
       'https://placehold.co/400x400/f2f2f2/333?text=Bio-Oil',
@@ -126,7 +119,6 @@ export const mockProducts: Product[] = [
     rating: 5,
     reviews: 1090,
     category: 'skincare',
-    meta: { caresPoints: 254 },
     image: 'https://placehold.co/400x400/f2f2f2/333?text=LOreal',
     images: [
       'https://placehold.co/400x400/f2f2f2/333?text=LOreal',
@@ -141,7 +133,6 @@ export const mockProducts: Product[] = [
     rating: 4,
     reviews: 432,
     category: 'skincare',
-    meta: { caresPoints: 120 },
     image: 'https://placehold.co/400x400/f2f2f2/333?text=Avene+Spray',
     images: [
       'https://placehold.co/400x400/f2f2f2/333?text=Avene+Spray',
@@ -156,7 +147,6 @@ export const mockProducts: Product[] = [
     rating: 5,
     reviews: 567,
     category: 'baby-care',
-    meta: { caresPoints: 200 },
     image: 'https://placehold.co/400x400/f2f2f2/333?text=Frezyderm+Baby',
     images: [
       'https://placehold.co/400x400/f2f2f2/333?text=Frezyderm+Baby',
@@ -173,7 +163,6 @@ export const mockProducts: Product[] = [
     rating: 5,
     reviews: 1856,
     category: 'body-care',
-    meta: { caresPoints: 300 },
     image: 'https://placehold.co/400x400/f2f2f2/333?text=Nuxe+Oil',
     images: [
       'https://placehold.co/400x400/f2f2f2/333?text=Nuxe+Front',
@@ -192,7 +181,6 @@ export const mockProducts: Product[] = [
     rating: 4,
     reviews: 321,
     category: 'skincare',
-    meta: { caresPoints: 65 },
     image: 'https://placehold.co/400x400/f2f2f2/333?text=Apivita+Mask',
     images: [
       'https://placehold.co/400x400/f2f2f2/333?text=Apivita+Mask',

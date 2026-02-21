@@ -25,6 +25,23 @@ export default defineAppConfig({
     ],
   },
 
+  // Account menu items for WeCare
+  account: {
+    menuItems: [
+      { labelKey: 'account.myOrders', icon: 'lucide:package', route: '/orders' },
+      { labelKey: 'account.purchasedProducts', icon: 'lucide:shopping-bag', route: '/purchased' },
+      { labelKey: 'wecare.carePointsAndDiscounts', icon: 'lucide:gift', route: '/points' },
+      { labelKey: 'account.accountSettings', icon: 'lucide:settings', route: '/settings' },
+      { labelKey: 'account.help', icon: 'lucide:help-circle', route: '/help' },
+    ],
+  },
+
+  // Cart page configuration for WeCare
+  cart: {
+    supportPhone: '210 700 1375',
+    freeShippingThreshold: '49.00',
+  },
+
   // Override UI colors for WeCare brand
   ui: {
     colors: {

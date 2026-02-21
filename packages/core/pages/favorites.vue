@@ -47,7 +47,7 @@ const favoriteProducts = computed(() => {
           md:hidden
         "
       >
-        <WeCareProductCard
+        <ProductCard
           v-for="product in favoriteProducts"
           :key="product.id"
           :product="product"
@@ -67,7 +67,7 @@ const favoriteProducts = computed(() => {
           2xl:grid-cols-6
         "
       >
-        <WeCareProductCard
+        <ProductCard
           v-for="product in favoriteProducts"
           :key="product.id"
           :product="product"

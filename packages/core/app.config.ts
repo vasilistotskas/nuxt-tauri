@@ -19,6 +19,17 @@ export default defineAppConfig({
     items: [] as { labelKey: string, icon: string, route: string }[],
   },
 
+  // Account page menu items - populated by brand apps (falls back to generic defaults)
+  account: {
+    menuItems: [] as { labelKey: string, icon: string, route: string }[],
+  },
+
+  // Cart page configuration - populated by brand apps
+  cart: {
+    supportPhone: '',
+    freeShippingThreshold: '',
+  },
+
   // Default UI configuration - can be extended by brand apps
   ui: {
     colors: {

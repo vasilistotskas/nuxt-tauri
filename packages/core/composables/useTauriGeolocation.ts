@@ -1,5 +1,5 @@
 /**
- * Composable for geolocation (nearby pharmacy locator, delivery tracking).
+ * Composable for geolocation (nearby store locator, delivery tracking).
  * Only functional in Tauri environment.
  */
 export function useTauriGeolocation() {

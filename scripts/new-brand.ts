@@ -258,6 +258,22 @@ export function generateAppConfig(brandName: string, productName: string): strin
     ],
   },
 
+  // Account page menu items (add brand-specific items here)
+  account: {
+    menuItems: [
+      { labelKey: 'account.myOrders', icon: 'lucide:package', route: '/orders' },
+      { labelKey: 'account.purchasedProducts', icon: 'lucide:shopping-bag', route: '/purchased' },
+      { labelKey: 'account.accountSettings', icon: 'lucide:settings', route: '/settings' },
+      { labelKey: 'account.help', icon: 'lucide:help-circle', route: '/help' },
+    ],
+  },
+
+  // Cart page configuration (set brand-specific values)
+  cart: {
+    supportPhone: '',
+    freeShippingThreshold: '',
+  },
+
   ui: {
     colors: {
       primary: 'cyan',
@@ -266,6 +282,46 @@ export function generateAppConfig(brandName: string, productName: string): strin
     },
   },
 })
+`
+}
+
+export function generateIndexPage(productName: string): string {
+  return `<script setup lang="ts">
+// Brand-specific home page
+</script>
+
+<template>
+  <div class="px-4 py-8 text-center md:px-6 lg:px-8">
+    <h1 class="text-3xl font-bold text-default">
+      {{ $t('welcome') }}
+    </h1>
+  </div>
+</template>
+
+<i18n lang="yaml">
+en:
+  welcome: Welcome to ${productName}
+el:
+  welcome: Καλωσήρθατε στο ${productName}
+</i18n>
+`
+}
+
+export function generateSplashscreenPage(productName: string): string {
+  return `<script setup lang="ts">
+definePageMeta({
+  layout: 'blank',
+  middleware: 'tauri-only',
+})
+</script>
+
+<template>
+  <div class="flex min-h-screen items-center justify-center bg-default">
+    <h1 class="text-2xl font-bold text-default">
+      ${productName}
+    </h1>
+  </div>
+</template>
 `
 }
 
@@ -427,6 +483,12 @@ fn main() {
   // ── app/app.config.ts ───────────────────────────────────────
   await Bun.write(join(appDir, 'app', 'app.config.ts'), generateAppConfig(brandName, productName))
 
+  // ── app/pages/index.vue (brand-specific home page) ────────
+  await Bun.write(join(appDir, 'app', 'pages', 'index.vue'), generateIndexPage(productName))
+
+  // ── app/pages/splashscreen.vue (brand-specific splashscreen) ──
+  await Bun.write(join(appDir, 'app', 'pages', 'splashscreen.vue'), generateSplashscreenPage(productName))
+
   // ── app/assets/css/brand.css ──────────────────────────────
   await Bun.write(
     join(appDir, 'app', 'assets', 'css', 'brand.css'),
@@ -455,12 +517,19 @@ fn main() {
   console.log(`
 Brand app "${brandName}" scaffolded at apps/${brandName}/
 
+Core provides default pages (shop, cart, favorites, account, product, 404).
+Brand app includes stub index.vue and splashscreen.vue pages.
+
 Next steps:
   1. Add "apps/${brandName}/src-tauri" to root Cargo.toml workspace members
   2. Replace icons in apps/${brandName}/src-tauri/icons/
-  3. Edit apps/${brandName}/app.config.ts for brand colors and config
+  3. Customize apps/${brandName}/app/app.config.ts:
+     - Brand colors, logo, metadata
+     - account.menuItems (add brand-specific menu items)
+     - cart.supportPhone and cart.freeShippingThreshold
   4. Edit apps/${brandName}/app/assets/css/brand.css for brand CSS variables
-  5. Run: bun install
-  6. Run: bun run app ${brandName} tauri:dev
+  5. Customize apps/${brandName}/app/pages/index.vue (brand home page)
+  6. Run: bun install
+  7. Run: bun run app ${brandName} tauri:dev
 `)
 }

@@ -247,18 +247,6 @@ function handleAddToCart() {
           </UBadge>
         </div>
 
-        <!-- Cares Points (WeCare specific) -->
-        <p
-          v-if="product.meta?.caresPoints"
-          class="
-            text-sm text-dimmed
-            md:text-base
-          "
-        >
-          <span class="font-bold text-brand">{{ product.meta.caresPoints }}</span>
-          <span class="font-medium"> Cares</span>
-        </p>
-
         <p
           class="
             flex items-center gap-1.5 text-sm text-success

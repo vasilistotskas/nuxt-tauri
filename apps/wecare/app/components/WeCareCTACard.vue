@@ -13,16 +13,16 @@ const { t } = useI18n({ useScope: 'local' })
       root: `overflow-hidden rounded-2xl bg-muted`,
       body: `
         flex items-center gap-4 p-4
-        md:p-6
-        lg:p-8
+        md:gap-6 md:p-6
+        lg:gap-8 lg:p-8
       `,
     }"
   >
     <div
       class="
         relative flex size-16 shrink-0 items-center justify-center
-        md:size-20
-        lg:size-24
+        md:size-24
+        lg:size-28
       "
     >
       <!-- Sign-in illustration with user icon and decorative elements -->
@@ -30,22 +30,22 @@ const { t } = useI18n({ useScope: 'local' })
         <UIcon
           name="lucide:user-round" class="
             size-12 text-default
-            md:size-16
-            lg:size-20
+            md:size-18
+            lg:size-22
           "
         />
         <div
           class="
             absolute -top-1 -right-1 size-3.5 rounded-full bg-secondary
-            md:size-4
-            lg:size-5
+            md:size-5
+            lg:size-6
           "
         />
         <div
           class="
             absolute -bottom-1 -left-1 size-2.5 rounded-full bg-brand
-            md:size-3
-            lg:size-4
+            md:size-4
+            lg:size-5
           "
         />
       </div>
@@ -54,8 +54,8 @@ const { t } = useI18n({ useScope: 'local' })
       <h3
         class="
           mb-1 text-base/tight font-semibold text-default
-          md:text-lg
-          lg:text-xl
+          md:text-xl
+          lg:text-2xl
         "
       >
         {{ t('heading') }}
@@ -81,7 +81,7 @@ const { t } = useI18n({ useScope: 'local' })
         :label="t('signIn')"
         color="neutral"
         variant="solid"
-        size="lg"
+        size="xl"
       />
     </div>
   </UCard>

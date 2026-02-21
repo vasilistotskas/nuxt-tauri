@@ -2,7 +2,7 @@
   <div
     class="
       min-h-screen bg-default pb-24
-      md:pt-20 md:pb-8
+      md:pt-(--ui-header-height) md:pb-8
     "
   >
     <!-- Centered container for larger screens -->

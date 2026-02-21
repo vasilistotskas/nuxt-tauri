@@ -53,7 +53,7 @@ bun run typecheck
 
 ### Monorepo Layout
 
-- `packages/core/` — Shared Nuxt layer (brand-agnostic components, composables, middleware, server routes, shared types, stores, base CSS)
+- `packages/core/` — Shared Nuxt layer (brand-agnostic components, composables, middleware, server routes, shared types, stores, default pages & layouts, base CSS)
 - `packages/tauri-core/` — Shared Rust library crate (splashscreen coordination, plugin registration, tray icon, setup state machine)
 - `apps/wecare/` — WeCare Pharmacy brand app (extends core layer + tauri-core)
 - `scripts/` — Bun CLI scripts: `app.ts` (unified runner), `prepare.ts` (postinstall), `typecheck.ts` (type-check all apps), `new-brand.ts` (scaffold new brand apps)
@@ -63,9 +63,11 @@ bun run typecheck
 Brand apps extend the core layer (`extends: ['@packages/core']` in nuxt.config.ts). The core layer provides:
 - Modules: `@nuxt/ui`, `@vueuse/nuxt`, `reka-ui/nuxt`, `@nuxtjs/i18n`, `@pinia/nuxt`
 - Base configuration, composables, shared types, and Pinia stores
+- Default pages: shop, cart, favorites, account, product/[id], 404 catch-all
+- Default layouts: `default` (with BottomNav) and `blank`
 - UI design tokens via CSS variables and `app.config.ts`
 
-Brand apps add: brand-specific CSS (`brand.css`), Tauri config (`src-tauri/`), brand components, pages, and `app/app.config.ts` overrides.
+Brand apps add: brand-specific CSS (`brand.css`), Tauri config (`src-tauri/`), brand components, brand-specific pages (home, splashscreen), page overrides, and `app/app.config.ts` overrides. A newly scaffolded brand works immediately with all core pages.
 
 ### Types & Directory Structure
 
@@ -80,11 +82,32 @@ Types are organized following the Nuxt 4 `shared/` convention to enable code sha
 
 **Note on layers:** The `#shared` alias resolves to the consuming **app's** `shared/` directory, not the layer's. In layer code (packages/core), always use **relative imports** (e.g., `../shared/data/mock/products`) instead of `#shared`.
 
+### Pages & Layouts
+
+**Core provides default pages** in `packages/core/pages/` that work out of the box for any brand:
+- `shop.vue` — product listing with search and category filters
+- `favorites.vue` — saved products
+- `cart.vue` — cart with suggested products and configurable info section
+- `account.vue` — account page with configurable menu items
+- `product/[id].vue` — product detail page
+- `[...all].vue` — 404 catch-all
+
+**Core provides default layouts** in `packages/core/layouts/`:
+- `default.vue` — centered container with BottomNav
+- `blank.vue` — empty wrapper (for splashscreen, etc.)
+
+**Brand page overrides:** To customize a core page, create a page at the same path in the brand app's `app/pages/` directory. Nuxt layers give the consuming app's pages priority. For example, WeCare overrides `product/[id].vue` to add caresPoints display.
+
+**Brand-specific pages** like `index.vue` (home) and `splashscreen.vue` live only in the brand app — they are inherently brand-specific and not provided by core.
+
 ### Brand Configuration
 
-Brand apps define their identity in `app/app.config.ts` (inside `srcDir`, required for SSR) with two key sections:
+Brand apps define their identity in `app/app.config.ts` (inside `srcDir`, required for SSR) with these sections:
 - `brand` — name, author, colors, logo, metadata (typed via `BrandConfig` interface)
 - `nav.items` — navigation items array (consumed by `useNavigation()` composable)
+- `account.menuItems` — account page menu items array. Each item has `labelKey` (i18n key), `icon`, and `route`. Core pages and BottomNav fall back to generic defaults (Orders, Purchased, Settings, Help) if empty.
+- `cart.supportPhone` — phone number for telephone orders (shown in cart info section if non-empty)
+- `cart.freeShippingThreshold` — free shipping threshold (shown in cart info section if non-empty)
 
 Core provides empty defaults; brand apps populate them. The `useNavigation()` composable reads items from `appConfig.nav.items` and adds active-state logic.
 
@@ -136,7 +159,7 @@ All code must work in both Tauri mode (CSR) and web mode (SSR). Key rules:
 
 ### Component Patterns
 
-- Core components: unprefixed (`ProductCard.vue`, `BottomNav.vue`)
+- Core components: unprefixed (`ProductCard.vue`, `BottomNav.vue`, `AccountMenuItem.vue`)
 - Brand components: brand-prefixed (`WeCareHeader.vue`, `WeCareCTACard.vue`)
 - Core `ProductCard` exposes a `#meta` slot for brand-specific content (e.g., `WeCareProductCard` fills it with cares points)
 - `Product<TMeta>` is generic — brand apps define typed meta (e.g., `WeCareProductMeta { caresPoints?: number }`)
@@ -188,7 +211,7 @@ Uses `@antfu/eslint-config` with `eslint-plugin-better-tailwindcss` (config in `
 
 **Global locale file keys (core):**
 - `nav.*` — navigation labels (`home`, `shop`, `cart`, `favorites`, `account`)
-- `cart.*` — cart page (`title`, `empty`, `youMightLike`)
+- `cart.*` — cart page (`title`, `empty`, `youMightLike`, `freeShipping`, `freeShippingDesc`, `telephoneOrders`)
 - `shop.*` — shop page (`title`, `allCategories`, `noResults`, `noResultsDesc`)
 - `favorites.*` — favorites page (`title`, `empty`, `emptyDesc`)
 - `product.*` — product detail page (`addToCart`, `description`, `inStock`, `reviews`, `save`)

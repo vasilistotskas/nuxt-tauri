@@ -9,13 +9,17 @@
   "cart": {
     "title": "Cart",
     "empty": "Your cart is empty",
-    "youMightLike": "You might like"
+    "youMightLike": "You might like",
+    "freeShipping": "Free shipping",
+    "freeShippingDesc": "for orders over {threshold}",
+    "telephoneOrders": "Telephone orders"
   },
   "shop": {
     "title": "Shop",
     "allCategories": "All categories",
     "noResults": "No products found",
-    "noResultsDesc": "Try adjusting your search or filter criteria."
+    "noResultsDesc": "Try adjusting your search or filter criteria.",
+    "productCount": "{count} product | {count} products"
   },
   "favorites": {
     "title": "Favorites",
@@ -26,6 +30,7 @@
     "addToCart": "Add to Cart",
     "description": "Description",
     "reviews": "reviews",
+    "reviewsTab": "Reviews",
     "inStock": "In stock",
     "save": "Save"
   },
