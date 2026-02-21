@@ -42,6 +42,11 @@
 		"fs:allow-document-read",
 		"fs:allow-document-write",
 		"store:default",
+		"http:default",
+		"deep-link:default",
+		"biometric:default",
+		"barcode-scanner:default",
+		"geolocation:default",
 		"core:webview:allow-create-webview",
 		"core:webview:allow-create-webview-window",
 		"mcp-bridge:default"

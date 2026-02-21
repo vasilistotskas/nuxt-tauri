@@ -6,7 +6,14 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     'reka-ui/nuxt',
     '@nuxtjs/i18n',
+    ['@pinia/nuxt', { storesDirs: ['./stores'] }],
   ],
+
+  runtimeConfig: {
+    public: {
+      apiBase: '', // Set NUXT_PUBLIC_API_BASE to enable live API mode
+    },
+  },
 
   i18n: {
     strategy: 'prefix_except_default',
@@ -28,7 +35,7 @@ export default defineNuxtConfig({
   imports: {
     autoImport: true,
     dirs: [
-      './types',
+      './stores',
     ],
     presets: [
       {

@@ -5,7 +5,7 @@
  * Example: bun run new-brand pharmaplus com.pharmaplus.app "PharmaPlus"
  */
 
-import { cpSync, existsSync, mkdirSync, writeFileSync } from 'node:fs'
+import { cpSync } from 'node:fs'
 import { join } from 'node:path'
 
 // ── Exported pure functions for testing ──────────────────
@@ -37,6 +37,12 @@ tauri-plugin-notification = { workspace = true }
 tauri-plugin-os = { workspace = true }
 tauri-plugin-fs = { workspace = true }
 tauri-plugin-store = { workspace = true }
+tauri-plugin-http = { workspace = true }
+tauri-plugin-deep-link = { workspace = true }
+tauri-plugin-stronghold = { workspace = true }
+tauri-plugin-biometric = { workspace = true }
+tauri-plugin-barcode-scanner = { workspace = true }
+tauri-plugin-geolocation = { workspace = true }
 tauri-plugin-mcp-bridge = { workspace = true }
 `
 }
@@ -125,8 +131,14 @@ export function generatePackageJson(brandName: string): object {
     dependencies: {
       '@packages/core': 'workspace:*',
       '@tauri-apps/api': '^2.10.1',
+      '@tauri-apps/plugin-barcode-scanner': '^2.4.4',
+      '@tauri-apps/plugin-biometric': '^2.3.2',
+      '@tauri-apps/plugin-deep-link': '^2.4.7',
+      '@tauri-apps/plugin-geolocation': '^2.3.2',
+      '@tauri-apps/plugin-http': '^2.5.7',
       '@tauri-apps/plugin-os': '^2.3.2',
       '@tauri-apps/plugin-shell': '^2.3.5',
+      '@tauri-apps/plugin-stronghold': '^2.3.1',
     },
     devDependencies: {
       '@tauri-apps/cli': '^2.10.0',
@@ -278,11 +290,12 @@ Example:
   }
 
   const [brandName, identifier, productName] = args
-  const root = join(import.meta.dir, '..')
+  const root = join(import.meta.dirname, '..')
   const appDir = join(root, 'apps', brandName)
   const templateDir = join(root, 'apps', 'wecare')
 
-  if (existsSync(appDir)) {
+  const appDirExists = await Bun.file(join(appDir, 'package.json')).exists()
+  if (appDirExists) {
     console.error(`Error: App "${brandName}" already exists at ${appDir}`)
     process.exit(1)
   }
@@ -300,14 +313,15 @@ Example:
     'app/pages',
     'i18n/locales',
   ]) {
-    mkdirSync(join(appDir, dir), { recursive: true })
+    const { mkdir } = await import('node:fs/promises')
+    await mkdir(join(appDir, dir), { recursive: true })
   }
 
   // ── src-tauri/Cargo.toml ──────────────────────────────────
-  writeFileSync(join(appDir, 'src-tauri', 'Cargo.toml'), generateCargoToml(brandName, libName))
+  await Bun.write(join(appDir, 'src-tauri', 'Cargo.toml'), generateCargoToml(brandName, libName))
 
   // ── src-tauri/src/lib.rs ──────────────────────────────────
-  writeFileSync(
+  await Bun.write(
     join(appDir, 'src-tauri', 'src', 'lib.rs'),
     `#[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -317,7 +331,7 @@ pub fn run() {
   )
 
   // ── src-tauri/src/main.rs ─────────────────────────────────
-  writeFileSync(
+  await Bun.write(
     join(appDir, 'src-tauri', 'src', 'main.rs'),
     `#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
@@ -328,7 +342,7 @@ fn main() {
   )
 
   // ── src-tauri/build.rs ────────────────────────────────────
-  writeFileSync(
+  await Bun.write(
     join(appDir, 'src-tauri', 'build.rs'),
     `fn main() {
 \ttauri_build::build()
@@ -350,22 +364,24 @@ fn main() {
   )
 
   // ── src-tauri/tauri.conf.json ─────────────────────────────
-  writeFileSync(
+  await Bun.write(
     join(appDir, 'src-tauri', 'tauri.conf.json'),
     JSON.stringify(generateTauriConf(productName, identifier), null, '\t'),
   )
 
   // ── src-tauri/tauri.android.conf.json ─────────────────────
-  writeFileSync(
+  await Bun.write(
     join(appDir, 'src-tauri', 'tauri.android.conf.json'),
     JSON.stringify(
       {
         build: {
-          devUrl: 'http://TAURI_DEV_HOST:3000',
+          devUrl: 'http://localhost:3000',
         },
         app: {
+          withGlobalTauri: true,
           windows: [
             {
+              label: 'main',
               title: productName,
               url: '/splashscreen',
               width: 1366,
@@ -385,13 +401,13 @@ fn main() {
   )
 
   // ── package.json ──────────────────────────────────────────
-  writeFileSync(
+  await Bun.write(
     join(appDir, 'package.json'),
     JSON.stringify(generatePackageJson(brandName), null, 2),
   )
 
   // ── tsconfig.json ────────────────────────────────────────
-  writeFileSync(
+  await Bun.write(
     join(appDir, 'tsconfig.json'),
     JSON.stringify(
       {
@@ -406,13 +422,13 @@ fn main() {
   )
 
   // ── nuxt.config.ts ────────────────────────────────────────
-  writeFileSync(join(appDir, 'nuxt.config.ts'), generateNuxtConfig(productName))
+  await Bun.write(join(appDir, 'nuxt.config.ts'), generateNuxtConfig(productName))
 
   // ── app/app.config.ts ───────────────────────────────────────
-  writeFileSync(join(appDir, 'app', 'app.config.ts'), generateAppConfig(brandName, productName))
+  await Bun.write(join(appDir, 'app', 'app.config.ts'), generateAppConfig(brandName, productName))
 
   // ── app/assets/css/brand.css ──────────────────────────────
-  writeFileSync(
+  await Bun.write(
     join(appDir, 'app', 'assets', 'css', 'brand.css'),
     `/* ${productName} Brand CSS Variables */
 :root {
@@ -424,13 +440,13 @@ fn main() {
   )
 
   // ── i18n/locales/en.json ─────────────────────────────────
-  writeFileSync(
+  await Bun.write(
     join(appDir, 'i18n', 'locales', 'en.json'),
     JSON.stringify({}, null, 2),
   )
 
   // ── i18n/locales/el.json ─────────────────────────────────
-  writeFileSync(
+  await Bun.write(
     join(appDir, 'i18n', 'locales', 'el.json'),
     JSON.stringify({}, null, 2),
   )

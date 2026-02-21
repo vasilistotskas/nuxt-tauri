@@ -9,6 +9,9 @@ defineEmits<{
 }>()
 
 const { t } = useI18n({ useScope: 'local' })
+
+const favoritesStore = useFavoritesStore()
+const localePath = useLocalePath()
 </script>
 
 <template>
@@ -30,12 +33,14 @@ const { t } = useI18n({ useScope: 'local' })
         dark:bg-neutral-800
       "
     >
-      <img
-        v-if="product.image"
-        :src="product.image"
-        :alt="product.name"
-        class="size-full rounded-t-xl object-cover"
-      >
+      <NuxtLink :to="localePath({ path: `/product/${product.id}` })">
+        <img
+          v-if="product.image"
+          :src="product.image"
+          :alt="product.name"
+          class="size-full rounded-t-xl object-cover"
+        >
+      </NuxtLink>
       <!-- Favorite Button -->
       <UButton
         icon="lucide:heart"
@@ -45,10 +50,13 @@ const { t } = useI18n({ useScope: 'local' })
         square
         class="absolute top-1.5 right-1.5"
         :ui="{
-          base: 'text-muted',
+          base: favoritesStore.isFavorite(product.id) ? 'text-error' : `
+            text-muted
+          `,
           leadingIcon: 'size-5',
         }"
         :aria-label="t('addToFavorites')"
+        @click.prevent="favoritesStore.toggle(product.id)"
       />
       <!-- Badges -->
       <div
@@ -74,12 +82,14 @@ const { t } = useI18n({ useScope: 'local' })
 
     <!-- Content -->
     <div class="flex flex-1 flex-col space-y-1 p-2.5">
-      <p class="line-clamp-1 text-base font-semibold text-default">
-        {{ product.brand }}
-      </p>
-      <p class="line-clamp-2 text-xs/tight text-muted">
-        {{ product.name }}
-      </p>
+      <NuxtLink :to="localePath({ path: `/product/${product.id}` })">
+        <p class="line-clamp-1 text-base font-semibold text-default">
+          {{ product.brand }}
+        </p>
+        <p class="line-clamp-2 text-xs/tight text-muted">
+          {{ product.name }}
+        </p>
+      </NuxtLink>
 
       <!-- Save badge -->
       <div v-if="product.saveAmount" class="pt-0.5">
@@ -130,10 +140,8 @@ const { t } = useI18n({ useScope: 'local' })
           variant="solid"
           size="lg"
           class="
-            h-[41px] rounded-lg bg-white font-normal text-[#0d0d0d]
-            hover:bg-gray-100
-            dark:bg-white dark:text-[#0d0d0d]
-            dark:hover:bg-gray-100
+            h-[41px] rounded-lg bg-inverted font-normal text-inverted
+            hover:bg-inverted/90
           "
           :ui="{
             base: 'justify-center',

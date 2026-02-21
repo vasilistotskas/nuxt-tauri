@@ -20,4 +20,9 @@ tauri-plugin-notification = { workspace = true }
 tauri-plugin-os = { workspace = true }
 tauri-plugin-fs = { workspace = true }
 tauri-plugin-store = { workspace = true }
+tauri-plugin-http = { workspace = true }
+tauri-plugin-deep-link = { workspace = true }
+tauri-plugin-biometric = { workspace = true }
+tauri-plugin-barcode-scanner = { workspace = true }
+tauri-plugin-geolocation = { workspace = true }
 tauri-plugin-mcp-bridge = { workspace = true }

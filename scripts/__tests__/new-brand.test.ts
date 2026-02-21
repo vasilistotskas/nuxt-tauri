@@ -45,12 +45,19 @@ describe('generateCargoToml', () => {
     expect(result).toContain('tauri-plugin-os')
     expect(result).toContain('tauri-plugin-fs')
     expect(result).toContain('tauri-plugin-store')
+    expect(result).toContain('tauri-plugin-http')
+    expect(result).toContain('tauri-plugin-deep-link')
+    expect(result).toContain('tauri-plugin-stronghold')
+    expect(result).toContain('tauri-plugin-biometric')
+    expect(result).toContain('tauri-plugin-barcode-scanner')
+    expect(result).toContain('tauri-plugin-geolocation')
     expect(result).toContain('tauri-plugin-mcp-bridge')
   })
 })
 
 describe('generateTauriConf', () => {
-  const conf = generateTauriConf('PharmaPlus', 'com.pharmaplus.app') as Record<string, any>
+  // Serialize/deserialize to get a plain JSON-safe object for testing
+  const conf = JSON.parse(JSON.stringify(generateTauriConf('PharmaPlus', 'com.pharmaplus.app')))
 
   test('sets correct productName', () => {
     expect(conf.productName).toBe('PharmaPlus')
@@ -81,7 +88,7 @@ describe('generateTauriConf', () => {
 })
 
 describe('generatePackageJson', () => {
-  const pkg = generatePackageJson('pharmaplus') as Record<string, any>
+  const pkg = JSON.parse(JSON.stringify(generatePackageJson('pharmaplus')))
 
   test('sets correct package name with @apps/ prefix', () => {
     expect(pkg.name).toBe('@apps/pharmaplus')
@@ -110,6 +117,15 @@ describe('generatePackageJson', () => {
     expect(pkg.scripts['web:dev']).toBe('NUXT_TARGET=web nuxt dev')
     expect(pkg.scripts['web:build']).toBe('NUXT_TARGET=web nuxt build')
     expect(pkg.scripts['web:preview']).toBe('NUXT_TARGET=web nuxt preview')
+  })
+
+  test('has all Tauri plugin JS packages', () => {
+    expect(pkg.dependencies['@tauri-apps/plugin-http']).toBeDefined()
+    expect(pkg.dependencies['@tauri-apps/plugin-deep-link']).toBeDefined()
+    expect(pkg.dependencies['@tauri-apps/plugin-stronghold']).toBeDefined()
+    expect(pkg.dependencies['@tauri-apps/plugin-biometric']).toBeDefined()
+    expect(pkg.dependencies['@tauri-apps/plugin-barcode-scanner']).toBeDefined()
+    expect(pkg.dependencies['@tauri-apps/plugin-geolocation']).toBeDefined()
   })
 })
 

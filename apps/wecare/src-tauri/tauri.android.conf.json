@@ -1,10 +1,12 @@
 {
 	"build": {
-		"devUrl": "http://TAURI_DEV_HOST:3000"
+		"devUrl": "http://localhost:3000"
 	},
 	"app": {
+		"withGlobalTauri": true,
 		"windows": [
 			{
+				"label": "main",
 				"title": "WeCare",
 				"url": "/splashscreen",
 				"width": 1366,

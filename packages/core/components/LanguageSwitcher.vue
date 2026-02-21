@@ -16,7 +16,10 @@ function onLocaleChange(code: string) {
     :search-input="false"
     color="neutral"
     variant="outline"
-    class="w-32"
+    class="
+      w-28
+      md:w-32
+    "
     @update:model-value="onLocaleChange"
   />
 </template>

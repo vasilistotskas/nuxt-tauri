@@ -13,6 +13,7 @@ Nuxt 4 + Tauri 2 monorepo for multi-brand mobile applications. The **primary foc
 - The Application is still on development mode so we never keep legacy / backward compatibility code
 - Do not use `any`
 - Do not add `ts-ignore` , `eslint-disable` and such flags
+- All code must be SSR-safe when `NUXT_TARGET=web` — no bare `window`/`document` access without `import.meta.server` guards
 
 ## Commands
 
@@ -52,7 +53,7 @@ bun run typecheck
 
 ### Monorepo Layout
 
-- `packages/core/` — Shared Nuxt layer (brand-agnostic components, composables, middleware, server routes, types, base CSS)
+- `packages/core/` — Shared Nuxt layer (brand-agnostic components, composables, middleware, server routes, shared types, stores, base CSS)
 - `packages/tauri-core/` — Shared Rust library crate (splashscreen coordination, plugin registration, tray icon, setup state machine)
 - `apps/wecare/` — WeCare Pharmacy brand app (extends core layer + tauri-core)
 - `scripts/` — Bun CLI scripts: `app.ts` (unified runner), `prepare.ts` (postinstall), `typecheck.ts` (type-check all apps), `new-brand.ts` (scaffold new brand apps)
@@ -60,11 +61,24 @@ bun run typecheck
 ### Nuxt Layers Pattern
 
 Brand apps extend the core layer (`extends: ['@packages/core']` in nuxt.config.ts). The core layer provides:
-- Modules: `@nuxt/ui`, `@vueuse/nuxt`, `reka-ui/nuxt`
-- Base configuration, composables, and shared types
+- Modules: `@nuxt/ui`, `@vueuse/nuxt`, `reka-ui/nuxt`, `@nuxtjs/i18n`, `@pinia/nuxt`
+- Base configuration, composables, shared types, and Pinia stores
 - UI design tokens via CSS variables and `app.config.ts`
 
 Brand apps add: brand-specific CSS (`brand.css`), Tauri config (`src-tauri/`), brand components, pages, and `app/app.config.ts` overrides.
+
+### Types & Directory Structure
+
+Types are organized following the Nuxt 4 `shared/` convention to enable code sharing between the Vue app and Nitro server:
+
+- **`packages/core/shared/types/`** — Framework-agnostic types shared between app and server. Auto-imported by Nuxt in both contexts. Contains: `product.ts` (Product, Category, ProductBadge), `api.ts` (Zod validation schemas), `brand.ts` (BrandConfig), `navigation.ts` (NavItem), `content.ts` (Banner, TrendingItem).
+- **`packages/core/shared/data/`** — Shared data (mock data for development). Used by both app composables and server routes via relative imports.
+- **`packages/core/types/`** — App-only type declarations. Contains: `tauri.ts` (Window augmentation for `__TAURI_INTERNALS__`), `tauri-plugins.d.ts` (ambient module declarations for Tauri plugins installed in brand apps).
+- **`apps/<brand>/app/types/`** — Brand-specific UI types (e.g., `WeCareProductMeta`).
+
+**Key rule:** Types in `shared/types/` are auto-imported — do NOT use explicit `import type { Product } from '../types/product'` in components, composables, or stores. The `Product`, `Category`, `BrandConfig`, `NavItem` types are globally available. Use explicit imports only for non-auto-imported paths like `shared/data/mock/`.
+
+**Note on layers:** The `#shared` alias resolves to the consuming **app's** `shared/` directory, not the layer's. In layer code (packages/core), always use **relative imports** (e.g., `../shared/data/mock/products`) instead of `#shared`.
 
 ### Brand Configuration
 
@@ -73,6 +87,36 @@ Brand apps define their identity in `app/app.config.ts` (inside `srcDir`, requir
 - `nav.items` — navigation items array (consumed by `useNavigation()` composable)
 
 Core provides empty defaults; brand apps populate them. The `useNavigation()` composable reads items from `appConfig.nav.items` and adds active-state logic.
+
+### Data Layer & State Management
+
+**API service pattern:** The data layer uses a repository composable pattern with mock/live switching:
+
+- `useApiClient()` — reads `runtimeConfig.public.apiBase`. Empty string = mock mode, real URL = live mode.
+- `useProducts(options?)` — fetches products with optional reactive `category` and `search` refs. Each caller should pass a unique `key` to avoid `useAsyncData` cache collisions.
+- `useProduct(id)` — fetches a single product. Accepts `MaybeRef<string | number>` for reactive route params.
+- `useCategories()` — fetches product categories.
+
+**Switching from mock to live API:** Set `NUXT_PUBLIC_API_BASE=https://api.example.com` — zero page-level changes needed.
+
+**Server routes:** `packages/core/server/api/products/` provides mock API endpoints for web SSR mode. These proxy to mock data during development and can be replaced with real API proxying later.
+
+**Pinia stores** (`packages/core/stores/`):
+- `useCartStore` — cart items, add/remove/update, computed totals
+- `useFavoritesStore` — favorite product IDs (array, not Set — must be JSON-serializable for SSR hydration)
+- `useAuthStore` — user state, token, authentication status
+- `defineStore`, `storeToRefs`, `acceptHMRUpdate` are auto-imported by `@pinia/nuxt`
+- Stores live in `packages/core/stores/` and are auto-imported via Pinia's `storesDirs` config
+- Store state **must** use JSON-serializable types only (no `Set`, `Map`, `Date` objects in refs) for Pinia SSR hydration
+
+### SSR Safety
+
+All code must work in both Tauri mode (CSR) and web mode (SSR). Key rules:
+
+- **Data fetching:** Always use `useAsyncData` or `useFetch` — never raw `fetch` in setup. Pass reactive refs (not `.value`) for params that change. Give each `useAsyncData` call a unique `key`.
+- **Browser APIs:** Guard `window`/`document` access with `import.meta.server` or `onMounted`. Use `useTauriAvailable()` composable which already has this guard.
+- **Stores in templates:** Always call `useCartStore()` / `useFavoritesStore()` in `<script setup>`, never inline in template event handlers (e.g., `@click="useCartStore().addItem(product)"` is wrong — call it once in setup and reference the variable).
+- **Pinia SSR hydration:** State is serialized to JSON on server and hydrated on client. Only use JSON-serializable types in store refs.
 
 ### CSS Architecture
 
@@ -95,7 +139,7 @@ Core provides empty defaults; brand apps populate them. The `useNavigation()` co
 - Core components: unprefixed (`ProductCard.vue`, `BottomNav.vue`)
 - Brand components: brand-prefixed (`WeCareHeader.vue`, `WeCareCTACard.vue`)
 - Core `ProductCard` exposes a `#meta` slot for brand-specific content (e.g., `WeCareProductCard` fills it with cares points)
-- Product data uses `meta?: Record<string, unknown>` for brand-extensible metadata
+- `Product<TMeta>` is generic — brand apps define typed meta (e.g., `WeCareProductMeta { caresPoints?: number }`)
 
 ### Build Targets
 
@@ -110,13 +154,16 @@ Tauri-only pages (e.g., splashscreen) use the `tauri-only` middleware from core,
 
 ### Server Routes
 
-Core server routes live in `packages/core/server/` and are inherited by all brand apps via Nuxt layers. Brand apps can add their own in `apps/<brand>/server/`. The starter health route is at `GET /api/health`.
+Core server routes live in `packages/core/server/` and are inherited by all brand apps via Nuxt layers. Brand apps can add their own in `apps/<brand>/server/`. Routes include:
+- `GET /api/health` — health check
+- `GET /api/products` — product listing (supports `?category=` and `?search=` query params)
+- `GET /api/products/:id` — single product by ID
 
 ### Key Conventions
 
 - SSR is disabled by default in brand apps (Tauri mode); enabled when `NUXT_TARGET=web`
-- Auto-imports enabled for Vue, Nuxt, VueUse composables, and Zod (`z` and `zInfer` type)
-- Types in `packages/core/types/` are auto-imported
+- Auto-imports enabled for Vue, Nuxt, VueUse composables, Pinia (`defineStore`, `storeToRefs`), and Zod (`z` and `zInfer` type)
+- Types in `packages/core/shared/types/` are auto-imported to both app and server
 - Path alias: `@packages` → `packages/` (defined in brand app `nuxt.config.ts`)
 - Nuxt UI v4 for component library with `app.config.ts` theming
 - Page and layout transitions configured (`page` and `layout` names, `out-in` mode)
@@ -136,14 +183,17 @@ Uses `@antfu/eslint-config` with `eslint-plugin-better-tailwindcss` (config in `
 - All locale-aware navigation uses `useLocalePath()` / `useSwitchLocalePath()`
 
 **Translation file locations:**
-- `packages/core/i18n/locales/{en,el}.json` — shared global translations (nav, cart, account, errors)
+- `packages/core/i18n/locales/{en,el}.json` — shared global translations (nav, cart, account, errors, shop, favorites, product)
 - `apps/<brand>/i18n/locales/{en,el}.json` — brand-specific global translations (auto-merged with core)
 
 **Global locale file keys (core):**
 - `nav.*` — navigation labels (`home`, `shop`, `cart`, `favorites`, `account`)
 - `cart.*` — cart page (`title`, `empty`, `youMightLike`)
+- `shop.*` — shop page (`title`, `allCategories`, `noResults`, `noResultsDesc`)
+- `favorites.*` — favorites page (`title`, `empty`, `emptyDesc`)
+- `product.*` — product detail page (`addToCart`, `description`, `inStock`, `reviews`, `save`)
 - `account.*` — account page (`title`, `myOrders`, `purchasedProducts`, `accountSettings`, `language`, `help`, `logIn`, `changePassword`, `shippingTerms`, `returnPolicy`, `termsOfUse`, `privacyPolicy`, `cookies`)
-- `errors.*` — error pages (`pageNotFound`, `pageNotFoundDesc`, `goHome`)
+- `errors.*` — error pages (`pageNotFound`, `pageNotFoundDesc`, `goHome`, `somethingWentWrong`, `errorDesc`, `tryAgain`)
 
 **Global locale file keys (WeCare brand):**
 - `wecare.*` — brand terms (`carePointsAndDiscounts`, `onlinePharmacy`)
@@ -199,6 +249,14 @@ const label = $i18n.t('account.title')
 - `setup_tray` — desktop-only system tray with quit menu
 - `base_builder()` — returns `tauri::Builder` with all plugins and state pre-configured
 - `run(context, config)` — full app runner for zero-customization brands
+
+**Registered Tauri plugins:** shell, notification, os, fs, store, http, deep-link, biometric, barcode-scanner, geolocation, mcp-bridge (debug only)
+
+**Core Tauri composables** (`packages/core/composables/`):
+- `useTauriAvailable()` — SSR-safe check for Tauri environment
+- `useBiometric()` — fingerprint/Face ID authentication
+- `useBarcodeScanner()` — barcode/QR code scanning
+- `useTauriGeolocation()` — GPS location (named to avoid VueUse conflict)
 
 **Two usage levels for brand apps:**
 - **Simple** (no custom IPC): `tauri_core::run(tauri::generate_context!(), AppConfig::default())` — 4 lines in `lib.rs`

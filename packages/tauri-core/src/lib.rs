@@ -117,7 +117,15 @@ pub fn base_builder() -> tauri::Builder<tauri::Wry> {
 		.plugin(tauri_plugin_notification::init())
 		.plugin(tauri_plugin_os::init())
 		.plugin(tauri_plugin_fs::init())
-		.plugin(tauri_plugin_store::Builder::new().build());
+		.plugin(tauri_plugin_store::Builder::new().build())
+		.plugin(tauri_plugin_http::init())
+		.plugin(tauri_plugin_deep_link::init())
+		.plugin(tauri_plugin_geolocation::init());
+
+	#[cfg(mobile)]
+	let builder = builder
+		.plugin(tauri_plugin_biometric::init())
+		.plugin(tauri_plugin_barcode_scanner::init());
 
 	#[cfg(debug_assertions)]
 	let builder = builder.plugin(tauri_plugin_mcp_bridge::init());

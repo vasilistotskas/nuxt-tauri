@@ -1,4 +1,5 @@
 [test]
+preload = [ "./packages/core/stores/__tests__/setup.ts" ]
 coverage = true
 coverageSkipTestFiles = true
 coverageReporter = [

@@ -11,6 +11,24 @@
     "empty": "Your cart is empty",
     "youMightLike": "You might like"
   },
+  "shop": {
+    "title": "Shop",
+    "allCategories": "All categories",
+    "noResults": "No products found",
+    "noResultsDesc": "Try adjusting your search or filter criteria."
+  },
+  "favorites": {
+    "title": "Favorites",
+    "empty": "No favorites yet",
+    "emptyDesc": "Tap the heart icon on products to save them here."
+  },
+  "product": {
+    "addToCart": "Add to Cart",
+    "description": "Description",
+    "reviews": "reviews",
+    "inStock": "In stock",
+    "save": "Save"
+  },
   "account": {
     "title": "My account",
     "myOrders": "My Orders",

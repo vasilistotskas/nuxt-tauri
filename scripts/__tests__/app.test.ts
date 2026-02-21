@@ -1,4 +1,5 @@
-import { mkdirSync, rmSync } from 'node:fs'
+import { rmSync } from 'node:fs'
+import { mkdir, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, test } from 'bun:test'
@@ -44,29 +45,39 @@ describe('resolveAppPath', () => {
 describe('getAvailableApps', () => {
   let tempDir: string
 
-  beforeEach(() => {
+  beforeEach(async () => {
     tempDir = join(tmpdir(), `test-apps-${Date.now()}`)
-    mkdirSync(tempDir, { recursive: true })
+    await mkdir(tempDir, { recursive: true })
   })
 
   afterEach(() => {
     rmSync(tempDir, { recursive: true, force: true })
   })
 
-  test('returns empty array for non-existent directory', () => {
-    expect(getAvailableApps('/non/existent/path')).toEqual([])
+  test('returns empty array for non-existent directory', async () => {
+    expect(await getAvailableApps('/non/existent/path')).toEqual([])
   })
 
-  test('returns empty array for empty directory', () => {
-    expect(getAvailableApps(tempDir)).toEqual([])
+  test('returns empty array for empty directory', async () => {
+    expect(await getAvailableApps(tempDir)).toEqual([])
   })
 
-  test('returns directory names', () => {
-    mkdirSync(join(tempDir, 'wecare'))
-    mkdirSync(join(tempDir, 'pharmaplus'))
-    const apps = getAvailableApps(tempDir)
+  test('returns directory names that have package.json', async () => {
+    await mkdir(join(tempDir, 'wecare'), { recursive: true })
+    await writeFile(join(tempDir, 'wecare', 'package.json'), '{}')
+    await mkdir(join(tempDir, 'pharmaplus'), { recursive: true })
+    await writeFile(join(tempDir, 'pharmaplus', 'package.json'), '{}')
+    const apps = await getAvailableApps(tempDir)
     expect(apps).toContain('wecare')
     expect(apps).toContain('pharmaplus')
     expect(apps).toHaveLength(2)
+  })
+
+  test('ignores directories without package.json', async () => {
+    await mkdir(join(tempDir, 'valid'), { recursive: true })
+    await writeFile(join(tempDir, 'valid', 'package.json'), '{}')
+    await mkdir(join(tempDir, 'invalid'), { recursive: true })
+    const apps = await getAvailableApps(tempDir)
+    expect(apps).toEqual(['valid'])
   })
 })

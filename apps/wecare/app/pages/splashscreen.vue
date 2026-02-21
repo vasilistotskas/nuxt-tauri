@@ -84,12 +84,16 @@ onMounted(async () => {
 
 <style scoped>
 .splashscreen {
+  --splash-bg: #000000;
+  --splash-fg: #ffffff;
+  --splash-fg-dim: rgba(255, 255, 255, 0.5);
+
   position: fixed;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #000000;
+  background: var(--splash-bg);
   overflow: hidden;
 }
 
@@ -104,7 +108,7 @@ onMounted(async () => {
   position: absolute;
   width: 3px;
   height: 3px;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.3); /* particle effect — intentionally raw */
   border-radius: 50%;
   animation: float 20s infinite ease-in-out;
 }
@@ -174,7 +178,7 @@ onMounted(async () => {
 /* All letters - solid white */
 .letter {
   display: inline-block;
-  color: #ffffff;
+  color: var(--splash-fg);
   animation: letterReveal 0.6s ease-out forwards;
   animation-delay: calc(var(--delay) * 0.1s);
   opacity: 0;
@@ -182,7 +186,7 @@ onMounted(async () => {
 }
 
 .letter.accent {
-  color: #ffffff;
+  color: var(--splash-fg);
 }
 
 /* Only the plus sign gets the blue accent */
@@ -228,7 +232,7 @@ onMounted(async () => {
   font-size: 0.75rem;
   font-weight: 400;
   letter-spacing: 0.4em;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--splash-fg-dim);
   margin: 0 0 3rem;
   display: flex;
   justify-content: center;
@@ -239,7 +243,7 @@ onMounted(async () => {
   animation: charFade 0.3s ease-out forwards;
   animation-delay: calc(0.8s + var(--char-delay) * 0.03s);
   opacity: 0;
-  color: white;
+  color: var(--splash-fg);
 }
 
 @keyframes charFade {

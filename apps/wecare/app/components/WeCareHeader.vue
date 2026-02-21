@@ -10,21 +10,21 @@ const { t } = useI18n({ useScope: 'local' })
       lg:px-8
     "
   >
-    <div class="flex items-center justify-between">
+    <div class="flex items-center justify-between gap-2">
       <!-- Logo -->
       <img
         src="/images/wecare-logo.png"
         :alt="t('logoAlt')"
         class="
-          w-auto max-w-[360px] object-contain
-          md:rounded-sm
+          max-w-[180px] min-w-0 shrink object-contain
+          md:max-w-[360px] md:rounded-sm
         "
       >
 
       <!-- Desktop: Additional header actions -->
       <div
         class="
-          hidden items-center gap-4
+          hidden shrink-0 items-center gap-4
           md:flex
         "
       >
@@ -53,7 +53,7 @@ const { t } = useI18n({ useScope: 'local' })
       <!-- Mobile: Language + Theme toggle -->
       <div
         class="
-          flex items-center gap-2
+          flex shrink-0 items-center gap-1
           md:hidden
         "
       >
