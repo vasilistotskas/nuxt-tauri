@@ -118,6 +118,9 @@ export function generatePackageJson(brandName: string): object {
       'tauri:android:init': 'tauri android init',
       'tauri:android:dev': 'tauri android dev',
       'tauri:android:build': 'tauri android build',
+      'web:dev': 'NUXT_TARGET=web nuxt dev',
+      'web:build': 'NUXT_TARGET=web nuxt build',
+      'web:preview': 'NUXT_TARGET=web nuxt preview',
     },
     dependencies: {
       '@packages/core': 'workspace:*',
@@ -135,10 +138,12 @@ export function generateNuxtConfig(productName: string): string {
   return `import { resolve } from 'node:path'
 import { defineNuxtConfig } from 'nuxt/config'
 
+const isTauri = process.env.NUXT_TARGET !== 'web'
+
 export default defineNuxtConfig({
   extends: ['@packages/core'],
 
-  ssr: false,
+  ssr: !isTauri,
 
   devtools: {
     enabled: false,
@@ -163,10 +168,14 @@ export default defineNuxtConfig({
     './app/assets/css/brand.css',
   ],
 
-  devServer: {
-    host: process.env.TAURI_DEV_HOST || '0.0.0.0',
-    port: 3000,
-  },
+  ...(isTauri
+    ? {
+        devServer: {
+          host: process.env.TAURI_DEV_HOST || '0.0.0.0',
+          port: 3000,
+        },
+      }
+    : {}),
 
   alias: {
     '@packages': resolve(__dirname, '../../packages'),
@@ -174,7 +183,7 @@ export default defineNuxtConfig({
 
   vite: {
     clearScreen: false,
-    envPrefix: ['VITE_', 'TAURI_'],
+    envPrefix: isTauri ? ['VITE_', 'TAURI_'] : ['VITE_'],
     server: {
       cors: true,
       allowedHosts: true,
@@ -190,18 +199,22 @@ export default defineNuxtConfig({
   },
 
   hooks: {
-    'vite:extendConfig': (config) => {
-      const host = process.env.TAURI_DEV_HOST || 'localhost'
-      const server = config.server
-      if (server) {
-        server.strictPort = true
-        server.hmr = {
-          protocol: 'ws',
-          host,
-          port: 1421,
+    ...(isTauri
+      ? {
+          'vite:extendConfig': (config) => {
+            const host = process.env.TAURI_DEV_HOST || 'localhost'
+            const server = config.server
+            if (server) {
+              server.strictPort = true
+              server.hmr = {
+                protocol: 'ws',
+                host,
+                port: 1421,
+              }
+            }
+          },
         }
-      }
-    },
+      : {}),
   },
 })
 `

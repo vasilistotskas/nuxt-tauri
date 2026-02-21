@@ -55,6 +55,9 @@ Available commands:
   tauri:android:init     Initialize Android project
   tauri:android:dev      Start Android development
   tauri:android:build    Build Android APK/AAB
+  web:dev                Start Nuxt dev server (SSR, web mode)
+  web:build              Build for web production (SSR)
+  web:preview            Preview web production build
 
 Examples:
   bun run app wecare dev

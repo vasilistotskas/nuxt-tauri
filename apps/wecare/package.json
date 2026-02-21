@@ -13,7 +13,10 @@
     "tauri:build:debug": "tauri build --debug",
     "tauri:android:init": "tauri android init",
     "tauri:android:dev": "tauri android dev",
-    "tauri:android:build": "tauri android build"
+    "tauri:android:build": "tauri android build",
+    "web:dev": "NUXT_TARGET=web nuxt dev",
+    "web:build": "NUXT_TARGET=web nuxt build",
+    "web:preview": "NUXT_TARGET=web nuxt preview"
   },
   "dependencies": {
     "@packages/core": "workspace:*",

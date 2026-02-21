@@ -105,6 +105,12 @@ describe('generatePackageJson', () => {
     expect(pkg.scripts['tauri:dev']).toBe('tauri dev')
     expect(pkg.scripts['tauri:android:build']).toBe('tauri android build')
   })
+
+  test('has web deployment scripts', () => {
+    expect(pkg.scripts['web:dev']).toBe('NUXT_TARGET=web nuxt dev')
+    expect(pkg.scripts['web:build']).toBe('NUXT_TARGET=web nuxt build')
+    expect(pkg.scripts['web:preview']).toBe('NUXT_TARGET=web nuxt preview')
+  })
 })
 
 describe('generateNuxtConfig', () => {
@@ -123,8 +129,9 @@ describe('generateNuxtConfig', () => {
     expect(config).toContain('./app/assets/css/brand.css')
   })
 
-  test('has SSR disabled', () => {
-    expect(config).toContain('ssr: false')
+  test('uses isTauri conditional for SSR', () => {
+    expect(config).toContain('process.env.NUXT_TARGET !== \'web\'')
+    expect(config).toContain('ssr: !isTauri')
   })
 })
 

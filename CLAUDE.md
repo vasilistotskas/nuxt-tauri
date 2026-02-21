@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Nuxt 4 + Tauri 2 monorepo for multi-brand mobile applications. The **primary focus is mobile** — building native iOS and Android apps via Tauri. Desktop (Windows/macOS/Linux) is supported but secondary. Uses **Bun workspaces** as the package manager (requires Bun >= 1.3, Node.js >= 24).
+Nuxt 4 + Tauri 2 monorepo for multi-brand mobile applications. The **primary focus is mobile** — building native iOS and Android apps via Tauri. Desktop (Windows/macOS/Linux) is supported but secondary. **Web deployment with SSR** is also supported via the `NUXT_TARGET=web` environment variable. Uses **Bun workspaces** as the package manager (requires Bun >= 1.3, Node.js >= 24).
 
 # Project Standards and Rules
 - Codebase must be clean, consistent, scalable, and follow best practices
@@ -35,6 +35,11 @@ bun run app wecare tauri:build         # Tauri desktop build
 bun run app wecare tauri:android:build # Android build
 bun run app wecare tauri:ios:build     # iOS build (macOS only)
 
+# Web deployment (SSR enabled)
+bun run app wecare web:dev             # Nuxt dev server (SSR, web mode)
+bun run app wecare web:build           # Build for web production (SSR)
+bun run app wecare web:preview         # Preview web production build
+
 # Scaffold a new brand app
 bun run new-brand <brand-name> <identifier> <product-name>
 
@@ -47,7 +52,7 @@ bun run typecheck
 
 ### Monorepo Layout
 
-- `packages/core/` — Shared Nuxt layer (brand-agnostic components, composables, types, base CSS)
+- `packages/core/` — Shared Nuxt layer (brand-agnostic components, composables, middleware, server routes, types, base CSS)
 - `packages/tauri-core/` — Shared Rust library crate (splashscreen coordination, plugin registration, tray icon, setup state machine)
 - `apps/wecare/` — WeCare Pharmacy brand app (extends core layer + tauri-core)
 - `scripts/` — Bun CLI scripts: `app.ts` (unified runner), `prepare.ts` (postinstall), `typecheck.ts` (type-check all apps), `new-brand.ts` (scaffold new brand apps)
@@ -92,9 +97,24 @@ Core provides empty defaults; brand apps populate them. The `useNavigation()` co
 - Core `ProductCard` exposes a `#meta` slot for brand-specific content (e.g., `WeCareProductCard` fills it with cares points)
 - Product data uses `meta?: Record<string, unknown>` for brand-extensible metadata
 
+### Build Targets
+
+Brand apps support two build targets controlled by the `NUXT_TARGET` env var:
+
+- **Tauri mode** (default, `NUXT_TARGET` unset or any value except `web`): `ssr: false`, Tauri-specific Vite config (HMR on port 1421, `TAURI_` env prefix), devServer binds to `TAURI_DEV_HOST` / `0.0.0.0`. This is the standard mode for native mobile & desktop builds.
+- **Web mode** (`NUXT_TARGET=web`): `ssr: true`, clean Vite config for web, devServer uses Nuxt defaults (localhost). Server routes in `packages/core/server/` and brand `server/` directories are active.
+
+The `isTauri` flag (`process.env.NUXT_TARGET !== 'web'`) in `nuxt.config.ts` conditionally applies Tauri-specific devServer, Vite envPrefix, and HMR hooks. The `new-brand` scaffold generates this pattern automatically.
+
+Tauri-only pages (e.g., splashscreen) use the `tauri-only` middleware from core, which redirects non-Tauri users to `/` and is SSR-safe.
+
+### Server Routes
+
+Core server routes live in `packages/core/server/` and are inherited by all brand apps via Nuxt layers. Brand apps can add their own in `apps/<brand>/server/`. The starter health route is at `GET /api/health`.
+
 ### Key Conventions
 
-- SSR is disabled in brand apps (Tauri requirement)
+- SSR is disabled by default in brand apps (Tauri mode); enabled when `NUXT_TARGET=web`
 - Auto-imports enabled for Vue, Nuxt, VueUse composables, and Zod (`z` and `zInfer` type)
 - Types in `packages/core/types/` are auto-imported
 - Path alias: `@packages` → `packages/` (defined in brand app `nuxt.config.ts`)

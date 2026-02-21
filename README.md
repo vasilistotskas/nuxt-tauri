@@ -10,7 +10,7 @@ Multi-brand mobile &amp; desktop applications powered by <a href="https://nuxt.c
 
 A monorepo for building native iOS, Android, and desktop apps from a single codebase. Brand apps extend a shared core layer via Nuxt's layers pattern — add a new brand by creating a directory under `apps/` with brand-specific config, styles, and components.
 
-**Primary focus:** Mobile (iOS & Android). Desktop (Windows/macOS/Linux) is supported but secondary.
+**Primary focus:** Mobile (iOS & Android). Desktop (Windows/macOS/Linux) is supported but secondary. Web deployment with SSR is also supported.
 
 ## Tech Stack
 
@@ -41,7 +41,7 @@ rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-andro
 # Install dependencies (also runs nuxt prepare for all layers & apps)
 bun install
 
-# Start dev server
+# Start dev server (Tauri SPA mode)
 bun run app <app-name> dev
 
 # Start with Tauri (desktop)
@@ -49,6 +49,9 @@ bun run app <app-name> tauri:dev
 
 # Start with Tauri (Android)
 bun run app <app-name> tauri:android:dev
+
+# Start web dev server (SSR enabled)
+bun run app <app-name> web:dev
 ```
 
 ## Project Structure
@@ -58,6 +61,8 @@ packages/
   core/                        # Shared Nuxt layer (brand-agnostic)
     components/                # Shared components (ProductCard, BottomNav, etc.)
     composables/               # Shared composables (useNavigation, etc.)
+    middleware/                 # Shared route middleware (tauri-only, etc.)
+    server/api/                # Shared server routes (health, etc.)
     types/                     # Shared TypeScript types (auto-imported)
     assets/css/                # Base styles & design tokens
 
@@ -93,6 +98,9 @@ All app commands use the unified runner: `bun run app <app-name> <command>`
 | `tauri:android:build` | Build Android APK/AAB |
 | `tauri:ios:dev` | iOS development (macOS only) |
 | `tauri:ios:build` | Build iOS app (macOS only) |
+| `web:dev` | Web dev server (SSR enabled) |
+| `web:build` | Build for web production (SSR) |
+| `web:preview` | Preview web production build |
 
 Root scripts:
 
@@ -134,9 +142,11 @@ Root scripts:
    import { resolve } from 'node:path'
    import { defineNuxtConfig } from 'nuxt/config'
 
+   const isTauri = process.env.NUXT_TARGET !== 'web'
+
    export default defineNuxtConfig({
      extends: ['@packages/core'],
-     ssr: false,
+     ssr: !isTauri,
      css: [
        '@packages/core/assets/css/main.css',
        './app/assets/css/brand.css',
@@ -203,11 +213,13 @@ Core components can expose slots for brand-specific content (e.g., `ProductCard`
 
 ## Architecture Notes
 
-- **SSR is disabled** in all brand apps (Tauri requirement)
+- **Dual build targets:** Tauri mode (default, `ssr: false`) and web mode (`NUXT_TARGET=web`, `ssr: true`). The `isTauri` flag in `nuxt.config.ts` switches behavior.
 - **Auto-imports** are enabled for Vue, Nuxt, VueUse composables, Zod, and all types in `packages/core/types/`
 - **CSS load order:** Core `main.css` (design tokens & base) -> Brand `brand.css` (color overrides)
 - **Tauri dev** uses WebSocket HMR on port 1421. Set `TAURI_DEV_HOST` to your local IP for mobile device testing
 - **Desktop splashscreen** coordinates with the frontend via `set_complete` IPC command
+- **Tauri-only pages** (e.g., splashscreen) use the `tauri-only` middleware, which redirects web users to `/`
+- **Server routes** in `packages/core/server/` are inherited by all brand apps. Health check at `GET /api/health`
 
 ## License
 
