@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { t } = useI18n({ useScope: 'local' })
+
 const searchQuery = ref('')
 </script>
 
@@ -11,7 +13,7 @@ const searchQuery = ref('')
   >
     <UInput
       v-model="searchQuery"
-      placeholder="Search products..."
+      :placeholder="t('placeholder')"
       icon="lucide:search"
       size="xl"
       variant="soft"
@@ -46,7 +48,16 @@ const searchQuery = ref('')
       :ui="{
         leadingIcon: 'size-6',
       }"
-      aria-label="Search by photo"
+      :aria-label="t('searchByPhoto')"
     />
   </div>
 </template>
+
+<i18n lang="yaml">
+en:
+  placeholder: Search products...
+  searchByPhoto: Search by photo
+el:
+  placeholder: Αναζήτηση προϊόντων...
+  searchByPhoto: Αναζήτηση με φωτογραφία
+</i18n>

@@ -61,6 +61,7 @@ packages/
   core/                        # Shared Nuxt layer (brand-agnostic)
     components/                # Shared components (ProductCard, BottomNav, etc.)
     composables/               # Shared composables (useNavigation, etc.)
+    i18n/locales/              # Shared translations (en.json, el.json)
     middleware/                 # Shared route middleware (tauri-only, etc.)
     server/api/                # Shared server routes (health, etc.)
     types/                     # Shared TypeScript types (auto-imported)
@@ -73,6 +74,7 @@ apps/
       pages/                   # App pages
       layouts/                 # App layouts
       assets/css/brand.css     # Brand colors & overrides
+    i18n/locales/              # Brand-specific translations (en.json, el.json)
     src-tauri/                 # Tauri config (Rust backend, capabilities)
     app/app.config.ts          # Brand identity & nav items
     nuxt.config.ts             # Extends @packages/core
@@ -169,8 +171,8 @@ Root scripts:
      },
      nav: {
        items: [
-         { label: 'Home', icon: 'lucide:house', route: '/' },
-         { label: 'Account', icon: 'lucide:user', route: '/account' },
+         { labelKey: 'nav.home', icon: 'lucide:house', route: '/' },
+         { labelKey: 'nav.account', icon: 'lucide:user', route: '/account' },
        ],
      },
      ui: {
@@ -210,6 +212,25 @@ Root scripts:
 | `apps/*/app/components/` | Brand-prefixed | `WeCareHeader.vue`, `WeCareCTACard.vue` |
 
 Core components can expose slots for brand-specific content (e.g., `ProductCard` has a `#meta` slot).
+
+## Internationalization (i18n)
+
+English (default) and Greek, powered by `@nuxtjs/i18n` with the `prefix_except_default` strategy (English at `/`, Greek at `/el/`).
+
+**Two translation patterns:**
+
+| Pattern | Where | How | Translations live in |
+|---------|-------|-----|---------------------|
+| Component-level | Vue components & pages | `const { t } = useI18n()` + `<i18n lang="yaml">` SFC block | The component's `<i18n>` block |
+| Global-level | Composables, Pinia stores, shared strings | `const { $i18n } = useNuxtApp()` + `$i18n.t('key')` | `i18n/locales/*.json` files |
+
+**Decision rule:** If a string is used in only one component, put it in an `<i18n>` block. If shared across components, put it in global locale files.
+
+**Locale files:**
+- `packages/core/i18n/locales/{en,el}.json` — shared keys (`nav.*`, `cart.*`, `account.*`, `errors.*`)
+- `apps/<brand>/i18n/locales/{en,el}.json` — brand-specific keys (auto-merged with core)
+
+The `LanguageSwitcher` core component uses Nuxt UI's `ULocaleSelect` for locale switching.
 
 ## Architecture Notes
 

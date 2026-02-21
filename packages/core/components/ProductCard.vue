@@ -7,6 +7,8 @@ defineProps<{
 defineEmits<{
   addToCart: []
 }>()
+
+const { t } = useI18n({ useScope: 'local' })
 </script>
 
 <template>
@@ -46,7 +48,7 @@ defineEmits<{
           base: 'text-muted',
           leadingIcon: 'size-5',
         }"
-        aria-label="Add to favorites"
+        :aria-label="t('addToFavorites')"
       />
       <!-- Badges -->
       <div
@@ -87,7 +89,7 @@ defineEmits<{
           size="sm"
           class="rounded-full px-2.5 py-1 text-xs font-medium"
         >
-          Save: -{{ product.saveAmount }}€
+          {{ t('save') }}: -{{ product.saveAmount }}€
         </UBadge>
       </div>
 
@@ -113,7 +115,7 @@ defineEmits<{
           />
         </div>
         <span class="block text-xs text-dimmed">
-          {{ product.reviews }} reviews
+          {{ product.reviews }} {{ t('reviews') }}
         </span>
       </div>
 
@@ -138,9 +140,22 @@ defineEmits<{
           }"
           @click="$emit('addToCart')"
         >
-          Add to Cart
+          {{ t('addToCart') }}
         </UButton>
       </div>
     </div>
   </UCard>
 </template>
+
+<i18n lang="yaml">
+en:
+  addToFavorites: Add to favorites
+  save: Save
+  reviews: reviews
+  addToCart: Add to Cart
+el:
+  addToFavorites: Προσθήκη στα αγαπημένα
+  save: Έκπτωση
+  reviews: κριτικές
+  addToCart: Προσθήκη στο καλάθι
+</i18n>

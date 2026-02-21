@@ -238,11 +238,11 @@ export function generateAppConfig(brandName: string, productName: string): strin
 
   nav: {
     items: [
-      { label: 'Home', icon: 'lucide:house', route: '/' },
-      { label: 'Shop', icon: 'lucide:search', route: '/shop' },
-      { label: 'Cart', icon: 'lucide:shopping-cart', route: '/cart' },
-      { label: 'Favorites', icon: 'lucide:heart', route: '/favorites' },
-      { label: 'Account', icon: 'lucide:user', route: '/account' },
+      { labelKey: 'nav.home', icon: 'lucide:house', route: '/' },
+      { labelKey: 'nav.shop', icon: 'lucide:search', route: '/shop' },
+      { labelKey: 'nav.cart', icon: 'lucide:shopping-cart', route: '/cart' },
+      { labelKey: 'nav.favorites', icon: 'lucide:heart', route: '/favorites' },
+      { labelKey: 'nav.account', icon: 'lucide:user', route: '/account' },
     ],
   },
 
@@ -298,6 +298,7 @@ Example:
     'src-tauri/icons',
     'app/assets/css',
     'app/pages',
+    'i18n/locales',
   ]) {
     mkdirSync(join(appDir, dir), { recursive: true })
   }
@@ -420,6 +421,18 @@ fn main() {
   --brand-primary-rgb: 0, 0, 0;
 }
 `,
+  )
+
+  // ── i18n/locales/en.json ─────────────────────────────────
+  writeFileSync(
+    join(appDir, 'i18n', 'locales', 'en.json'),
+    JSON.stringify({}, null, 2),
+  )
+
+  // ── i18n/locales/el.json ─────────────────────────────────
+  writeFileSync(
+    join(appDir, 'i18n', 'locales', 'el.json'),
+    JSON.stringify({}, null, 2),
   )
 
   // ── Print next steps ──────────────────────────────────────

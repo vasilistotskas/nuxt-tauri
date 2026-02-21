@@ -1,0 +1,34 @@
+{
+  "nav": {
+    "home": "Αρχική",
+    "shop": "Κατάστημα",
+    "cart": "Καλάθι",
+    "favorites": "Αγαπημένα",
+    "account": "Λογαριασμός"
+  },
+  "cart": {
+    "title": "Καλάθι",
+    "empty": "Το καλάθι σας είναι άδειο",
+    "youMightLike": "Μπορεί να σας αρέσουν"
+  },
+  "account": {
+    "title": "Ο λογαριασμός μου",
+    "myOrders": "Οι παραγγελίες μου",
+    "purchasedProducts": "Αγορασμένα προϊόντα",
+    "accountSettings": "Ρυθμίσεις λογαριασμού",
+    "language": "Γλώσσα",
+    "help": "Βοήθεια",
+    "logIn": "Σύνδεση",
+    "changePassword": "Αλλαγή κωδικού",
+    "shippingTerms": "Όροι αποστολής",
+    "returnPolicy": "Πολιτική επιστροφών",
+    "termsOfUse": "Όροι χρήσης",
+    "privacyPolicy": "Πολιτική απορρήτου",
+    "cookies": "Cookies"
+  },
+  "errors": {
+    "pageNotFound": "Η σελίδα δεν βρέθηκε",
+    "pageNotFoundDesc": "Λυπούμαστε, δεν μπορέσαμε να βρούμε τη σελίδα που ψάχνετε.",
+    "goHome": "Αρχική σελίδα"
+  }
+}

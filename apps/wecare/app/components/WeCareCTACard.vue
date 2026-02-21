@@ -1,3 +1,7 @@
+<script setup lang="ts">
+const { t } = useI18n({ useScope: 'local' })
+</script>
+
 <template>
   <UCard
     class="
@@ -54,7 +58,7 @@
           lg:text-xl
         "
       >
-        Personalize your APP
+        {{ t('heading') }}
       </h3>
       <p
         class="
@@ -63,7 +67,7 @@
           lg:text-lg
         "
       >
-        Sign in or create an account for a faster, easier experience and collect care points.
+        {{ t('description') }}
       </p>
     </div>
     <!-- Desktop: Sign in button -->
@@ -74,7 +78,7 @@
       "
     >
       <UButton
-        label="Sign In"
+        :label="t('signIn')"
         color="neutral"
         variant="solid"
         size="lg"
@@ -82,3 +86,14 @@
     </div>
   </UCard>
 </template>
+
+<i18n lang="yaml">
+en:
+  heading: Personalize your APP
+  description: Sign in or create an account for a faster, easier experience and collect care points.
+  signIn: Sign In
+el:
+  heading: Εξατομικεύστε την εφαρμογή σας
+  description: Συνδεθείτε ή δημιουργήστε λογαριασμό για πιο γρήγορη και εύκολη εμπειρία και συλλέξτε πόντους cares.
+  signIn: Σύνδεση
+</i18n>

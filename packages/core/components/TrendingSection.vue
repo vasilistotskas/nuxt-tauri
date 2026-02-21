@@ -3,8 +3,10 @@ withDefaults(defineProps<{
   items: TrendingItem[]
   title?: string
 }>(), {
-  title: 'Trending now',
+  title: undefined,
 })
+
+const { t } = useI18n({ useScope: 'local' })
 </script>
 
 <template>
@@ -21,7 +23,7 @@ withDefaults(defineProps<{
         lg:text-3xl
       "
     >
-      {{ title }}
+      {{ title || t('trendingNow') }}
     </h2>
 
     <!-- Mobile: Carousel -->
@@ -42,7 +44,7 @@ withDefaults(defineProps<{
         <img
           v-if="item.image"
           :src="item.image"
-          :alt="item.title || 'Trending'"
+          :alt="item.title || t('trendingNow')"
           class="size-full rounded-xl object-cover"
         >
         <div class="absolute inset-0 flex items-center justify-center">
@@ -82,7 +84,7 @@ withDefaults(defineProps<{
         <img
           v-if="item.image"
           :src="item.image"
-          :alt="item.title || 'Trending'"
+          :alt="item.title || t('trendingNow')"
           class="size-full rounded-xl object-cover"
         >
         <div class="absolute inset-0 flex items-center justify-center">
@@ -109,3 +111,10 @@ withDefaults(defineProps<{
     </div>
   </section>
 </template>
+
+<i18n lang="yaml">
+en:
+  trendingNow: Trending now
+el:
+  trendingNow: Τάσεις τώρα
+</i18n>

@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const router = useRouter()
+const { t } = useI18n({ useScope: 'local' })
+const { $i18n } = useNuxtApp()
+const localePath = useLocalePath()
 const colorMode = useColorMode()
 
 const isDark = computed({
@@ -11,17 +13,16 @@ const isDark = computed({
   },
 })
 
-const menuItems = ref([
-  { label: 'My Orders', route: '/orders' },
-  { label: 'Purchased products', route: '/purchased' },
-  { label: 'Care points & Discounts', route: '/points' },
-  { label: 'Account settings', route: '/settings' },
-  { label: 'Language', route: '/language' },
-  { label: 'Help', route: '/help' },
+const menuItems = computed(() => [
+  { label: $i18n.t('account.myOrders'), route: localePath({ path: '/orders' }) },
+  { label: $i18n.t('account.purchasedProducts'), route: localePath({ path: '/purchased' }) },
+  { label: $i18n.t('wecare.carePointsAndDiscounts'), route: localePath({ path: '/points' }) },
+  { label: $i18n.t('account.accountSettings'), route: localePath({ path: '/settings' }) },
+  { label: $i18n.t('account.help'), route: localePath({ path: '/help' }) },
 ])
 
 function handleMenuClick(route: string) {
-  router.push(route)
+  navigateTo(route)
 }
 
 function handleLogin() {
@@ -38,7 +39,7 @@ function handleChangePassword() {
     <!-- Header -->
     <div class="relative px-4 pt-8 pb-4">
       <h1 class="text-center text-2xl font-bold tracking-wide text-default">
-        My account
+        {{ $i18n.t('account.title') }}
       </h1>
       <!-- Theme toggle -->
       <ClientOnly>
@@ -58,10 +59,10 @@ function handleChangePassword() {
     <!-- Subheader -->
     <div class="py-6 text-center">
       <p class="mb-2 text-base font-semibold text-muted">
-        Good morning
+        {{ t('greeting') }}
       </p>
       <ULink class="text-lg font-semibold text-default underline">
-        Register or log in
+        {{ t('registerOrLogIn') }}
       </ULink>
     </div>
 
@@ -69,10 +70,16 @@ function handleChangePassword() {
     <div class="space-y-0 px-4">
       <WeCareAccountMenuItem
         v-for="item in menuItems"
-        :key="item.label"
+        :key="item.route"
         :label="item.label"
         @click="handleMenuClick(item.route)"
       />
+    </div>
+
+    <!-- Language Switcher -->
+    <div class="mt-4 flex items-center justify-between px-4">
+      <span class="text-lg tracking-wide text-default">{{ $i18n.t('account.language') }}</span>
+      <LanguageSwitcher />
     </div>
 
     <!-- Action Buttons -->
@@ -85,7 +92,7 @@ function handleChangePassword() {
         class="h-[52px] text-lg font-semibold"
         @click="handleLogin"
       >
-        Log in
+        {{ $i18n.t('account.logIn') }}
       </UButton>
 
       <UButton
@@ -96,7 +103,7 @@ function handleChangePassword() {
         class="h-[52px] text-lg font-semibold"
         @click="handleChangePassword"
       >
-        Change password
+        {{ $i18n.t('account.changePassword') }}
       </UButton>
     </div>
 
@@ -104,23 +111,32 @@ function handleChangePassword() {
     <div class="mt-8 px-4">
       <div class="mb-4 flex justify-between">
         <ULink class="text-[15px] text-default underline">
-          Shipping terms
+          {{ $i18n.t('account.shippingTerms') }}
         </ULink>
         <ULink class="text-[15px] text-default underline">
-          Return policy
+          {{ $i18n.t('account.returnPolicy') }}
         </ULink>
         <ULink class="text-[15px] text-default underline">
-          Terms of Use
+          {{ $i18n.t('account.termsOfUse') }}
         </ULink>
       </div>
       <div class="flex justify-center gap-12">
         <ULink class="text-[15px] text-default underline">
-          Privacy Policy
+          {{ $i18n.t('account.privacyPolicy') }}
         </ULink>
         <ULink class="text-[15px] text-default underline">
-          Cookies
+          {{ $i18n.t('account.cookies') }}
         </ULink>
       </div>
     </div>
   </div>
 </template>
+
+<i18n lang="yaml">
+en:
+  greeting: Good morning
+  registerOrLogIn: Register or log in
+el:
+  greeting: Καλημέρα
+  registerOrLogIn: Εγγραφή ή σύνδεση
+</i18n>

@@ -14,11 +14,11 @@ const { navItems } = useNavigation()
     <div class="flex items-center justify-around p-2">
       <UButton
         v-for="item in navItems"
-        :key="item.label"
-        :to="item.route"
+        :key="item.route"
+        :to="item.resolvedRoute"
         variant="ghost"
         color="neutral"
-        class="flex h-auto min-w-[60px] flex-col items-center gap-0.5 py-1.5"
+        class="flex h-auto min-w-15 flex-col items-center gap-0.5 py-1.5"
         :class="item.active ? 'opacity-100' : 'opacity-50'"
         :ui="{
           base: 'flex-col gap-0.5 px-2',
@@ -42,9 +42,10 @@ const { navItems } = useNavigation()
     <div
       class="
         mx-auto flex max-w-3xl items-center justify-between px-6 py-3
+        md:justify-center
         lg:max-w-5xl lg:px-8
         xl:max-w-7xl
-        2xl:max-w-[1400px]
+        2xl:max-w-350
       "
     >
       <div
@@ -55,8 +56,8 @@ const { navItems } = useNavigation()
       >
         <UButton
           v-for="item in navItems"
-          :key="item.label"
-          :to="item.route"
+          :key="item.route"
+          :to="item.resolvedRoute"
           variant="ghost"
           color="neutral"
           class="flex items-center gap-2 transition-opacity"

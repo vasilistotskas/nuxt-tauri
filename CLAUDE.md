@@ -126,6 +126,68 @@ Core server routes live in `packages/core/server/` and are inherited by all bran
 
 Uses `@antfu/eslint-config` with `eslint-plugin-better-tailwindcss` (config in `eslint.config.mjs`). The Tailwind plugin entry point is `packages/core/assets/css/main.css`. NuxtUI semantic classes (e.g., `text-primary*`, `bg-elevated*`, `text-default*`) are allowlisted. `console.log` is permitted; `vue/multi-word-component-names` is off.
 
+### i18n
+
+- Module: `@nuxtjs/i18n` configured in `packages/core/nuxt.config.ts` (inherited by all brands)
+- Default locale: English (`en`), also supports Greek (`el`)
+- Strategy: `prefix_except_default` (English URLs have no prefix, Greek gets `/el/`)
+- Lazy-loaded locale files in JSON format
+- `LanguageSwitcher` component in core uses Nuxt UI's `ULocaleSelect` with `useSwitchLocalePath()` for locale switching
+- All locale-aware navigation uses `useLocalePath()` / `useSwitchLocalePath()`
+
+**Translation file locations:**
+- `packages/core/i18n/locales/{en,el}.json` — shared global translations (nav, cart, account, errors)
+- `apps/<brand>/i18n/locales/{en,el}.json` — brand-specific global translations (auto-merged with core)
+
+**Global locale file keys (core):**
+- `nav.*` — navigation labels (`home`, `shop`, `cart`, `favorites`, `account`)
+- `cart.*` — cart page (`title`, `empty`, `youMightLike`)
+- `account.*` — account page (`title`, `myOrders`, `purchasedProducts`, `accountSettings`, `language`, `help`, `logIn`, `changePassword`, `shippingTerms`, `returnPolicy`, `termsOfUse`, `privacyPolicy`, `cookies`)
+- `errors.*` — error pages (`pageNotFound`, `pageNotFoundDesc`, `goHome`)
+
+**Global locale file keys (WeCare brand):**
+- `wecare.*` — brand terms (`carePointsAndDiscounts`, `onlinePharmacy`)
+
+**Two translation patterns:**
+
+1. **Component-level** (Vue components/pages): Use `const { t } = useI18n()` with `<i18n lang="yaml">` SFC blocks for strings used only in that component. The `t()` function accesses component-scoped translations defined in the `<i18n>` block.
+
+```vue
+<script setup lang="ts">
+const { t } = useI18n()
+</script>
+
+<template>
+  <UButton :label="t('addToCart')" />
+</template>
+
+<i18n lang="yaml">
+en:
+  addToCart: Add to Cart
+el:
+  addToCart: Προσθήκη στο καλάθι
+</i18n>
+```
+
+2. **Global-level** (Pinia stores, composables, and components accessing shared translations): Use `const { $i18n } = useNuxtApp()` and `$i18n.t('key')` to access translations from `i18n/locales` files.
+
+```ts
+// In a composable or store
+const { $i18n } = useNuxtApp()
+const label = $i18n.t('account.title')
+```
+
+```vue
+<!-- In a template -->
+<template>
+  <h1>{{ $i18n.t('cart.title') }}</h1>
+</template>
+```
+
+**Decision rule:** If a string is used in only one component, put it in an `<i18n>` block. If shared across multiple components or part of a domain (nav, account, cart), put it in global locale files.
+
+**Navigation:** Nav items use `labelKey` (i18n key, e.g. `'nav.home'`) instead of `label`. The `useNavigation()` composable resolves labels via `$i18n.t()` at render time.
+
 ### Tauri
 
 **Cargo workspace:** Root `Cargo.toml` defines a workspace with members `packages/tauri-core` and `apps/*/src-tauri`. Dependencies are centralized via `[workspace.dependencies]`.

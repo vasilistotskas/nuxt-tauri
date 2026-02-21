@@ -5,7 +5,26 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxt/ui',
     'reka-ui/nuxt',
+    '@nuxtjs/i18n',
   ],
+
+  i18n: {
+    locales: [
+      { code: 'en', name: 'English', file: 'en.json' },
+      { code: 'el', name: 'Ελληνικά', file: 'el.json' },
+    ],
+    defaultLocale: 'en',
+    strategy: 'prefix_except_default',
+    lazy: true,
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root',
+    },
+  },
+  devtools: {
+    enabled: true,
+  },
   imports: {
     autoImport: true,
     dirs: [

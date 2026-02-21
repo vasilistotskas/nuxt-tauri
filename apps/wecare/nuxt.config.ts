@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   ssr: !isTauri,
 
   devtools: {
-    enabled: false,
+    enabled: !isTauri,
   },
 
   compatibilityDate: 'latest',

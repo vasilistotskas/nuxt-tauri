@@ -2,6 +2,9 @@
 definePageMeta({
   layout: false,
 })
+
+const { $i18n } = useNuxtApp()
+const localePath = useLocalePath()
 </script>
 
 <template>
@@ -22,14 +25,18 @@ definePageMeta({
       </p>
       <div class="space-y-3 text-center">
         <h1 class="text-3xl font-bold tracking-tight">
-          Page not found
+          {{ $i18n.t('errors.pageNotFound') }}
         </h1>
         <p class="text-base/7 text-muted">
-          Sorry, we couldn't find the page you're looking for.
+          {{ $i18n.t('errors.pageNotFoundDesc') }}
         </p>
       </div>
-      <UButton to="/" variant="outline" size="lg" :ui="{ base: 'px-5' }">
-        Go home
+      <UButton
+        :to="localePath({ path: '/' })" variant="outline" size="lg" :ui="{ base: `
+          px-5
+        ` }"
+      >
+        {{ $i18n.t('errors.goHome') }}
       </UButton>
     </div>
   </div>

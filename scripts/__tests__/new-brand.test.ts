@@ -147,11 +147,11 @@ describe('generateAppConfig', () => {
   })
 
   test('includes default nav items', () => {
-    expect(config).toContain('label: \'Home\'')
-    expect(config).toContain('label: \'Shop\'')
-    expect(config).toContain('label: \'Cart\'')
-    expect(config).toContain('label: \'Favorites\'')
-    expect(config).toContain('label: \'Account\'')
+    expect(config).toContain('labelKey: \'nav.home\'')
+    expect(config).toContain('labelKey: \'nav.shop\'')
+    expect(config).toContain('labelKey: \'nav.cart\'')
+    expect(config).toContain('labelKey: \'nav.favorites\'')
+    expect(config).toContain('labelKey: \'nav.account\'')
   })
 
   test('includes default color config', () => {

@@ -7,6 +7,8 @@ defineProps<{
 defineEmits<{
   addToCart: []
 }>()
+
+const { t } = useI18n({ useScope: 'local' })
 </script>
 
 <template>
@@ -21,8 +23,15 @@ defineEmits<{
         class="text-xs text-dimmed"
       >
         <span class="font-bold text-brand">{{ p.meta.caresPoints }}</span>
-        <span class="font-medium"> Cares</span>
+        <span class="font-medium"> {{ t('cares') }}</span>
       </p>
     </template>
   </ProductCard>
 </template>
+
+<i18n lang="yaml">
+en:
+  cares: Cares
+el:
+  cares: Cares
+</i18n>

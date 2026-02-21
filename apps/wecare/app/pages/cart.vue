@@ -1,4 +1,7 @@
 <script setup lang="ts">
+const { t } = useI18n({ useScope: 'local' })
+const { $i18n } = useNuxtApp()
+
 const suggestedProducts = ref<Product[]>([
   {
     id: 1,
@@ -65,7 +68,7 @@ function handleAddToCart(product: Product) {
       <h1
         class="text-center text-2xl font-bold tracking-wide text-default"
       >
-        Cart
+        {{ $i18n.t('cart.title') }}
       </h1>
       <USeparator class="mt-4" />
     </header>
@@ -92,7 +95,7 @@ function handleAddToCart(product: Product) {
           md:text-xl
         "
       >
-        You might like
+        {{ $i18n.t('cart.youMightLike') }}
       </h2>
 
       <!-- Mobile: Carousel -->
@@ -153,7 +156,7 @@ function handleAddToCart(product: Product) {
           md:text-base
         "
       >
-        <span class="font-bold">Free shipping</span> for orders over 49.00€
+        <span class="font-bold">{{ t('freeShipping') }}</span> {{ t('freeShippingThreshold') }}
       </p>
       <USeparator />
       <p
@@ -162,8 +165,19 @@ function handleAddToCart(product: Product) {
           md:text-base
         "
       >
-        <span class="font-bold">Telephone orders</span> 210 700 1375
+        <span class="font-bold">{{ t('telephoneOrders') }}</span> 210 700 1375
       </p>
     </section>
   </div>
 </template>
+
+<i18n lang="yaml">
+en:
+  freeShipping: Free shipping
+  freeShippingThreshold: for orders over 49.00€
+  telephoneOrders: Telephone orders
+el:
+  freeShipping: Δωρεάν αποστολή
+  freeShippingThreshold: για παραγγελίες άνω των 49.00€
+  telephoneOrders: Τηλεφωνικές παραγγελίες
+</i18n>

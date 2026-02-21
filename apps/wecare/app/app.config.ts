@@ -17,11 +17,11 @@ export default defineAppConfig({
   // Navigation items for WeCare
   nav: {
     items: [
-      { label: 'Home', icon: 'lucide:house', route: '/' },
-      { label: 'Shop', icon: 'lucide:search', route: '/shop' },
-      { label: 'Cart', icon: 'lucide:shopping-cart', route: '/cart' },
-      { label: 'Favorites', icon: 'lucide:heart', route: '/favorites' },
-      { label: 'Account', icon: 'lucide:user', route: '/account' },
+      { labelKey: 'nav.home', icon: 'lucide:house', route: '/' },
+      { labelKey: 'nav.shop', icon: 'lucide:search', route: '/shop' },
+      { labelKey: 'nav.cart', icon: 'lucide:shopping-cart', route: '/cart' },
+      { labelKey: 'nav.favorites', icon: 'lucide:heart', route: '/favorites' },
+      { labelKey: 'nav.account', icon: 'lucide:user', route: '/account' },
     ],
   },
 

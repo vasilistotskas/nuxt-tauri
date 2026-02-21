@@ -5,6 +5,8 @@ defineProps<{
   products: Product[]
 }>()
 
+const { t } = useI18n({ useScope: 'local' })
+
 const activeTab = ref(0)
 </script>
 
@@ -27,7 +29,7 @@ const activeTab = ref(0)
       </h2>
       <!-- Desktop: View all link -->
       <UButton
-        label="View all"
+        :label="t('viewAll')"
         variant="link"
         color="neutral"
         trailing-icon="lucide:arrow-right"
@@ -79,3 +81,10 @@ const activeTab = ref(0)
     </div>
   </section>
 </template>
+
+<i18n lang="yaml">
+en:
+  viewAll: View all
+el:
+  viewAll: Προβολή όλων
+</i18n>

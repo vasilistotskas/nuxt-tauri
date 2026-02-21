@@ -16,7 +16,7 @@ export default defineAppConfig({
 
   // Navigation items - populated by brand apps
   nav: {
-    items: [] as { label: string, icon: string, route: string }[],
+    items: [] as { labelKey: string, icon: string, route: string }[],
   },
 
   // Default UI configuration - can be extended by brand apps

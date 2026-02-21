@@ -1,3 +1,7 @@
+<script setup lang="ts">
+const { $i18n } = useNuxtApp()
+</script>
+
 <template>
   <div class="flex flex-col items-center justify-center py-8">
     <slot>
@@ -8,7 +12,7 @@
     </slot>
     <slot name="message">
       <p class="mt-4 text-base text-default">
-        Your cart is empty
+        {{ $i18n.t('cart.empty') }}
       </p>
     </slot>
   </div>
