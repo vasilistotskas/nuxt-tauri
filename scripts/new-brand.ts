@@ -165,7 +165,7 @@ export default defineNuxtConfig({
 
   css: [
     '@packages/core/assets/css/main.css',
-    './app/assets/css/brand.css',
+    './assets/css/brand.css',
   ],
 
   ...(isTauri

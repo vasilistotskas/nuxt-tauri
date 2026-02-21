@@ -126,7 +126,7 @@ describe('generateNuxtConfig', () => {
 
   test('includes core and brand CSS paths', () => {
     expect(config).toContain('@packages/core/assets/css/main.css')
-    expect(config).toContain('./app/assets/css/brand.css')
+    expect(config).toContain('./assets/css/brand.css')
   })
 
   test('uses isTauri conditional for SSR', () => {

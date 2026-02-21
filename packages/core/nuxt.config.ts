@@ -9,17 +9,17 @@ export default defineNuxtConfig({
   ],
 
   i18n: {
+    strategy: 'prefix_except_default',
+    defaultLocale: 'en',
     locales: [
       { code: 'en', name: 'English', file: 'en.json' },
       { code: 'el', name: 'Ελληνικά', file: 'el.json' },
     ],
-    defaultLocale: 'en',
-    strategy: 'prefix_except_default',
     lazy: true,
     detectBrowserLanguage: {
       useCookie: true,
-      cookieKey: 'i18n_redirected',
       redirectOn: 'root',
+      cookieKey: 'i18n_redirected',
     },
   },
   devtools: {

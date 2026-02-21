@@ -29,7 +29,7 @@ export default defineNuxtConfig({
   // Include core styles first, then brand-specific overrides
   css: [
     '@packages/core/assets/css/main.css',
-    './app/assets/css/brand.css',
+    './assets/css/brand.css',
   ],
 
   ...(isTauri
