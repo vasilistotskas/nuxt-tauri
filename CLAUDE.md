@@ -64,11 +64,11 @@ Brand apps extend the core layer (`extends: ['@packages/core']` in nuxt.config.t
 - Base configuration, composables, and shared types
 - UI design tokens via CSS variables and `app.config.ts`
 
-Brand apps add: brand-specific CSS (`brand.css`), Tauri config (`src-tauri/`), brand components, pages, and `app.config.ts` overrides.
+Brand apps add: brand-specific CSS (`brand.css`), Tauri config (`src-tauri/`), brand components, pages, and `app/app.config.ts` overrides.
 
 ### Brand Configuration
 
-Brand apps define their identity in `app.config.ts` with two key sections:
+Brand apps define their identity in `app/app.config.ts` (inside `srcDir`, required for SSR) with two key sections:
 - `brand` — name, author, colors, logo, metadata (typed via `BrandConfig` interface)
 - `nav.items` — navigation items array (consumed by `useNavigation()` composable)
 

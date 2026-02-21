@@ -407,8 +407,8 @@ fn main() {
   // ── nuxt.config.ts ────────────────────────────────────────
   writeFileSync(join(appDir, 'nuxt.config.ts'), generateNuxtConfig(productName))
 
-  // ── app.config.ts ─────────────────────────────────────────
-  writeFileSync(join(appDir, 'app.config.ts'), generateAppConfig(brandName, productName))
+  // ── app/app.config.ts ───────────────────────────────────────
+  writeFileSync(join(appDir, 'app', 'app.config.ts'), generateAppConfig(brandName, productName))
 
   // ── app/assets/css/brand.css ──────────────────────────────
   writeFileSync(

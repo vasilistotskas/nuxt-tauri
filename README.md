@@ -74,7 +74,7 @@ apps/
       layouts/                 # App layouts
       assets/css/brand.css     # Brand colors & overrides
     src-tauri/                 # Tauri config (Rust backend, capabilities)
-    app.config.ts              # Brand identity & nav items
+    app/app.config.ts          # Brand identity & nav items
     nuxt.config.ts             # Extends @packages/core
 
 scripts/
@@ -157,7 +157,7 @@ Root scripts:
    })
    ```
 
-4. **Create `apps/mybrand/app.config.ts`:**
+4. **Create `apps/mybrand/app/app.config.ts`:**
    ```ts
    export default defineAppConfig({
      brand: {
