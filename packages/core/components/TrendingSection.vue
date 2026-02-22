@@ -77,8 +77,8 @@ const { t } = useI18n({ useScope: 'local' })
           relative h-[353px] cursor-pointer overflow-hidden rounded-xl bg-muted
           transition-transform
           hover:scale-[1.02]
-          md:h-[380px]
-          lg:h-[420px]
+          md:h-[320px]
+          lg:h-[360px]
         "
       >
         <img

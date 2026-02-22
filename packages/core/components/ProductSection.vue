@@ -7,6 +7,7 @@ defineProps<{
 
 const { t } = useI18n({ useScope: 'local' })
 
+const cartStore = useCartStore()
 const activeTab = ref(0)
 </script>
 
@@ -76,7 +77,9 @@ const activeTab = ref(0)
         v-for="product in products"
         :key="product.id"
         :product="product"
+        show-add-to-cart
         class="w-full"
+        @add-to-cart="cartStore.addItem(product)"
       />
     </div>
   </section>

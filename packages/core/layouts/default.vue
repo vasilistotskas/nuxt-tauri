@@ -2,22 +2,25 @@
   <div
     class="
       min-h-screen bg-default pb-24
-      md:pt-(--ui-header-height) md:pb-8
+      md:pb-0
     "
   >
+    <BottomNav />
+
     <!-- Centered container for larger screens -->
     <div
       class="
-        mx-auto max-w-md
-        sm:max-w-lg
-        md:max-w-3xl
+        mx-auto max-w-lg
+        sm:max-w-xl
+        md:max-w-3xl md:pt-4
         lg:max-w-5xl
         xl:max-w-7xl
-        2xl:max-w-[1400px]
+        2xl:max-w-350
       "
     >
       <slot />
     </div>
-    <BottomNav />
+
+    <AppFooter />
   </div>
 </template>

@@ -6,6 +6,7 @@ const { navItems } = useNavigation()
 const { $i18n } = useNuxtApp()
 const localePath = useLocalePath()
 const favoritesStore = useFavoritesStore()
+const cartStore = useCartStore()
 
 const headerNavItems = computed<NavigationMenuItem[]>(() => {
   return navItems.value
@@ -149,6 +150,24 @@ const accountMenuItems = computed<DropdownMenuItem[][]>(() => [
             variant="ghost"
             :to="localePath({ path: '/favorites' })"
             :aria-label="$i18n.t('nav.favorites')"
+          />
+        </UTooltip>
+      </UChip>
+
+      <!-- Cart with count chip -->
+      <UChip
+        :text="cartStore.totalItems"
+        :show="cartStore.totalItems > 0"
+        size="2xs"
+        color="primary"
+      >
+        <UTooltip :text="$i18n.t('nav.cart')">
+          <UButton
+            icon="lucide:shopping-cart"
+            color="neutral"
+            variant="ghost"
+            :to="localePath({ path: '/cart' })"
+            :aria-label="$i18n.t('nav.cart')"
           />
         </UTooltip>
       </UChip>

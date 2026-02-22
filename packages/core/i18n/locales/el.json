@@ -49,6 +49,9 @@
     "privacyPolicy": "Πολιτική απορρήτου",
     "cookies": "Cookies"
   },
+  "footer": {
+    "allRightsReserved": "Με επιφύλαξη παντός δικαιώματος"
+  },
   "errors": {
     "pageNotFound": "Η σελίδα δεν βρέθηκε",
     "pageNotFoundDesc": "Λυπούμαστε, δεν μπορέσαμε να βρούμε τη σελίδα που ψάχνετε.",

@@ -17,9 +17,10 @@ const localePath = useLocalePath()
 <template>
   <UCard
     class="
-      flex w-[180px] flex-col overflow-hidden transition-shadow
+      group flex w-[180px] flex-col overflow-hidden transition-shadow
       hover:shadow-lg
-      md:w-full
+      md:w-full md:transition-transform
+      md:hover:scale-[1.02]
     "
     :ui="{
       root: `rounded-[10px] border border-default bg-default`,
@@ -48,7 +49,15 @@ const localePath = useLocalePath()
         variant="ghost"
         size="md"
         square
-        class="absolute top-1.5 right-1.5"
+        class="absolute top-1.5 right-1.5 transition-opacity"
+        :class="[
+          favoritesStore.isFavorite(product.id)
+            ? ''
+            : `
+              md:opacity-0
+              md:group-hover:opacity-100
+            `,
+        ]"
         :ui="{
           base: favoritesStore.isFavorite(product.id) ? 'text-error' : `
             text-muted
@@ -81,12 +90,27 @@ const localePath = useLocalePath()
     </div>
 
     <!-- Content -->
-    <div class="flex flex-1 flex-col space-y-1 p-2.5">
+    <div
+      class="
+        flex flex-1 flex-col space-y-1 p-2.5
+        md:p-3.5
+      "
+    >
       <NuxtLink :to="localePath({ path: `/product/${product.id}` })">
-        <p class="line-clamp-1 text-base font-semibold text-default">
+        <p
+          class="
+            line-clamp-1 text-base font-semibold text-default
+            md:text-lg
+          "
+        >
           {{ product.brand }}
         </p>
-        <p class="line-clamp-2 text-xs/tight text-muted">
+        <p
+          class="
+            line-clamp-2 text-xs/tight text-muted
+            md:text-sm/snug
+          "
+        >
           {{ product.name }}
         </p>
       </NuxtLink>

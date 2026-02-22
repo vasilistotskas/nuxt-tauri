@@ -49,6 +49,9 @@
     "privacyPolicy": "Privacy Policy",
     "cookies": "Cookies"
   },
+  "footer": {
+    "allRightsReserved": "All rights reserved"
+  },
   "errors": {
     "pageNotFound": "Page not found",
     "pageNotFoundDesc": "Sorry, we couldn't find the page you're looking for.",
