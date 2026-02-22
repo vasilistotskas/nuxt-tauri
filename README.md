@@ -1,7 +1,7 @@
 <p align="center">
     <img src="banner.png" alt="banner">
 </p>
-<h1 align="center">Nuxt Tauri Monorepo</h1>
+<h1 align="center">Velora</h1>
 <p align="center">
 Multi-brand mobile &amp; desktop applications powered by <a href="https://nuxt.com">Nuxt 4</a> and <a href="https://v2.tauri.app">Tauri 2</a>
 </p>
