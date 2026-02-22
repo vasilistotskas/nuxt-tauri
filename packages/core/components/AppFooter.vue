@@ -52,14 +52,12 @@ const columns = computed<FooterColumn[]>(() => [
   >
     <template #top>
       <UContainer
-        :ui="{
-          root: `
-            max-w-3xl
-            lg:max-w-5xl
-            xl:max-w-7xl
-            2xl:max-w-[1400px]
-          `,
-        }"
+        class="
+          max-w-3xl
+          lg:max-w-5xl
+          xl:max-w-7xl
+          2xl:max-w-350
+        "
       >
         <UFooterColumns :columns="columns" />
       </UContainer>

@@ -2,8 +2,8 @@
 const { t } = useI18n({ useScope: 'local' })
 
 const banners = ref([
-  { image: 'https://placehold.co/600x300/1887AA/white?text=Hair+Edition', title: 'Hair Edition' },
-  { image: 'https://placehold.co/600x300/a56dc1/white?text=Makeup', title: 'Makeup' },
+  { image: 'https://placehold.co/316x380/1887AA/white?text=Hair+Edition', title: 'Hair Edition' },
+  { image: 'https://placehold.co/316x380/a56dc1/white?text=Makeup', title: 'Makeup' },
 ])
 
 const trendingItems = ref([

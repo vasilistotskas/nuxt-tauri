@@ -163,6 +163,13 @@ export default defineNuxtConfig({
 
   compatibilityDate: 'latest',
 
+  i18n: {
+    locales: [
+      { code: 'en', file: 'en.json' },
+      { code: 'el', file: 'el.json' },
+    ],
+  },
+
   app: {
     head: {
       title: '${productName}',

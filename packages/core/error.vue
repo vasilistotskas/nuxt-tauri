@@ -8,7 +8,7 @@ const props = defineProps<{
 const { $i18n } = useNuxtApp()
 const localePath = useLocalePath()
 
-const is404 = computed(() => props.error.statusCode === 404)
+const is404 = computed(() => props.error.status === 404)
 
 function handleResolve() {
   clearError({ redirect: localePath({ path: '/' }) })

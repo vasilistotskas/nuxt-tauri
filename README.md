@@ -149,6 +149,12 @@ Root scripts:
    export default defineNuxtConfig({
      extends: ['@packages/core'],
      ssr: !isTauri,
+     i18n: {
+       locales: [
+         { code: 'en', file: 'en.json' },
+         { code: 'el', file: 'el.json' },
+       ],
+     },
      css: [
        '@packages/core/assets/css/main.css',
        './app/assets/css/brand.css',
@@ -228,7 +234,7 @@ English (default) and Greek, powered by `@nuxtjs/i18n` with the `prefix_except_d
 
 **Locale files:**
 - `packages/core/i18n/locales/{en,el}.json` — shared keys (`nav.*`, `cart.*`, `account.*`, `errors.*`)
-- `apps/<brand>/i18n/locales/{en,el}.json` — brand-specific keys (auto-merged with core)
+- `apps/<brand>/i18n/locales/{en,el}.json` — brand-specific keys (merged with core; requires `i18n.locales` declared in brand's `nuxt.config.ts`)
 
 The `LanguageSwitcher` core component uses Nuxt UI's `ULocaleSelect` for locale switching.
 

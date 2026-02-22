@@ -4,7 +4,7 @@
   "version": "1.5.0",
   "private": true,
   "description": "Monorepo for Nuxt 4 and Tauri 2 multi-brand applications",
-  "author": "Nicola Spadari",
+  "author": "Vasilis Totskas",
   "license": "MIT",
   "workspaces": [
     "packages/*",

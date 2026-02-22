@@ -5,7 +5,7 @@
       md:pb-0
     "
   >
-    <BottomNav />
+    <AppNavigation />
 
     <!-- Centered container for larger screens -->
     <div
