@@ -1,5 +1,16 @@
 {
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"$CLAUDE_FILE_PATH\" | grep -qE '(src-tauri[\\/]gen[\\/]|\\.nuxt[\\/]|\\.output[\\/]|node_modules[\\/])' && echo 'BLOCKED: Do not edit auto-generated directories (src-tauri/gen/, .nuxt/, .output/, node_modules/). Re-run the generator command instead.' && exit 1 || exit 0"
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Edit|Write",
@@ -7,6 +18,15 @@
           {
             "type": "command",
             "command": "ext=\"${CLAUDE_FILE_PATH##*.}\"; if [ \"$ext\" = \"vue\" ] || [ \"$ext\" = \"ts\" ] || [ \"$ext\" = \"mts\" ] || [ \"$ext\" = \"js\" ] || [ \"$ext\" = \"mjs\" ]; then npx eslint --fix \"$CLAUDE_FILE_PATH\" 2>/dev/null; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "ext=\"${CLAUDE_FILE_PATH##*.}\"; if [ \"$ext\" = \"ts\" ] || [ \"$ext\" = \"vue\" ]; then dir=$(dirname \"$CLAUDE_FILE_PATH\"); test_dir=\"\"; if echo \"$dir\" | grep -q '__tests__'; then test_dir=\"$dir\"; elif [ -d \"$dir/__tests__\" ]; then test_dir=\"$dir/__tests__\"; elif [ -d \"$(dirname \"$dir\")/__tests__\" ]; then test_dir=\"$(dirname \"$dir\")/__tests__\"; fi; if [ -n \"$test_dir\" ] && [ -d \"$test_dir\" ]; then bun test \"$test_dir\" --bail 2>&1 | tail -30; fi; fi"
           }
         ]
       }
