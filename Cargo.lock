@@ -2945,6 +2945,26 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9b4f627cb1b25917193a259e49bdad08f671f8d9708acfd5fe0a8c1455d87220"
 
 [[package]]
+name = "pharmaplus-app"
+version = "1.0.0"
+dependencies = [
+ "tauri",
+ "tauri-build",
+ "tauri-core",
+ "tauri-plugin-barcode-scanner",
+ "tauri-plugin-biometric",
+ "tauri-plugin-deep-link",
+ "tauri-plugin-fs",
+ "tauri-plugin-geolocation",
+ "tauri-plugin-http",
+ "tauri-plugin-mcp-bridge",
+ "tauri-plugin-notification",
+ "tauri-plugin-os",
+ "tauri-plugin-shell",
+ "tauri-plugin-store",
+]
+
+[[package]]
 name = "phf"
 version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4624,9 +4644,9 @@ dependencies = [
 
 [[package]]
 name = "tauri-plugin-mcp-bridge"
-version = "0.8.3"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1d7a4377d58271c681729a469dd7766cd25f9db7640d1be541caa6124b0ea905"
+checksum = "34266e1613d9f29a907059ff39e73fc6889a8139bda7df20bf996173468a5b8a"
 dependencies = [
  "base64 0.22.1",
  "block2 0.5.1",

@@ -32,7 +32,7 @@ apps/*/src-tauri/target
 *.log*
 
 # Rust
-.cargo
+/.cargo
 
 # Kiro
 .kiro

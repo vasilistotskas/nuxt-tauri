@@ -2,16 +2,43 @@
 /**
  * Scaffold a new brand app
  * Usage: bun run new-brand <brand-name> <identifier> <product-name>
- * Example: bun run new-brand pharmaplus com.pharmaplus.app "PharmaPlus"
+ * Example: bun run new-brand pharmaplus com.pharmaplus.mobile "PharmaPlus"
  */
 
 import { cpSync } from 'node:fs'
 import { join } from 'node:path'
+import { $ } from 'bun'
 
 // ── Exported pure functions for testing ──────────────────
 
 export function deriveLibName(brandName: string): string {
   return `${brandName.replace(/-/g, '_')}_lib`
+}
+
+/**
+ * Add a new member path to the Cargo.toml workspace members array.
+ * Returns the updated content, or the original if the member already exists.
+ */
+export function addToCargoWorkspace(cargoToml: string, memberPath: string): string {
+  const membersMatch = cargoToml.match(/members\s*=\s*\[([^\]]*)\]/)
+  if (!membersMatch) {
+    throw new Error('Could not find workspace members array in Cargo.toml')
+  }
+
+  const membersBlock = membersMatch[1]
+  // Check if already present
+  if (membersBlock.includes(`"${memberPath}"`)) {
+    return cargoToml
+  }
+
+  // Find existing entries and add new one
+  const entries = [...membersBlock.matchAll(/"([^"]+)"/g)].map(m => m[1])
+  entries.push(memberPath)
+
+  const newMembersBlock = entries.map(e => `  "${e}"`).join(',\n')
+  const newMembers = `members = [\n${newMembersBlock},\n]`
+
+  return cargoToml.replace(/members\s*=\s*\[([^\]]*)\]/, newMembers)
 }
 
 export function generateCargoToml(brandName: string, libName: string): string {
@@ -39,7 +66,6 @@ tauri-plugin-fs = { workspace = true }
 tauri-plugin-store = { workspace = true }
 tauri-plugin-http = { workspace = true }
 tauri-plugin-deep-link = { workspace = true }
-tauri-plugin-stronghold = { workspace = true }
 tauri-plugin-biometric = { workspace = true }
 tauri-plugin-barcode-scanner = { workspace = true }
 tauri-plugin-geolocation = { workspace = true }
@@ -294,13 +320,13 @@ export function generateAppConfig(brandName: string, productName: string): strin
 
 export function generateIndexPage(productName: string): string {
   return `<script setup lang="ts">
-// Brand-specific home page
+const { t } = useI18n()
 </script>
 
 <template>
   <div class="px-4 py-8 text-center md:px-6 lg:px-8">
     <h1 class="text-3xl font-bold text-default">
-      {{ $t('welcome') }}
+      {{ t('welcome') }}
     </h1>
   </div>
 </template>
@@ -343,16 +369,21 @@ Usage: bun run new-brand <brand-name> <identifier> <product-name>
 
 Arguments:
   brand-name     Lowercase kebab-case name (e.g., pharmaplus)
-  identifier     Reverse-domain identifier (e.g., com.pharmaplus.app)
+  identifier     Reverse-domain identifier (e.g., com.pharmaplus.mobile)
   product-name   Display name (e.g., "PharmaPlus")
 
 Example:
-  bun run new-brand pharmaplus com.pharmaplus.app "PharmaPlus"
+  bun run new-brand pharmaplus com.pharmaplus.mobile "PharmaPlus"
 `)
     process.exit(1)
   }
 
   const [brandName, identifier, productName] = args
+
+  if (identifier.endsWith('.app')) {
+    console.error(`Error: Identifier "${identifier}" ends with ".app", which conflicts with the macOS .app bundle extension. Use a different suffix (e.g., ".mobile").`)
+    process.exit(1)
+  }
   const root = join(import.meta.dirname, '..')
   const appDir = join(root, 'apps', brandName)
   const templateDir = join(root, 'apps', 'wecare')
@@ -372,6 +403,7 @@ Example:
     'src-tauri/src',
     'src-tauri/capabilities',
     'src-tauri/icons',
+    'src-tauri/.cargo',
     'app/assets/css',
     'app/pages',
     'i18n/locales',
@@ -379,6 +411,12 @@ Example:
     const { mkdir } = await import('node:fs/promises')
     await mkdir(join(appDir, dir), { recursive: true })
   }
+
+  // ── src-tauri/.cargo/config.toml (per-app target dir) ────
+  await Bun.write(
+    join(appDir, 'src-tauri', '.cargo', 'config.toml'),
+    `[build]\ntarget-dir = "target"\n`,
+  )
 
   // ── src-tauri/Cargo.toml ──────────────────────────────────
   await Bun.write(join(appDir, 'src-tauri', 'Cargo.toml'), generateCargoToml(brandName, libName))
@@ -520,6 +558,23 @@ fn main() {
     JSON.stringify({}, null, 2),
   )
 
+  // ── Auto-add to root Cargo.toml workspace members ─────────
+  const cargoTomlPath = join(root, 'Cargo.toml')
+  const cargoToml = await Bun.file(cargoTomlPath).text()
+  const memberPath = `apps/${brandName}/src-tauri`
+  const updatedCargoToml = addToCargoWorkspace(cargoToml, memberPath)
+  if (updatedCargoToml !== cargoToml) {
+    await Bun.write(cargoTomlPath, updatedCargoToml)
+    console.log(`Added "${memberPath}" to root Cargo.toml workspace members`)
+  }
+  else {
+    console.log(`"${memberPath}" already in root Cargo.toml workspace members`)
+  }
+
+  // ── Auto-run bun install ──────────────────────────────────
+  console.log('Running bun install...')
+  await $`bun install`.cwd(root)
+
   // ── Print next steps ──────────────────────────────────────
   console.log(`
 Brand app "${brandName}" scaffolded at apps/${brandName}/
@@ -528,15 +583,16 @@ Core provides default pages (shop, cart, favorites, account, product, 404).
 Brand app includes stub index.vue and splashscreen.vue pages.
 
 Next steps:
-  1. Add "apps/${brandName}/src-tauri" to root Cargo.toml workspace members
-  2. Replace icons in apps/${brandName}/src-tauri/icons/
-  3. Customize apps/${brandName}/app/app.config.ts:
+  1. Replace icons in apps/${brandName}/src-tauri/icons/
+  2. Customize apps/${brandName}/app/app.config.ts:
      - Brand colors, logo, metadata
      - account.menuItems (add brand-specific menu items)
      - cart.supportPhone and cart.freeShippingThreshold
-  4. Edit apps/${brandName}/app/assets/css/brand.css for brand CSS variables
-  5. Customize apps/${brandName}/app/pages/index.vue (brand home page)
-  6. Run: bun install
-  7. Run: bun run app ${brandName} tauri:dev
+  3. Edit apps/${brandName}/app/assets/css/brand.css for brand CSS variables
+  4. Customize apps/${brandName}/app/pages/index.vue (brand home page)
+  5. Initialize mobile platforms before building:
+     - Android: bun run app ${brandName} tauri:android:init
+     - iOS:     bun run app ${brandName} tauri:ios:init   (macOS only)
+  6. Run: bun run app ${brandName} tauri:dev
 `)
 }

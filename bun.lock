@@ -18,6 +18,25 @@
         "vue-tsc": "^3.2.4",
       },
     },
+    "apps/pharmaplus": {
+      "name": "@apps/pharmaplus",
+      "version": "1.0.0",
+      "dependencies": {
+        "@packages/core": "workspace:*",
+        "@tauri-apps/api": "^2.10.1",
+        "@tauri-apps/plugin-barcode-scanner": "^2.4.4",
+        "@tauri-apps/plugin-biometric": "^2.3.2",
+        "@tauri-apps/plugin-deep-link": "^2.4.7",
+        "@tauri-apps/plugin-geolocation": "^2.3.2",
+        "@tauri-apps/plugin-http": "^2.5.7",
+        "@tauri-apps/plugin-os": "^2.3.2",
+        "@tauri-apps/plugin-shell": "^2.3.5",
+        "@tauri-apps/plugin-stronghold": "^2.3.1",
+      },
+      "devDependencies": {
+        "@tauri-apps/cli": "^2.10.0",
+      },
+    },
     "apps/wecare": {
       "name": "@apps/wecare",
       "version": "1.0.0",
@@ -51,6 +70,7 @@
         "zod": "4.3.6",
       },
       "devDependencies": {
+        "@iconify-json/lucide": "1.2.91",
         "@nuxt/eslint": "1.15.1",
         "typescript": "5.9.3",
       },
@@ -71,6 +91,8 @@
     "@antfu/install-pkg": ["@antfu/install-pkg@1.1.0", "", { "dependencies": { "package-manager-detector": "^1.3.0", "tinyexec": "^1.0.1" } }, "sha512-MGQsmw10ZyI+EJo45CdSER4zEb+p31LpDAFp2Z3gkSd1yqVZGi0Ebx++YTEMonJy4oChEMLsxZ64j8FH6sSqtQ=="],
 
     "@apidevtools/json-schema-ref-parser": ["@apidevtools/json-schema-ref-parser@14.2.1", "", { "dependencies": { "js-yaml": "^4.1.0" }, "peerDependencies": { "@types/json-schema": "^7.0.15" } }, "sha512-HmdFw9CDYqM6B25pqGBpNeLCKvGPlIx1EbLrVL0zPvj50CJQUHyBNBw45Muk0kEIkogo1VZvOKHajdMuAzSxRg=="],
+
+    "@apps/pharmaplus": ["@apps/pharmaplus@workspace:apps/pharmaplus"],
 
     "@apps/wecare": ["@apps/wecare@workspace:apps/wecare"],
 
@@ -243,6 +265,8 @@
     "@humanwhocodes/module-importer": ["@humanwhocodes/module-importer@1.0.1", "", {}, "sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA=="],
 
     "@humanwhocodes/retry": ["@humanwhocodes/retry@0.4.3", "", {}, "sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ=="],
+
+    "@iconify-json/lucide": ["@iconify-json/lucide@1.2.91", "", { "dependencies": { "@iconify/types": "*" } }, "sha512-8fuRiK+HiNRgCKMspn9UPsDpBw0TqVTIY0LOiDbMnFxOBwAulMXIl+SVOtp4LzxNvCXB5ofYffiiFIFDitqo7w=="],
 
     "@iconify/collections": ["@iconify/collections@1.0.652", "", { "dependencies": { "@iconify/types": "*" } }, "sha512-RJhGvFA27VPidZPewkSPHncr1NgAo7qnaO+aUA2vEfFTnYvAfVoZGn1CPIK1y2J+N+3w/KHpEHAEf1pQAHiNDQ=="],
 
@@ -681,6 +705,8 @@
     "@tauri-apps/plugin-os": ["@tauri-apps/plugin-os@2.3.2", "", { "dependencies": { "@tauri-apps/api": "^2.8.0" } }, "sha512-n+nXWeuSeF9wcEsSPmRnBEGrRgOy6jjkSU+UVCOV8YUGKb2erhDOxis7IqRXiRVHhY8XMKks00BJ0OAdkpf6+A=="],
 
     "@tauri-apps/plugin-shell": ["@tauri-apps/plugin-shell@2.3.5", "", { "dependencies": { "@tauri-apps/api": "^2.10.1" } }, "sha512-jewtULhiQ7lI7+owCKAjc8tYLJr92U16bPOeAa472LHJdgaibLP83NcfAF2e+wkEcA53FxKQAZ7byDzs2eeizg=="],
+
+    "@tauri-apps/plugin-stronghold": ["@tauri-apps/plugin-stronghold@2.3.1", "", { "dependencies": { "@tauri-apps/api": "^2.8.0" } }, "sha512-zFbD1Apk/VFdWaoGaoKcouRrZnzLFiNY9b1KDeBaN47sMaMHRYIa+ZDhvbzMOyH314+OHCQBXfe8I/ph59Lp9g=="],
 
     "@tiptap/core": ["@tiptap/core@3.20.0", "", { "peerDependencies": { "@tiptap/pm": "^3.20.0" } }, "sha512-aC9aROgia/SpJqhsXFiX9TsligL8d+oeoI8W3u00WI45s0VfsqjgeKQLDLF7Tu7hC+7F02teC84SAHuup003VQ=="],
 

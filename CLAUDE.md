@@ -7,6 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Nuxt 4 + Tauri 2 monorepo for multi-brand mobile applications. The **primary focus is mobile** — building native iOS and Android apps via Tauri. Desktop (Windows/macOS/Linux) is supported but secondary. **Web deployment with SSR** is also supported via the `NUXT_TARGET=web` environment variable. Uses **Bun workspaces** as the package manager (requires Bun >= 1.3, Node.js >= 24).
 
 # Project Standards and Rules
+- **NEVER edit auto-generated directories** — `src-tauri/gen/`, `node_modules/`, `.output/`, `.nuxt/` are managed by tooling. To fix issues in these directories, re-run the generator command (e.g., `tauri android init`, `bun install`, `nuxt prepare`)
 - Codebase must be clean, consistent, scalable, and follow best practices
 - Use Zod 4 for validation
 - Prefer Nuxt UI components

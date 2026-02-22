@@ -2,6 +2,7 @@
 members = [
   "packages/tauri-core",
   "apps/wecare/src-tauri",
+  "apps/pharmaplus/src-tauri",
 ]
 resolver = "2"
 
@@ -24,4 +25,4 @@ tauri-plugin-deep-link = "2.4.7"
 tauri-plugin-biometric = "2.3.2"
 tauri-plugin-barcode-scanner = "2.4.4"
 tauri-plugin-geolocation = "2.3.2"
-tauri-plugin-mcp-bridge = "0.8.3"
+tauri-plugin-mcp-bridge = "0.9.0"

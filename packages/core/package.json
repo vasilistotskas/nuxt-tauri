@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "1.15.1",
+    "@iconify-json/lucide": "1.2.91",
     "typescript": "5.9.3"
   }
 }

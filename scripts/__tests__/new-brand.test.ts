@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'bun:test'
 import {
+  addToCargoWorkspace,
   deriveLibName,
   generateAppConfig,
   generateCargoToml,
@@ -47,7 +48,6 @@ describe('generateCargoToml', () => {
     expect(result).toContain('tauri-plugin-store')
     expect(result).toContain('tauri-plugin-http')
     expect(result).toContain('tauri-plugin-deep-link')
-    expect(result).toContain('tauri-plugin-stronghold')
     expect(result).toContain('tauri-plugin-biometric')
     expect(result).toContain('tauri-plugin-barcode-scanner')
     expect(result).toContain('tauri-plugin-geolocation')
@@ -148,6 +148,48 @@ describe('generateNuxtConfig', () => {
   test('uses isTauri conditional for SSR', () => {
     expect(config).toContain('process.env.NUXT_TARGET !== \'web\'')
     expect(config).toContain('ssr: !isTauri')
+  })
+})
+
+describe('addToCargoWorkspace', () => {
+  const sampleToml = `[workspace]
+members = [
+  "packages/tauri-core",
+  "apps/wecare/src-tauri",
+]
+resolver = "2"
+
+[workspace.dependencies]
+tauri = { version = "2.10.2" }
+`
+
+  test('adds new member to workspace', () => {
+    const result = addToCargoWorkspace(sampleToml, 'apps/pharmaplus/src-tauri')
+    expect(result).toContain('"apps/pharmaplus/src-tauri"')
+    expect(result).toContain('"packages/tauri-core"')
+    expect(result).toContain('"apps/wecare/src-tauri"')
+  })
+
+  test('preserves existing members', () => {
+    const result = addToCargoWorkspace(sampleToml, 'apps/pharmaplus/src-tauri')
+    expect(result).toContain('"packages/tauri-core"')
+    expect(result).toContain('"apps/wecare/src-tauri"')
+  })
+
+  test('returns unchanged content if member already exists', () => {
+    const result = addToCargoWorkspace(sampleToml, 'apps/wecare/src-tauri')
+    expect(result).toBe(sampleToml)
+  })
+
+  test('preserves content after members array', () => {
+    const result = addToCargoWorkspace(sampleToml, 'apps/newbrand/src-tauri')
+    expect(result).toContain('[workspace.dependencies]')
+    expect(result).toContain('tauri = { version = "2.10.2" }')
+  })
+
+  test('throws if no members array found', () => {
+    expect(() => addToCargoWorkspace('[package]\nname = "foo"', 'apps/x/src-tauri'))
+      .toThrow('Could not find workspace members array')
   })
 })
 
